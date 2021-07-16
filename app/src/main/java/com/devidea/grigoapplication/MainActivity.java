@@ -18,15 +18,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.gson.JsonObject;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
 
@@ -46,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_mypage:
                 //Toast.makeText(this,"설정",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
-                startActivity(intent);
+                Intent mypageIntent = new Intent(MainActivity.this, MyPageActivity.class);
+                //mypageIntent.putExtra("userDataDTO",userDataDTO);
+                startActivity(mypageIntent);
                 return true;
             case R.id.menu_logout:
                 Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
@@ -68,6 +60,4 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Title");
 
     }
-
-
 }

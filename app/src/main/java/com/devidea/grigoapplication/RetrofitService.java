@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
@@ -29,5 +30,15 @@ public interface RetrofitService {
 
     @GET("tag/setting")
     Call<JsonObject> tagGet();
+
+    //생일, 전화번호 수정
+    @Headers("Content-Type: application/json")
+    @POST("settings/profile")
+    Call<JsonObject> updateProfile(@Body JsonObject param);
+
+    //비밀번호 수정
+    @Headers("Content-Type: application/json")
+    @POST("settings/password")
+    Call<JsonObject> updatePass(@Body JsonObject param);
 
 }

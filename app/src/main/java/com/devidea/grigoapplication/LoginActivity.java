@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,10 +27,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pw;
 
     TokenManager tokenManager;
+
+ 
     UserDataDTO userDataDTO;
 
     ServiceGenerator serviceGenerator;
     static RetrofitService retrofitService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +58,18 @@ public class LoginActivity extends AppCompatActivity {
 
         //로그인 시도
         btn_login = findViewById(R.id.btn_login);
-        btn_login.setOnClickListener(view -> {
 
-            login(et_id.getText().toString(), et_pw.getText().toString());
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                LoginActivity.this.login(et_id.getText().toString(), et_pw.getText().toString());
+
+            }
 
         });
+
     }
 
     //서버로 로그인 정보 전송.
@@ -103,6 +115,19 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
 
+                Log.d("성공 : ", String.valueOf(response.body()));
+                userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
+                //userDataDTO에 Mapping된 변수들을 prefs에 저장
+                PrefsHelper.write("email",  userDataDTO.getEmail());
+                PrefsHelper.write("name",  userDataDTO.getName());
+                PrefsHelper.write("student_id",  userDataDTO.getStudent_id());
+                PrefsHelper.write("phone",  userDataDTO.getPhone());
+                PrefsHelper.write("birth",  userDataDTO.getBirth());
+                PrefsHelper.write("sex",  userDataDTO.getSex());
+                //PrefsHelper.write("tags",  userDataDTO.getEmail());
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
             }
 
             @Override

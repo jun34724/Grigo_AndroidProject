@@ -1,13 +1,21 @@
 package com.devidea.grigoapplication;
 
-public class UserDataDTO {
-    public String email;
-    public String name;
-    public String student_id;
-    public String phone;
-    public String birth;
-    public String sex;
-    public String[] tags;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class UserDataDTO implements Serializable {
+
+    private String email;
+    private String name;
+    private Integer student_id;
+    private String phone;
+    private String birth;
+    private String sex;
+    //private String[] tags;
+
 
     public String getEmail() {
         return email;
@@ -25,11 +33,12 @@ public class UserDataDTO {
         this.name = name;
     }
 
-    public String getStudent_id() {
+    public Integer getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(String student_id) {
+    public void setStudent_id(Integer student_id) {
+
         this.student_id = student_id;
     }
 
@@ -57,11 +66,4 @@ public class UserDataDTO {
         this.sex = sex;
     }
 
-    public String[] getTags() {
-        return tags;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
 }
