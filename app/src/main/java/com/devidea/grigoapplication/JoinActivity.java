@@ -8,27 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class JoinActivity extends AppCompatActivity {
 
     private EditText et_email, et_password, et_name, et_student_id, et_phone, et_birth;
     private Spinner sp_sex;
-    private Button btn_check_Id, btn_register;
+    private Button btn_register;
 
     ServiceGenerator serviceGenerator;
 
     //서버 통신을 위함
-    private RetrofitService joinRetrofit;
-    //static RetrofitService retrofitService;
     private RetrofitService joinService;
 
     @Override
@@ -47,22 +42,19 @@ public class JoinActivity extends AppCompatActivity {
         sp_sex = findViewById(R.id.sp_sex);
 
         serviceGenerator = new ServiceGenerator();
-        //joinRetrofit = serviceGenerator.retrofitService;
         joinService = serviceGenerator.createService(RetrofitService.class);
-
-        //중복확인 버튼
-        btn_check_Id = findViewById(R.id.btn_checkID);
-        btn_check_Id.setOnClickListener(view -> {
-            //테스트
-            //Toast.makeText(getApplicationContext(), "중복된 아이디입니다.",Toast.LENGTH_SHORT).show();
-        });
 
         //회원등록 버튼
         btn_register = findViewById(R.id.btn_register);
-        btn_register.setOnClickListener(this::onClick);
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JoinActivity.this.register();
+            }
+        });
     }
 
-    private void onClick(View view) {
+    public void register() {
         //EditText에 입력된 값을 가져옴
         final String email = et_email.getText().toString();
         final String password = et_password.getText().toString();
@@ -72,16 +64,6 @@ public class JoinActivity extends AppCompatActivity {
         int student_id = Integer.parseInt(et_student_id.getText().toString());
         final String phone = et_phone.getText().toString();
         final String birth = et_birth.getText().toString();
-
-        /*제대로 입력받는지 테스트
-        Log.d("email", email);
-        Log.d("password", password);
-        Log.d("name", name);
-        Log.d("birth", birth);
-        Log.d("studentId", student_id+"");
-        Log.d("sex", sex);
-        Log.d("phone", phone);
-        */
 
         //Json 객체 생성
         JsonObject jsonObject = new JsonObject();
