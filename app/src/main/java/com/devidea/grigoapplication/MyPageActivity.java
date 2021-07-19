@@ -52,6 +52,6 @@ public class MyPageActivity extends AppCompatActivity {
         tv_student_id.setText(PrefsHelper.read("student_id", ""));
         tv_sex.setText(PrefsHelper.read("sex", ""));
         tv_phone.setText(PrefsHelper.read("phone", ""));
-        //tv_tag.setText(PrefsHelper.read("tags", ""));
+        tv_tag.setText(PrefsHelper.read("tags", ""));
     }
 }

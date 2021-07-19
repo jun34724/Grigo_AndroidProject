@@ -1,4 +1,4 @@
- package com.devidea.grigoapplication;
+package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,10 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pw;
 
     TokenManager tokenManager;
-
- 
-    UserDataDTO userDataDTO;
-
+    UserDataHelper userDataHelper;
     ServiceGenerator serviceGenerator;
     static RetrofitService retrofitService;
 
@@ -45,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         tokenManager = new TokenManager();
         serviceGenerator = new ServiceGenerator();
         retrofitService = ServiceGenerator.createService(RetrofitService.class);
+        userDataHelper = new UserDataHelper();
 
         et_id = findViewById(R.id.et_id);
         et_pw = findViewById(R.id.et_pw);
@@ -62,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 LoginActivity.this.login(et_id.getText().toString(), et_pw.getText().toString());
 
@@ -83,61 +80,33 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                Headers headers = response.headers();
-                String token = headers.get("Authorization");
-                tokenManager.set(token);
-                Log.d("token", tokenManager.get());
+                if (response.code() == 213 || response.code() == 214) {
 
-                //로그인 성공하면 JWT TOKEN 있는 서비스 생성
-                retrofitService = ServiceGenerator.createService(RetrofitService.class, token);
+                    String token = response.headers().get("Authorization");
+                    tokenManager.set(token);
+                    Log.d("token", tokenManager.get());
 
-                /*
-                userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
-                Log.d("info", userDataDTO.getStudent_id());
-                 */
+                    //로그인 성공하면 JWT TOKEN 있는 서비스 생성
+                    retrofitService = ServiceGenerator.createService(RetrofitService.class, token);
 
-                //DTO 작동하면 아래 코드로 저장
-                //PrefsHelper.write("getStudent_id",  userDataDTO.getStudent_id());
-
-                switch (response.code()) {
-                    case 213: //태그 있을경우
-                        //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    if (response.code() == 213) {
+                        userDataHelper.setUserdata(response);
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    } else {
+                        userDataHelper.setUserdata(response);
                         startActivity(new Intent(LoginActivity.this, TagInputActivity.class));
-                        Toast.makeText(getApplicationContext(),"로그인 성공", Toast.LENGTH_LONG).show();
-                        break;
+                    }
 
-                    case 214: // 태그 없는경우
-                        startActivity(new Intent(LoginActivity.this, TagInputActivity.class));
-                        break;
-
-                    default:
-                        Toast.makeText(getApplicationContext(),"알수없는 오류", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "알수없는 오류", Toast.LENGTH_LONG).show();
                 }
-
-
-                Log.d("성공 : ", String.valueOf(response.body()));
-                userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
-                //userDataDTO에 Mapping된 변수들을 prefs에 저장
-                PrefsHelper.write("email",  userDataDTO.getEmail());
-                PrefsHelper.write("name",  userDataDTO.getName());
-                PrefsHelper.write("student_id",  userDataDTO.getStudent_id());
-                PrefsHelper.write("phone",  userDataDTO.getPhone());
-                PrefsHelper.write("birth",  userDataDTO.getBirth());
-                PrefsHelper.write("sex",  userDataDTO.getSex());
-                //PrefsHelper.write("tags",  userDataDTO.getEmail());
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"통신 오류", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "통신 오류", Toast.LENGTH_LONG).show();
 
             }
         });
-
-
     }
-
 }
