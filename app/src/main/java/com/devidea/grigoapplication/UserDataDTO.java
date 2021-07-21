@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserDataDTO implements Serializable {
@@ -14,7 +15,7 @@ public class UserDataDTO implements Serializable {
     private String phone;
     private String birth;
     private String sex;
-    //private String[] tags;
+    private String[] tags = null;
 
 
     public String getEmail() {
@@ -66,4 +67,11 @@ public class UserDataDTO implements Serializable {
         this.sex = sex;
     }
 
+    public String getTags() {
+        return Arrays.toString(tags);
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
 }

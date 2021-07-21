@@ -62,7 +62,6 @@ public class TagInputActivity extends AppCompatActivity {
         });
 
 
-
         btn_tagSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,11 +72,9 @@ public class TagInputActivity extends AppCompatActivity {
 
         });
 
-
-
     }
 
-    private void tagSend(String[] tags){
+    private void tagSend(String[] tags) {
         JsonObject jsonObject = new JsonObject();
         JsonArray jsonArray = new JsonArray();
         for (int i = 1; i < tags.length; i++) {
@@ -89,7 +86,7 @@ public class TagInputActivity extends AppCompatActivity {
         retrofitService.tagPost(jsonObject).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
+                showTag();
             }
 
             @Override
@@ -100,11 +97,12 @@ public class TagInputActivity extends AppCompatActivity {
 
     }
 
-    public void showTag(){
+    public void showTag() {
         retrofitService.tagGet().enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 tv_tagViewer.setText(String.valueOf(response.body()));
+                PrefsHelper.write("tags", String.valueOf(response.body()));
             }
 
             @Override
