@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +15,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UpdateProfileActivity extends AppCompatActivity {
+import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 
-    ServiceGenerator serviceGenerator;
-    RetrofitService retrofitService;
-    TokenManager tokenManager;
+public class UpdateProfileActivity extends AppCompatActivity {
 
     EditText et_updateBirth, et_updatePhone;
     Button btn_upProfile;
@@ -31,16 +28,15 @@ public class UpdateProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
-        serviceGenerator = new ServiceGenerator();
-        tokenManager = new TokenManager();
-        retrofitService = serviceGenerator.createService(RetrofitService.class, tokenManager.get());
-
         et_updateBirth = findViewById(R.id.et_updateBirth);
         et_updatePhone = findViewById(R.id.et_updatePhone);
 
         btn_upProfile = findViewById(R.id.btn_upProfile);
-        btn_upProfile.setOnClickListener(view -> {
-            upDateData(et_updateBirth.getText().toString(), et_updatePhone.getText().toString());
+        btn_upProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UpdateProfileActivity.this.upDateData(et_updateBirth.getText().toString(), et_updatePhone.getText().toString());
+            }
         });
     }
 
@@ -61,12 +57,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
             upPhone = PrefsHelper.read("phone", "");
         }
 
-        /*테스트
-        PrefsHelper.write("birth",  upBirth);
-        PrefsHelper.write("phone",  upPhone);
-        Intent intent = new Intent(UpdateProfileActivity.this, MyPageActivity.class);
-        startActivity(intent);*/
-
         JsonObject jsonObjectUpProfile = new JsonObject();
 
         jsonObjectUpProfile.addProperty("birth", upBirth);
@@ -81,7 +71,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(UpdateProfileActivity.this, MyPageActivity.class);
                 startActivity(intent);
-                //Log.d("변경 : ", String.valueOf(response.body()));
             }
 
             @Override

@@ -30,14 +30,20 @@ public class MyPageActivity extends AppCompatActivity {
         btn_updatePass = findViewById(R.id.btn_updatePass);
         btn_updateProfile = findViewById(R.id.btn_updateProfile);
 
-        btn_updateProfile.setOnClickListener(view -> {
-            Intent intent = new Intent(MyPageActivity.this, UpdateProfileActivity.class);
-            startActivity(intent);
+        btn_updateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyPageActivity.this, UpdateProfileActivity.class);
+                MyPageActivity.this.startActivity(intent);
+            }
         });
 
-        btn_updatePass.setOnClickListener(view -> {
-            Intent intent = new Intent(MyPageActivity.this, UpdatePassActivity.class);
-            startActivity(intent);
+        btn_updatePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyPageActivity.this, UpdatePassActivity.class);
+                MyPageActivity.this.startActivity(intent);
+            }
         });
 
         getAccount();
