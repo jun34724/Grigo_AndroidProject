@@ -1,6 +1,7 @@
 package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -87,19 +88,36 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.code() == 213) {
                         userDataHelper.setUserdata(response);
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        ActivityCompat.finishAffinity(LoginActivity.this);
 
                     } else {
                         userDataHelper.setUserdata(response);
                         startActivity(new Intent(LoginActivity.this, TagInputActivity.class));
+                        ActivityCompat.finishAffinity(LoginActivity.this);
                     }
 
-                } else {
+                }
+                //todo 개발종료후 삭제해야 합니다.
+                else if (user_id.equals("admin")|| pw.equals("admin")){
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    ActivityCompat.finishAffinity(LoginActivity.this);
+                }
+
+                else {
                     Toast.makeText(getApplicationContext(), "알수없는 오류", Toast.LENGTH_LONG).show();
                 }
+
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                //todo 개발종료후 삭제해야 합니다.
+                if (user_id.equals("admin")|| pw.equals("admin")){
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    ActivityCompat.finishAffinity(LoginActivity.this);
+                }
+
                 Toast.makeText(getApplicationContext(), "통신 오류", Toast.LENGTH_LONG).show();
 
             }

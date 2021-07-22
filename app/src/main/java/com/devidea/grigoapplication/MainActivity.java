@@ -17,9 +17,18 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
+    Button button;
+
+    //todo test code
+    private FragmentManager fragmentManager;
+    private PostListFragment postListFragment;
+    private FragmentTransaction transaction;
 
     //Toolbar
     @Override
@@ -48,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.freg, fragment);
+        fragmentTransaction.addToBackStack("postListFragment");
+
+        fragmentTransaction.commit();
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,5 +79,19 @@ public class MainActivity extends AppCompatActivity {
         //app 제목 -> 추후에 app 이름 정해지면 수정
         getSupportActionBar().setTitle("Title");
 
+        //Fragment 초기화
+        fragmentManager = getSupportFragmentManager();
+        postListFragment = new PostListFragment();
+        transaction = fragmentManager.beginTransaction();
+
+
+        button = findViewById(R.id.test);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transaction.replace(R.id.freg, postListFragment).commit();
+            }
+        });
     }
 }
