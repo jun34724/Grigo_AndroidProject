@@ -17,9 +17,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
+    Button btn1, btn_board;
 
     //Toolbar
     @Override
@@ -58,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
 
         //app 제목 -> 추후에 app 이름 정해지면 수정
         getSupportActionBar().setTitle("Title");
+
+        btn1 = findViewById(R.id.btn_1);
+        btn_board = findViewById(R.id.btn_board);
+
+        btn_board.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                BoardFragment boardFragment = new BoardFragment();
+                transaction.replace(R.id.main_frame, boardFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
     }
 }
