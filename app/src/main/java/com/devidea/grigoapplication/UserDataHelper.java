@@ -29,13 +29,14 @@ public class UserDataHelper {
         PrefsHelper.write("tags",  userDataDTO.getTags());
     }
 
-    public void getTagdata(){
+    public List<String> getTagdata(){
 
         //이게 맞는건가??
         //prefs에 저장된 tag 정보 받아오기
         String tags = PrefsHelper.read("tags", "");
-        //맨 처음과 끝 문자열 제거
-        String tags2 = tags.substring(1, tags.length()-1);
+        //문자열 제거
+        String tags2 = tags.substring(2, tags.length()-2).replace("tags\" : [","").replace("\"","").replace(" ","");
+
         //string으로 저장된 태그들을 list로 변환 ,로 구분해서 저장
         List<String> taglist = Arrays.asList(tags2.split(","));
 
@@ -43,6 +44,7 @@ public class UserDataHelper {
         for (int i = 0; i < taglist.size(); i++){
             System.out.println(taglist.get(i));
         }*/
+        return taglist;
     }
 
 }

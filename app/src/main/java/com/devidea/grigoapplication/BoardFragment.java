@@ -1,5 +1,6 @@
 package com.devidea.grigoapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class BoardFragment extends Fragment {
     private View view;
-    private Button btn_question, btn_free;
+    private Button btn_question, btn_free, btn_write;
 
     public BoardFragment(){
 
@@ -27,6 +28,7 @@ public class BoardFragment extends Fragment {
 
         btn_question = view.findViewById(R.id.btn_Question);
         btn_free = view.findViewById(R.id.btn_Free);
+        btn_write = view.findViewById(R.id.btn_write);
 
         btn_question.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +51,14 @@ public class BoardFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+        btn_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), PostActivity.class));
+            }
+        });
+
         return view;
     }
 }
