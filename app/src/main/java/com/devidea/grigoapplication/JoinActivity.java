@@ -2,6 +2,7 @@ package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -84,6 +85,7 @@ public class JoinActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     //성공
                     Log.d("성공 : ", String.valueOf(response.body()));
+                    startActivity(new Intent(JoinActivity.this, LoginActivity.class));
                 }
                 else{
                    //실패 : 이메일 형식 x,중복, 비밀번호 8자리 이하...

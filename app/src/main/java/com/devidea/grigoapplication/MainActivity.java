@@ -23,12 +23,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
-    Button button;
 
-    //todo test code
-    private FragmentManager fragmentManager;
-    private PostListFragment postListFragment;
-    private FragmentTransaction transaction;
+    Button btn1, btn_board;
+
 
     //Toolbar
     @Override
@@ -79,19 +76,21 @@ public class MainActivity extends AppCompatActivity {
         //app 제목 -> 추후에 app 이름 정해지면 수정
         getSupportActionBar().setTitle("Title");
 
-        //Fragment 초기화
-        fragmentManager = getSupportFragmentManager();
-        postListFragment = new PostListFragment();
-        transaction = fragmentManager.beginTransaction();
 
+        btn1 = findViewById(R.id.btn_1);
+        btn_board = findViewById(R.id.btn_board);
 
-        button = findViewById(R.id.test);
-
-        button.setOnClickListener(new View.OnClickListener() {
+        btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                transaction.replace(R.id.freg, postListFragment).commit();
+            public void onClick(View view) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                BoardFragment boardFragment = new BoardFragment();
+                transaction.replace(R.id.main_frame, boardFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
+
+
     }
 }

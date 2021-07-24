@@ -12,17 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GrigoApplication"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".UpdateProfileActivity"/>
+        <activity android:name=".PostActivity"></activity>
+        <activity android:name=".UpdateProfileActivity" />
         <activity android:name=".UpdatePassActivity" />
         <activity android:name=".MyPageActivity" />
-
-
-        <activity android:name=".TagInputActivity"></activity>
+        <activity android:name=".TagInputActivity" />
         <activity
             android:name=".JoinActivity"
             android:usesCleartextTraffic="true" />
-
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

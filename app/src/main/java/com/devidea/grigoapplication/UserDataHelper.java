@@ -6,6 +6,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.util.Arrays;
+import java.util.List;
+
 import retrofit2.Response;
 
 public class UserDataHelper {
@@ -24,8 +27,22 @@ public class UserDataHelper {
 
     }
 
-    public void getUserdata(){
-        //prefs에 저장된 정보들 받아오기
+    public List<String> getTagdata(){
+
+        //이게 맞는건가??
+        //prefs에 저장된 tag 정보 받아오기
+        String tags = PrefsHelper.read("tags", "");
+        //문자열 제거
+        String tags2 = tags.substring(2, tags.length()-2).replace("tags\" : [","").replace("\"","").replace(" ","");
+
+        //string으로 저장된 태그들을 list로 변환 ,로 구분해서 저장
+        List<String> taglist = Arrays.asList(tags2.split(","));
+
+        /*제대로 나오는지 출력
+        for (int i = 0; i < taglist.size(); i++){
+            System.out.println(taglist.get(i));
+        }*/
+        return taglist;
     }
 
 }

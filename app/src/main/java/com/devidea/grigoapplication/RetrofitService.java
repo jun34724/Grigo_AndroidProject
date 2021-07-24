@@ -45,7 +45,6 @@ public interface RetrofitService {
     @POST("settings/password")
     Call<JsonObject> updatePass(@Body JsonObject param);
 
-
     @GET("posts/question")
     Call<ArrayList<PostListDTO>> getQuestionList(
             @Query("page")
@@ -53,5 +52,10 @@ public interface RetrofitService {
             @Query("limit")
             int limit
     );
+
+    //게시글 등록
+    @Headers("Content-Type: application/json")
+    @POST("posts/save")
+    Call<JsonObject> writePost(@Body JsonObject param);
 
 }

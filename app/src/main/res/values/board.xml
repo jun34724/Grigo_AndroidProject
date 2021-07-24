@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="게시판">
+        <item>게시판 종류를 선택해주세요.</item>
+        <item>질문게시판</item>
+        <item>자유게시판</item>
+    </string-array>
+</resources>
