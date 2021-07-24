@@ -1,7 +1,6 @@
 package com.devidea.grigoapplication;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHolder> {
 
-    private final ArrayList<PostDTO> arrayList;
+    private final ArrayList<PostListItem> arrayList;
     private static OnItemClickListener mListener = null;
 
     public interface OnItemClickListener{
@@ -25,7 +24,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHol
         this.mListener = listener;
     }
 
-    public CustomRecyclerView(ArrayList<PostDTO> arrayList) {
+    public CustomRecyclerView(ArrayList<PostListItem> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -40,8 +39,11 @@ class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull CustomRecyclerView.ViewHolder holder, int position) {
-        String title = arrayList.get(position).getTitle();
-        holder.summery.setText(title);
+        holder.title.setText(arrayList.get(position).getTitle());
+        holder.content.setText(arrayList.get(position).getContent());
+        holder.teg.setText(arrayList.get(position).getTag());
+        holder.writer.setText(arrayList.get(position).getWriter());
+        holder.time.setText(arrayList.get(position).getTime());
     }
 
     @Override
@@ -50,7 +52,11 @@ class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHol
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView summery;
+        private final TextView title;
+        private final TextView content;
+        private final TextView teg;
+        private final TextView writer;
+        private final TextView time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,7 +74,11 @@ class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHol
                     }
                 }
             });
-            summery = (TextView)itemView.findViewById(R.id.post_title);
+            title = (TextView)itemView.findViewById(R.id.post_title);
+            content = (TextView)itemView.findViewById(R.id.content);
+            teg = (TextView)itemView.findViewById(R.id.teg);
+            writer = (TextView)itemView.findViewById(R.id.writer);
+            time = (TextView)itemView.findViewById(R.id.time);
         }
     }
 

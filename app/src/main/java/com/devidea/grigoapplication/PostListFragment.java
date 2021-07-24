@@ -12,13 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 
 public class PostListFragment extends Fragment {
 
@@ -79,29 +80,45 @@ public class PostListFragment extends Fragment {
         return rootView;
     }
 
+
     public ArrayList list(){
-        ArrayList<PostDTO> postDTO;
+        ArrayList<PostListItem> postListItem;
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<PostDTO>>(){}.getType();
+        Type type = new TypeToken<ArrayList<PostListItem>>(){}.getType();
 
-        postDTO = gson.fromJson(hi().getAsJsonArray("post"), type);
+        postListItem = gson.fromJson(hi().getAsJsonArray("post"), type);
 
-        for(int i = 0; i<postDTO.size(); i++){
-            Log.d("hi", String.valueOf(postDTO.get(i).getTitle()));
-        }
-        return postDTO;
+        return postListItem;
+
+    }
+    public ArrayList getPostList(){
+        ArrayList<PostListItem> postListItem;
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<PostListItem>>(){}.getType();
+        postListItem = gson.fromJson(hi().getAsJsonArray("post"), type);
+
+        return postListItem;
 
     }
 
+
     public JsonObject hi() {
-        JsonObject jsonObj = new JsonObject();
+        JsonObject obj = new JsonObject();
         JsonArray jsonArray = new JsonArray();
+        String []arr = {"1","2"};
         for (int i = 0; i < 100; i++) {
             JsonObject jsonpost = new JsonObject();
+            JsonArray jsonArray1 = new JsonArray();
+            jsonpost.addProperty("id", i);
             jsonpost.addProperty("title", i + "번글");
+            jsonpost.addProperty("writer", i+i + "쓴이");
+            jsonpost.addProperty("content", i+i + "라는데 어떡하나요");
+            jsonpost.addProperty("teg", i+i + "라는데 어떡하나요");
+            jsonpost.addProperty("content", i+i + " 어떡하나요");
+            jsonpost.addProperty("time", i+i + "qns");
             jsonArray.add(jsonpost);
         }
-        jsonObj.add("post", jsonArray);
-        return jsonObj;
+        obj.add("post", jsonArray);
+        return obj;
     }
 }
