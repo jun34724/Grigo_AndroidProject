@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,9 +76,9 @@ public class LoginActivity extends AppCompatActivity {
         jsonObjectLogin.addProperty("email", user_id);
         jsonObjectLogin.addProperty("password", pw);
 
-        retrofitService.login(jsonObjectLogin).enqueue(new Callback<JsonObject>() {
+        retrofitService.login(jsonObjectLogin).enqueue(new Callback<UserDataDTO>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NotNull Call<UserDataDTO> call, @NotNull Response <UserDataDTO> response) {
 
                 if (response.code() == 213 || response.code() == 214) {
 
@@ -86,12 +90,12 @@ public class LoginActivity extends AppCompatActivity {
                     retrofitService = ServiceGenerator.createService(RetrofitService.class, token);
 
                     if (response.code() == 213) {
-                        userDataHelper.setUserdata(response);
+                        userDataHelper.setUserdata(response.body());
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         ActivityCompat.finishAffinity(LoginActivity.this);
 
                     } else {
-                        userDataHelper.setUserdata(response);
+                        userDataHelper.setUserdata(response.body());
                         startActivity(new Intent(LoginActivity.this, TagInputActivity.class));
                         ActivityCompat.finishAffinity(LoginActivity.this);
                     }
@@ -110,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<UserDataDTO> call, Throwable t) {
 
                 //todo 개발종료후 삭제해야 합니다.
                 if (user_id.equals("admin")|| pw.equals("admin")){

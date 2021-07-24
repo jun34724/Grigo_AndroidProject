@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class UserDataDTO implements Serializable {
+public class UserDataDTO{
 
     private String email;
     private String name;
@@ -15,7 +15,7 @@ public class UserDataDTO implements Serializable {
     private String phone;
     private String birth;
     private String sex;
-    private String[] tags = null;
+    private String[] tags;
 
 
     public String getEmail() {
