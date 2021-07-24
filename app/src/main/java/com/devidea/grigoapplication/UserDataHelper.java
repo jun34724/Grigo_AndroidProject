@@ -13,12 +13,9 @@ import retrofit2.Response;
 
 public class UserDataHelper {
 
-    UserDataDTO userDataDTO = new UserDataDTO();
-
-
-    public void setUserdata(Response<JsonObject> response){
-        Log.d("성공 : ", String.valueOf(response.body()));
-        userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
+    public void setUserdata(UserDataDTO userDataDTO){
+        //Log.d("성공 : ", String.valueOf(response.body()));
+        //userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
         //userDataDTO에 Mapping된 변수들을 prefs에 저장
         PrefsHelper.write("email", userDataDTO.getEmail());
         PrefsHelper.write("name", userDataDTO.getName());
@@ -27,6 +24,7 @@ public class UserDataHelper {
         PrefsHelper.write("birth", userDataDTO.getBirth());
         PrefsHelper.write("sex", userDataDTO.getSex());
         PrefsHelper.write("tags",  userDataDTO.getTags());
+
     }
 
     public List<String> getTagdata(){
