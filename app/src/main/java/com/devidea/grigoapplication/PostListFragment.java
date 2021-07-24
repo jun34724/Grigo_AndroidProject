@@ -35,11 +35,24 @@ public class PostListFragment extends Fragment {
     private CustomRecyclerView adapter;
 
     //private int totalCount = 0; // 전체 아이템 개수
-    //private boolean isNext = false; // 다음 페이지 유무
+    private boolean isNext = true; // 다음 페이지 유무
     private int page = 0;       // 현재 페이지
     private final int limit = 10;    // 한 번에 가져올 아이템 수
 
     private PostBodyFragment pb = new PostBodyFragment();
+    /*
+
+    ArrayList<PostListDTO> postListDTOS = new ArrayList<PostListDTO>();
+    
+    public ArrayList<PostListDTO> pp(){
+
+        for(int i=0; i<100; i++) {
+            postListDTOS.add(new PostListDTO(i, i + "a", i + "a", i + "a", i + "a", null, null, null));
+        }
+        return postListDTOS;
+    }
+
+     */
 
     public PostListFragment() {
     }
@@ -74,8 +87,13 @@ public class PostListFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if (recyclerView.canScrollVertically(1)) {
-                    Log.d("re", "last Position...");
+                if (!recyclerView.canScrollVertically(1)) {
+                    if (isNext) {
+                        getPostList();
+                        adapter.notifyDataSetChanged();
+
+                    }
+
                 }
 
             }
@@ -91,8 +109,8 @@ public class PostListFragment extends Fragment {
         retrofitService.getQuestionList(page, limit).enqueue(new Callback<ArrayList<PostListDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<PostListDTO>> call, Response<ArrayList<PostListDTO>> response) {
-                if(response.body() != null) {
-                    page = response.body().get(response.body().size()-1).getId();
+                if (response.body() != null) {
+                    page = response.body().get(response.body().size() - 1).getId();
 
                     adapter = new CustomRecyclerView(response.body());
                     recyclerView.setAdapter(adapter);
@@ -104,6 +122,8 @@ public class PostListFragment extends Fragment {
                         }
                     });
 
+                } else {
+                    isNext = false;
                 }
             }
 

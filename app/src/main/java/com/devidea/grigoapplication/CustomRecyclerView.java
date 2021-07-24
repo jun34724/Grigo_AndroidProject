@@ -1,6 +1,7 @@
 package com.devidea.grigoapplication;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if(position <= getItemCount()){
+        if(getItemCount()>position){
             return VIEW_TYPE_ITEM;
         }
         else {
@@ -50,14 +51,14 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view;
         if (viewType == VIEW_TYPE_ITEM) {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.fragment_post_list, parent, false);
+                    .inflate(R.layout.recycle_post_list, parent, false);
 
             return new PostListViewHolder(view);
 
         } else {
 
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.fragment_post_list, parent, false);
+                    .inflate(R.layout.progress, parent, false);
 
             return new ProgressHolder(view);
         }
@@ -67,7 +68,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if(getItemCount()>=position){
+        if(getItemCount()>position){
             PostListViewHolder listViewHolder = (PostListViewHolder) holder;
 
             listViewHolder.title.setText(arrayList.get(position).getTitle());
@@ -89,7 +90,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return arrayList.size();
     }
 
-    class PostListViewHolder extends RecyclerView.ViewHolder {
+    static class PostListViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
         private final TextView content;
         private final TextView teg;
@@ -98,7 +99,6 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public PostListViewHolder(@NonNull View itemView) {
             super(itemView);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,7 +114,6 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
 
-
             title = (TextView) itemView.findViewById(R.id.post_title);
             content = (TextView) itemView.findViewById(R.id.content);
             teg = (TextView) itemView.findViewById(R.id.teg);
@@ -123,7 +122,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    class ProgressHolder extends RecyclerView.ViewHolder {
+    static class ProgressHolder extends RecyclerView.ViewHolder {
 
         public ProgressBar progressBar;
 

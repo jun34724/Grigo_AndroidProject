@@ -13,6 +13,17 @@ public class PostListDTO {
     private ArrayList<CommentDTO> comments = new ArrayList<>();
     private LocalDateTime timeStamp;
 
+    public PostListDTO(int id, String title, String writer, String content, String boardType, ArrayList<String> tag, ArrayList<CommentDTO> comments, LocalDateTime timeStamp) {
+        this.id = id;
+        this.title = title;
+        this.writer = writer;
+        this.content = content;
+        this.boardType = boardType;
+        this.tag = tag;
+        this.comments = comments;
+        this.timeStamp = timeStamp;
+    }
+
     public int getId() {
         return id;
     }
