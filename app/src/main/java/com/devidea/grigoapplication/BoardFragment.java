@@ -28,14 +28,14 @@ public class BoardFragment extends Fragment {
 
         btn_question = view.findViewById(R.id.btn_Question);
         btn_free = view.findViewById(R.id.btn_Free);
-        btn_write = view.findViewById(R.id.btn_write);
+
 
         btn_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                QuestionFragment questionFragment = new QuestionFragment();
-                transaction.replace(R.id.frame2, questionFragment);
+                PostListFragment postListFragment = new PostListFragment();
+                transaction.replace(R.id.frame2, postListFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -49,13 +49,6 @@ public class BoardFragment extends Fragment {
                 transaction.replace(R.id.frame2, freeFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-            }
-        });
-
-        btn_write.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), PostActivity.class));
             }
         });
 

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.freg, fragment);
+        fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.addToBackStack("postListFragment");
 
         fragmentTransaction.commit();

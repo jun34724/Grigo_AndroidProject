@@ -1,5 +1,6 @@
 package com.devidea.grigoapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -33,6 +36,7 @@ public class PostListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomRecyclerView adapter;
+    private Button btn_write;
 
     //private int totalCount = 0; // 전체 아이템 개수
     private boolean isNext = true; // 다음 페이지 유무
@@ -40,10 +44,10 @@ public class PostListFragment extends Fragment {
     private final int limit = 10;    // 한 번에 가져올 아이템 수
 
     private PostBodyFragment pb = new PostBodyFragment();
-    /*
+
 
     ArrayList<PostListDTO> postListDTOS = new ArrayList<PostListDTO>();
-    
+    /*
     public ArrayList<PostListDTO> pp(){
 
         for(int i=0; i<100; i++) {
@@ -52,13 +56,13 @@ public class PostListFragment extends Fragment {
         return postListDTOS;
     }
 
-     */
-
     public PostListFragment() {
     }
 
+     */
 
-    public static PostListFragment newInstance(String param1, String param2) {
+
+    public static PostListFragment newInstance(String param1) {
         PostListFragment fragment = new PostListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -77,10 +81,19 @@ public class PostListFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_post_list, container, false);
 
+        btn_write = rootView.findViewById(R.id.btn_write);
+
 
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+
+        /*
+        adapter = new CustomRecyclerView(pp());
+        recyclerView.setAdapter(adapter);
+
+         */
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -90,16 +103,31 @@ public class PostListFragment extends Fragment {
                 if (!recyclerView.canScrollVertically(1)) {
                     if (isNext) {
                         getPostList();
+                        //pp();
                         adapter.notifyDataSetChanged();
 
                     }
 
                 }
 
+                adapter.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int pos) {
+                        ((MainActivity) getActivity()).replaceFragment(pb);
+                    }
+                });
+
             }
         });
 
         getPostList();
+
+        btn_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), PostActivity.class));
+            }
+        });
 
         return rootView;
     }
