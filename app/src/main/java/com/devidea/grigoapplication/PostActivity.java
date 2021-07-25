@@ -79,10 +79,10 @@ public class PostActivity extends AppCompatActivity {
                 String writer = PrefsHelper.read("name", "");
 
                 if(sp_board.getSelectedItem().equals("질문게시판")){
-                    writeQuestion(title, boardType, content, writer);
+                    writeQuestion(title, "question", content, writer);
                 }
                 else if(sp_board.getSelectedItem().equals("자유게시판")){
-                    writeFree(title, boardType, content, writer);
+                    writeFree(title, "free", content, writer);
                 }
             }
         });

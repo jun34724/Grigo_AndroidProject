@@ -1,6 +1,7 @@
 package com.devidea.grigoapplication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CursorPageDTO {
     private ArrayList<PostDTO> postDTOS;

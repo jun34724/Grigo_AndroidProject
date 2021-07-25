@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,10 +50,10 @@ public class PostBodyFragment extends Fragment {
 
         title.setText(postBody.getTitle());
         content.setText(postBody.getContent());
-        teg.setText((CharSequence) postBody.getTag());
+        //teg.setText((CharSequence) postBody.getTag());
         writer.setText(postBody.getWriter());
         time.setText(postBody.getTimeStamp());
-        comment.setText((CharSequence) postBody.getComments());
+        //comment.setText((CharSequence) postBody.getComments());
 
 
         return rootView;

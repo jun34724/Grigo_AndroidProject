@@ -2,13 +2,12 @@ package com.devidea.grigoapplication;
 
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 //사용될 URL 저장. URL 확정이 안되있음으로 추후 변경
@@ -39,18 +38,19 @@ public interface RetrofitService {
     @POST("settings/password")
     Call<JsonObject> updatePass(@Body JsonObject param);
 
+    //질문게시판 목록
     @GET("posts/question")
     Call<CursorPageDTO> getQuestion(
-            @Query("page")
-            int page,
-            @Query("limit")
-            int limit
+            @Query("id")
+            Long id,
+            @Query("size")
+            Integer size
     );
 
-    @GET("posts")
+    @GET("posts/{postID}")
     Call<PostDTO> getPostBody(
-            @Query("postId")
-                    int postId
+            @Path("postID")
+            Long postID
     );
 
     //게시글 등록

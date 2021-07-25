@@ -2,22 +2,23 @@ package com.devidea.grigoapplication;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PostDTO {
-    private int id;
+    private Long id;
     private String title;
     private String writer;
     private String content;
     private String boardType;
-    private ArrayList<String> tag = new ArrayList<>();
-    private ArrayList<CommentDTO> comments = new ArrayList<>();
-    private LocalDateTime timeStamp;
+    private List<String> tag = new ArrayList<>();
+    private List<CommentDTO> comments = new ArrayList<>();
+    private String timeStamp;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,7 +54,7 @@ public class PostDTO {
         this.boardType = boardType;
     }
 
-    public ArrayList<String> getTag() {
+    public List<String> getTag() {
         return tag;
     }
 
@@ -61,7 +62,7 @@ public class PostDTO {
         this.tag = tag;
     }
 
-    public ArrayList<CommentDTO> getComments() {
+    public List<CommentDTO> getComments() {
         return comments;
     }
 
@@ -82,7 +83,7 @@ public class PostDTO {
      */
 
 
-    public void setTimeStamp(LocalDateTime timeStamp) {
+    public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 }

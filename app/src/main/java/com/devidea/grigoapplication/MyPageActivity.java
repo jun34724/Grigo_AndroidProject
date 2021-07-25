@@ -50,6 +50,7 @@ public class MyPageActivity extends AppCompatActivity {
 
     }
 
+    //todo 수정해야 합니다.
     public void getAccount(){
 
         tv_email.setText(PrefsHelper.read("email", ""));
@@ -59,5 +60,7 @@ public class MyPageActivity extends AppCompatActivity {
         tv_sex.setText(PrefsHelper.read("sex", ""));
         tv_phone.setText(PrefsHelper.read("phone", ""));
         tv_tag.setText(PrefsHelper.read("tags", ""));
+
+
     }
 }

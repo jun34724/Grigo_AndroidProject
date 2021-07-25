@@ -72,7 +72,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             listViewHolder.title.setText(arrayList.get(position).getTitle());
             listViewHolder.content.setText(arrayList.get(position).getContent());
-            listViewHolder.teg.setText((CharSequence) arrayList.get(position).getTag());
+            //listViewHolder.teg.setText((CharSequence) arrayList.get(position).getTag());
             listViewHolder.writer.setText(arrayList.get(position).getWriter());
             listViewHolder.time.setText(arrayList.get(position).getTimeStamp());
         }

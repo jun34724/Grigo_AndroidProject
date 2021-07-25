@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,20 +27,16 @@ public class PostListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomRecyclerView adapter;
-    private ArrayList<PostDTO> postlist = new ArrayList<>();
-    private PostDTO postbody = new PostDTO();
+    private ArrayList<PostDTO> postDTOArrayList = new ArrayList<PostDTO>();
     private static String ARG_PARAM;
 
     private boolean isNext = true; // 다음 페이지 유무
-    private int page = 0;       // 현재 페이지
-    private final int limit = 10;    // 한 번에 가져올 아이템 수
-
-    //postBodyFragment;
+    private Long id = 100L;       // 현재 페이지
+    private final int size = 10;    // 한 번에 가져올 아이템 수
 
     public static PostListFragment newInstance(String title) {
         PostListFragment fragment = new PostListFragment();
         Bundle args = new Bundle();
-        //args.putString(ARG_PARAM, title);
         ARG_PARAM = title;
         fragment.setArguments(args);
         return fragment;
@@ -62,25 +59,23 @@ public class PostListFragment extends Fragment {
         TextView tv_title = rootView.findViewById(R.id.bulletin_board_title);
         tv_title.setText(ARG_PARAM);
 
+        //firstGetPost();
         getPostList();
-
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-
-        adapter = new CustomRecyclerView(postlist);
-        recyclerView.setAdapter(adapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
+
+
                 if (!recyclerView.canScrollVertically(1)) {
                     if (isNext) {
-                        getPostList();
-                        adapter.notifyDataSetChanged();
-
+                        getPostList();;
+                        recyclerView.post(new Runnable() { public void run() { adapter.notifyDataSetChanged(); } });
                     }
 
                 }
@@ -88,9 +83,7 @@ public class PostListFragment extends Fragment {
                 adapter.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int pos) {
-
-                        PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(getPostBody(postlist.get(pos).getId()));
-                        ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
+                        getPostBody(postDTOArrayList.get(pos).getId());
                     }
                 });
 
@@ -108,15 +101,24 @@ public class PostListFragment extends Fragment {
     }
 
     public void getPostList() {
-
-        retrofitService.getQuestion(page, limit).enqueue(new Callback<CursorPageDTO>() {
+        retrofitService.getQuestion(id, size).enqueue(new Callback<CursorPageDTO>() {
             @Override
             public void onResponse(Call<CursorPageDTO> call, Response<CursorPageDTO> response) {
-                postlist.addAll(response.body().getPostDTOS());
-                page = postlist.get(postlist.size() - 1).getId();
 
-                isNext = response.body().getHasNext();
+                Log.d("url", String.valueOf(call.request()));
 
+                if (!response.body().getPostDTOS().isEmpty()) {
+
+                    postDTOArrayList.addAll(response.body().getPostDTOS());
+                    Log.d("postlist", String.valueOf(postDTOArrayList.get(0).getContent()));
+                    id = postDTOArrayList.get(postDTOArrayList.size() - 1).getId();
+                    isNext = response.body().getHasNext();
+
+                    if(adapter == null){
+                        adapter = new CustomRecyclerView(postDTOArrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
             }
 
             @Override
@@ -124,15 +126,21 @@ public class PostListFragment extends Fragment {
 
             }
         });
-
     }
 
 
-    public PostDTO getPostBody(int postId) {
+    public void getPostBody(Long postId) {
+
         retrofitService.getPostBody(postId).enqueue(new Callback<PostDTO>() {
+
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
-                postbody = response.body();
+                Log.d("body", String.valueOf(call.request()));
+                if (response.body()!=null) {
+                    PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(response.body());
+                    ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
+
+                }
             }
 
             @Override
@@ -140,7 +148,7 @@ public class PostListFragment extends Fragment {
 
             }
         });
-        return postbody;
+
     }
 
 }
