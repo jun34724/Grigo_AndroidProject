@@ -8,23 +8,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,35 +26,20 @@ public class PostListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomRecyclerView adapter;
-    private Button btn_write;
+    private ArrayList<PostDTO> postlist = new ArrayList<>();
+    private static String ARG_PARAM;
 
-    //private int totalCount = 0; // 전체 아이템 개수
     private boolean isNext = true; // 다음 페이지 유무
     private int page = 0;       // 현재 페이지
     private final int limit = 10;    // 한 번에 가져올 아이템 수
 
-    private PostBodyFragment pb = new PostBodyFragment();
+    private final PostBodyFragment postBodyFragment = new PostBodyFragment();
 
-
-    ArrayList<PostListDTO> postListDTOS = new ArrayList<PostListDTO>();
-    /*
-    public ArrayList<PostListDTO> pp(){
-
-        for(int i=0; i<100; i++) {
-            postListDTOS.add(new PostListDTO(i, i + "a", i + "a", i + "a", i + "a", null, null, null));
-        }
-        return postListDTOS;
-    }
-
-    public PostListFragment() {
-    }
-
-     */
-
-
-    public static PostListFragment newInstance(String param1) {
+    public static PostListFragment newInstance(String title) {
         PostListFragment fragment = new PostListFragment();
         Bundle args = new Bundle();
+        //args.putString(ARG_PARAM, title);
+        ARG_PARAM = title;
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +48,7 @@ public class PostListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
         }
     }
 
@@ -81,19 +57,25 @@ public class PostListFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_post_list, container, false);
 
-        btn_write = rootView.findViewById(R.id.btn_write);
+        Button btn_write = rootView.findViewById(R.id.btn_write);
+        TextView tv_title = rootView.findViewById(R.id.bulletin_board_title);
+        tv_title.setText(ARG_PARAM);
 
+        getPostList();
 
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
-        /*
-        adapter = new CustomRecyclerView(pp());
+        adapter = new CustomRecyclerView(postlist);
         recyclerView.setAdapter(adapter);
 
-         */
-
+        adapter.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
+            }
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -103,7 +85,6 @@ public class PostListFragment extends Fragment {
                 if (!recyclerView.canScrollVertically(1)) {
                     if (isNext) {
                         getPostList();
-                        //pp();
                         adapter.notifyDataSetChanged();
 
                     }
@@ -113,7 +94,7 @@ public class PostListFragment extends Fragment {
                 adapter.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int pos) {
-                        ((MainActivity) getActivity()).replaceFragment(pb);
+                        ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
                     }
                 });
 
@@ -134,29 +115,18 @@ public class PostListFragment extends Fragment {
 
     public void getPostList() {
 
-        retrofitService.getQuestionList(page, limit).enqueue(new Callback<ArrayList<PostListDTO>>() {
+        retrofitService.getQuestion(page, limit).enqueue(new Callback<CursorPageDTO>() {
             @Override
-            public void onResponse(Call<ArrayList<PostListDTO>> call, Response<ArrayList<PostListDTO>> response) {
-                if (response.body() != null) {
-                    page = response.body().get(response.body().size() - 1).getId();
+            public void onResponse(Call<CursorPageDTO> call, Response<CursorPageDTO> response) {
+                postlist.addAll(response.body().getPostDTOS());
+                page = postlist.get(postlist.size() - 1).getId();
 
-                    adapter = new CustomRecyclerView(response.body());
-                    recyclerView.setAdapter(adapter);
+                isNext = response.body().getHasNext();
 
-                    adapter.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View v, int pos) {
-                            ((MainActivity) getActivity()).replaceFragment(pb);
-                        }
-                    });
-
-                } else {
-                    isNext = false;
-                }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<PostListDTO>> call, Throwable t) {
+            public void onFailure(Call<CursorPageDTO> call, Throwable t) {
 
             }
         });

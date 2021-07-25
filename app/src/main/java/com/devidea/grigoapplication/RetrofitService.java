@@ -1,18 +1,12 @@
 package com.devidea.grigoapplication;
 
-import android.service.autofill.UserData;
-
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -46,7 +40,7 @@ public interface RetrofitService {
     Call<JsonObject> updatePass(@Body JsonObject param);
 
     @GET("posts/question")
-    Call<ArrayList<PostListDTO>> getQuestionList(
+    Call<CursorPageDTO> getQuestion(
             @Query("page")
             int page,
             @Query("limit")

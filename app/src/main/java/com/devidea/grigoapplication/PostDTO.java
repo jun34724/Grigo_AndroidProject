@@ -3,7 +3,7 @@ package com.devidea.grigoapplication;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class PostListDTO {
+public class PostDTO {
     private int id;
     private String title;
     private String writer;
@@ -13,7 +13,7 @@ public class PostListDTO {
     private ArrayList<CommentDTO> comments = new ArrayList<>();
     private LocalDateTime timeStamp;
 
-    public PostListDTO(int id, String title, String writer, String content, String boardType, ArrayList<String> tag, ArrayList<CommentDTO> comments, LocalDateTime timeStamp) {
+    public PostDTO(int id, String title, String writer, String content, String boardType, ArrayList<String> tag, ArrayList<CommentDTO> comments, LocalDateTime timeStamp) {
         this.id = id;
         this.title = title;
         this.writer = writer;

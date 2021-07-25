@@ -34,7 +34,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                PostListFragment postListFragment = new PostListFragment();
+                PostListFragment postListFragment = PostListFragment.newInstance("질문게시판");
                 transaction.replace(R.id.frame2, postListFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -45,8 +45,8 @@ public class BoardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                FreeFragment freeFragment = new FreeFragment();
-                transaction.replace(R.id.frame2, freeFragment);
+                PostListFragment postListFragment = PostListFragment.newInstance("자유게시판");
+                transaction.replace(R.id.frame2, postListFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

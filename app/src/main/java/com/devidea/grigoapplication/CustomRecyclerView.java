@@ -1,7 +1,6 @@
 package com.devidea.grigoapplication;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    private final ArrayList<PostListDTO> arrayList;
+    private final ArrayList<PostDTO> arrayList;
     private static OnItemClickListener mListener = null;
 
     public interface OnItemClickListener {
@@ -30,7 +29,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.mListener = listener;
     }
 
-    public CustomRecyclerView(ArrayList<PostListDTO> arrayList) {
+    public CustomRecyclerView(ArrayList<PostDTO> arrayList) {
         this.arrayList = arrayList;
     }
 
