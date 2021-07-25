@@ -27,13 +27,14 @@ public class PostListFragment extends Fragment {
     private RecyclerView recyclerView;
     private CustomRecyclerView adapter;
     private ArrayList<PostDTO> postlist = new ArrayList<>();
+    private PostDTO postbody = new PostDTO();
     private static String ARG_PARAM;
 
     private boolean isNext = true; // 다음 페이지 유무
     private int page = 0;       // 현재 페이지
     private final int limit = 10;    // 한 번에 가져올 아이템 수
 
-    private final PostBodyFragment postBodyFragment = new PostBodyFragment();
+    //postBodyFragment;
 
     public static PostListFragment newInstance(String title) {
         PostListFragment fragment = new PostListFragment();
@@ -70,13 +71,6 @@ public class PostListFragment extends Fragment {
         adapter = new CustomRecyclerView(postlist);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int pos) {
-                ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
-            }
-        });
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -94,14 +88,14 @@ public class PostListFragment extends Fragment {
                 adapter.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int pos) {
+
+                        PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(getPostBody(postlist.get(pos).getId()));
                         ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
                     }
                 });
 
             }
         });
-
-        getPostList();
 
         btn_write.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +125,22 @@ public class PostListFragment extends Fragment {
             }
         });
 
+    }
+
+
+    public PostDTO getPostBody(int postId) {
+        retrofitService.getPostBody(postId).enqueue(new Callback<PostDTO>() {
+            @Override
+            public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
+                postbody = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<PostDTO> call, Throwable t) {
+
+            }
+        });
+        return postbody;
     }
 
 }

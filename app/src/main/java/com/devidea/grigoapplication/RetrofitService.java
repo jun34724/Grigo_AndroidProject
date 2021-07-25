@@ -47,6 +47,12 @@ public interface RetrofitService {
             int limit
     );
 
+    @GET("posts")
+    Call<PostDTO> getPostBody(
+            @Query("postId")
+                    int postId
+    );
+
     //게시글 등록
     @Headers("Content-Type: application/json")
     @POST("posts/save")
