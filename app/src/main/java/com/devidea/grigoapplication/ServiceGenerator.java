@@ -17,19 +17,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-/*
-    //수정해야합니다.
-    TokenManager tokenManager = new TokenManager();
-
-    public JsonObject jsonObject;
-    public JsonObject jsonObjectLogin;
-
- */
 
     public RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-    //public static final String BASE_URL = "http://solac.iptime.org:1234/";
+    public static final String BASE_URL = "http://solac.iptime.org:1234/";
 
-    public static final String BASE_URL = "http://10.0.2.2:8080/";
+    //public static final String BASE_URL = "http://10.0.2.2:8080/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
