@@ -11,7 +11,7 @@ public class PostDTO {
     private String content;
     private String boardType;
     private List<String> tag = new ArrayList<>();
-    private List<CommentDTO> comments = new ArrayList<>();
+    private ArrayList<CommentDTO> comments = new ArrayList<>();
     private String timeStamp;
 
     public Long getId() {
@@ -62,7 +62,7 @@ public class PostDTO {
         this.tag = tag;
     }
 
-    public List<CommentDTO> getComments() {
+    public ArrayList<CommentDTO> getComments() {
         return comments;
     }
 

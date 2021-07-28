@@ -21,8 +21,6 @@ public class ServiceGenerator {
     public RetrofitService retrofitService = retrofit.create(RetrofitService.class);
     public static final String BASE_URL = "http://solac.iptime.org:1234/";
 
-    //public static final String BASE_URL = "http://10.0.2.2:8080/";
-
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder =
@@ -52,79 +50,5 @@ public class ServiceGenerator {
 
         return retrofit.create(serviceClass);
     }
-/*
-    public void signup() {
-        jsonObject.addProperty("email", "email");
-        jsonObject.addProperty("password", "password");
-        jsonObject.addProperty("name", "name");
-        jsonObject.addProperty("birth", "birth");
-        jsonObject.addProperty("student_id", "student_id");
-        jsonObject.addProperty("sex", "sex");
-        jsonObject.addProperty("phone", "phone");
-
-        retrofitService.signup(jsonObject).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.d("서버", String.valueOf(response.body()));
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("서버", "실패");
-            }
-        });
-    }
-
-    public void login() {
-        jsonObjectLogin = new JsonObject();
-
-        jsonObjectLogin.addProperty("email", "solchan@gmail.com");
-        jsonObjectLogin.addProperty("password", "12345678");
-
-        retrofitService.login(jsonObjectLogin).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                Headers headers = response.headers();
-                String token = headers.get("Authorization");
-                String[] body = token.split(" ");
-
-
-                System.out.println(response.headers());
-
-                tokenManager.set(body[1]);
-                Log.d("token", tokenManager.get());
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("서버", "실패");
-            }
-        });
-
-
-    }
-
-    public void test() {
-
-        RetrofitService r = createService(RetrofitService.class, tokenManager.get());
-
-        r.getToken().enqueue(new Callback<Map<String, String>>() {
-            @Override
-            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                System.out.println(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<Map<String, String>> call, Throwable t) {
-
-            }
-        });
-
-    }
-
- */
 
 }

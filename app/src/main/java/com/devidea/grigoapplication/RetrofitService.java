@@ -38,19 +38,29 @@ public interface RetrofitService {
     @POST("settings/password")
     Call<JsonObject> updatePass(@Body JsonObject param);
 
-    //질문게시판 목록
+    //게시판 리스트를 요청하는 uri. 마지막으로 가지고있는 게시판 ID와 한번에 가져올 size, 가저올 종류를 보내준다.
     @GET("posts/question")
     Call<CursorPageDTO> getQuestion(
             @Query("id")
-            Long id,
+                    Long id,
             @Query("size")
-            Integer size
+                    Integer size,
+            @Query("type")
+                    String type
     );
 
+    //해당 ID를 가진 게시글을 가져오는 URI
     @GET("posts/{postID}")
     Call<PostDTO> getPostBody(
             @Path("postID")
-            Long postID
+                    Long postID
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("{postID}/comment")
+    Call<JsonObject> postComment(@Body JsonObject param,
+                                 @Path("postID")
+                                         Long postID
     );
 
     //게시글 등록
