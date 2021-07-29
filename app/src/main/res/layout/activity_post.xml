@@ -38,7 +38,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,21 +64,12 @@
                 android:hint="내용"
                 android:layout_marginTop="5dp"/>
 
-            <LinearLayout
-                android:id="@+id/layout_tag"
+            <ListView
+                android:id="@+id/list_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="invisible">
-
-                <Spinner
-                    android:id="@+id/sp_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="3"/>
-
-            </LinearLayout>
+                android:choiceMode="multipleChoice"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

@@ -1,8 +1,13 @@
 package com.devidea.grigoapplication;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,11 +52,22 @@ public class LoginActivity extends AppCompatActivity {
         et_id = findViewById(R.id.et_id);
         et_pw = findViewById(R.id.et_pw);
 
+        ActivityResultLauncher<Intent> joinResult =registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent joinIntent = result.getData();
+                            et_id.setText(joinIntent.getStringExtra("id"));
+                            et_pw.setText(joinIntent.getStringExtra("password"));
+                        }
+                    }
+                });
+
         //회원가입 버튼
         btn_join = findViewById(R.id.btn_join);
         btn_join.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, JoinActivity.class);
-            startActivity(intent);
+            joinResult.launch(new Intent(LoginActivity.this, JoinActivity.class));
         });
 
         //로그인 시도
