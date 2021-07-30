@@ -56,6 +56,6 @@ public interface RetrofitService {
     //게시글 등록
     @Headers("Content-Type: application/json")
     @POST("posts/save")
-    Call<JsonObject> writePost(@Body JsonObject param);
+    Call<String> writePost(@Body JsonObject param);
 
 }

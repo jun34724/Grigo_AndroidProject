@@ -2,7 +2,6 @@ package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -120,14 +118,14 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("content", content);
         jsonObject.add("tags", tagJsonArray);
 
-        retrofitService.writePost(jsonObject).enqueue(new Callback<JsonObject>() {
+        retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 finish();
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
 
             }
         });
@@ -145,14 +143,14 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("content", content);
         jsonObject.add("tags", tagJsonArray);
 
-        retrofitService.writePost(jsonObject).enqueue(new Callback<JsonObject>() {
+        retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                startActivity(new Intent(PostActivity.this, BoardFragment.class));
+            public void onResponse(Call<String> call, Response<String> response) {
+                finish();
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
 
             }
         });
