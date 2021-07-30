@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -40,13 +41,12 @@ public interface RetrofitService {
 
     //게시판 리스트를 요청하는 uri. 마지막으로 가지고있는 게시판 ID와 한번에 가져올 size, 가저올 종류를 보내준다.
     @GET("posts/question")
-    Call<CursorPageDTO> getQuestion(
+    Call<CursorPageDTO> getList(
             @Query("id")
                     Long id,
             @Query("size")
-                    Integer size,
-            @Query("type")
-                    String type
+                    Integer size
+
     );
 
     //해당 ID를 가진 게시글을 가져오는 URI
@@ -58,10 +58,7 @@ public interface RetrofitService {
 
     @Headers("Content-Type: application/json")
     @POST("{postID}/comment")
-    Call<JsonObject> postComment(@Body JsonObject param,
-                                 @Path("postID")
-                                         Long postID
-    );
+    Call<JsonObject> postComment(@Body JsonObject param, @Path("postID") Long postID);
 
     //게시글 등록
     @Headers("Content-Type: application/json")

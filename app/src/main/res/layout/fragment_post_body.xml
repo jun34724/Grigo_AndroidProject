@@ -88,7 +88,7 @@
             android:id="@+id/recycler_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"/>
+            android:layout_weight="1"/>
 
         <View
             android:layout_width="0dp"
@@ -117,11 +117,8 @@
                 android:layout_weight="1"
                 android:text="입력" />
 
-
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </LinearLayout>

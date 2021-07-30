@@ -1,5 +1,6 @@
 package com.devidea.grigoapplication;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -30,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     UserDataHelper userDataHelper;
     ServiceGenerator serviceGenerator;
     static RetrofitService retrofitService;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

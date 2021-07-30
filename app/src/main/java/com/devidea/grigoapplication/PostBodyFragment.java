@@ -66,7 +66,7 @@ public class PostBodyFragment extends Fragment {
         writer.setText(postBody.getWriter());
         time.setText(postBody.getTimeStamp());
         if(postBody.getTag()!=null){
-            teg.setText((CharSequence) postBody.getTag());
+            teg.setText(String.valueOf(postBody.getTag()));
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_comment);
@@ -77,6 +77,10 @@ public class PostBodyFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String Comment = et_comm.getText().toString();
+                JsonObject json = new JsonObject();
+                json.addProperty("comment", Comment);
+                postComment(json, postBody.getId());
 
             }
         });
@@ -85,17 +89,19 @@ public class PostBodyFragment extends Fragment {
 
     }
 
-    public void getComment(JsonObject jsonObject, Long postId) {
+    public void postComment(JsonObject jsonObject, Long postID) {
 
-        retrofitService.postComment(jsonObject, postId).enqueue(new Callback<JsonObject>() {
+        retrofitService.postComment(jsonObject, postID).enqueue(new Callback<JsonObject>() {
+
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("url", String.valueOf(call.request()));
 
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Log.d("url", String.valueOf(t.getCause()));
             }
         });
     }

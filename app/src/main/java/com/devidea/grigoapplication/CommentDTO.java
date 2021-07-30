@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class CommentDTO {
     private Long id;
     private String content;
-    private LocalDateTime timeStamp;
+    private String timeStamp;
 
     public Long getId() {
         return id;
@@ -23,11 +23,11 @@ public class CommentDTO {
         this.content = content;
     }
 
-    public LocalDateTime getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(LocalDateTime timeStamp) {
+    public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 

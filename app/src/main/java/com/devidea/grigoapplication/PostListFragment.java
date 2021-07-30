@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -115,7 +117,7 @@ public class PostListFragment extends Fragment {
     }
 
     public void getPostList() {
-        retrofitService.getQuestion(id, size, boardType).enqueue(new Callback<CursorPageDTO>() {
+        retrofitService.getList(id, size).enqueue(new Callback<CursorPageDTO>() {
             @Override
             public void onResponse(Call<CursorPageDTO> call, Response<CursorPageDTO> response) {
 
@@ -137,7 +139,7 @@ public class PostListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CursorPageDTO> call, Throwable t) {
-
+                Log.d("fail", String.valueOf(t.getCause()));
             }
         });
     }
