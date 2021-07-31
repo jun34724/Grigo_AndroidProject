@@ -1,6 +1,5 @@
 package com.devidea.grigoapplication;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +72,7 @@ class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             listViewHolder.title.setText(postDTOArrayList.get(position).getTitle());
             listViewHolder.content.setText(postDTOArrayList.get(position).getContent());
-            //listViewHolder.teg.setText((CharSequence) arrayList.get(position).getTag());
+            listViewHolder.teg.setText(String.valueOf(postDTOArrayList.get(position).getTag()));
             listViewHolder.writer.setText(postDTOArrayList.get(position).getWriter());
             listViewHolder.time.setText(postDTOArrayList.get(position).getTimeStamp());
         }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +39,22 @@ public class PostBodyFragment extends Fragment {
         postBody = postBodyInstance;
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static void deleteComment(Long postID) {
+        Log.d("delete", String.valueOf(postID));
+
+        retrofitService.deleteComment(postID).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -65,21 +82,23 @@ public class PostBodyFragment extends Fragment {
         content.setText(postBody.getContent());
         writer.setText(postBody.getWriter());
         time.setText(postBody.getTimeStamp());
-        if(postBody.getTag()!=null){
+        if (postBody.getTag() != null) {
             teg.setText(String.valueOf(postBody.getTag()));
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_comment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        adapter = new CommentListViewer(postBody.getComments());
-        recyclerView.setAdapter(adapter);
+        if(!postBody.getComments().isEmpty()) {
+            adapter = new CommentListViewer(postBody.getComments());
+            recyclerView.setAdapter(adapter);
+        }
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String Comment = et_comm.getText().toString();
                 JsonObject json = new JsonObject();
-                json.addProperty("comment", Comment);
+                json.addProperty("content", Comment);
                 postComment(json, postBody.getId());
 
             }
@@ -90,20 +109,25 @@ public class PostBodyFragment extends Fragment {
     }
 
     public void postComment(JsonObject jsonObject, Long postID) {
-
-        retrofitService.postComment(jsonObject, postID).enqueue(new Callback<JsonObject>() {
+        Log.d("url", String.valueOf(jsonObject));
+        Log.d("url", String.valueOf(postID));
+        retrofitService.postComment(postID, jsonObject).enqueue(new Callback<JsonObject>() {
 
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("url", String.valueOf(call.request()));
 
+
+
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("url", String.valueOf(t.getCause()));
+                Log.d("getCause", String.valueOf(t.getCause()));
             }
         });
+
+
     }
 
 }

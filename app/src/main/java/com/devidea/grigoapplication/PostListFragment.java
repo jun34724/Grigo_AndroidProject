@@ -14,8 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.gson.JsonObject;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -47,10 +46,9 @@ public class PostListFragment extends Fragment {
         Bundle args = new Bundle();
         boardTitle = title;
 
-        if(title.equals("질문게시판")){
+        if (title.equals("질문게시판")) {
             boardType = "question";
-        }
-        else {
+        } else {
             boardType = "free";
         }
 
@@ -88,8 +86,12 @@ public class PostListFragment extends Fragment {
 
                 if (!recyclerView.canScrollVertically(1)) {
                     if (isNext) {
-                        getPostList();;
-                        recyclerView.post(new Runnable() { public void run() { adapter.notifyDataSetChanged(); } });
+                        getPostList();
+                        recyclerView.post(new Runnable() {
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
                     }
 
                 }
@@ -117,24 +119,28 @@ public class PostListFragment extends Fragment {
     }
 
     public void getPostList() {
-        retrofitService.getList(id, size).enqueue(new Callback<CursorPageDTO>() {
+        retrofitService.getList(id, size, boardType).enqueue(new Callback<CursorPageDTO>() {
             @Override
             public void onResponse(Call<CursorPageDTO> call, Response<CursorPageDTO> response) {
 
                 Log.d("url", String.valueOf(call.request()));
 
-                if (!response.body().getPostDTOS().isEmpty()) {
-
+                try {
                     postDTOArrayList.addAll(response.body().getPostDTOS());
                     Log.d("postlist", String.valueOf(postDTOArrayList.get(0).getContent()));
                     id = postDTOArrayList.get(postDTOArrayList.size() - 1).getId();
                     isNext = response.body().getHasNext();
 
-                    if(adapter == null){
+                    if (adapter == null) {
                         adapter = new PostListViewer(postDTOArrayList);
                         recyclerView.setAdapter(adapter);
                     }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
+
             }
 
             @Override
@@ -152,8 +158,9 @@ public class PostListFragment extends Fragment {
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
                 Log.d("body", String.valueOf(call.request()));
-                if (response.body()!=null) {
+                if (response.body() != null) {
                     PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(response.body());
+                    id = 100L;
                     ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
 
                 }
