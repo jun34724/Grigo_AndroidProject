@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -51,7 +53,7 @@ public class PostListFragment extends Fragment {
         } else {
             boardType = "free";
         }
-
+        postDTOArrayList.clear();
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,9 +62,9 @@ public class PostListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

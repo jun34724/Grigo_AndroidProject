@@ -13,7 +13,15 @@ public class PostDTO {
     private ArrayList<String> tag = new ArrayList<>();
     private ArrayList<CommentDTO> comments = new ArrayList<>();
     private String timeStamp;
-    private boolean userCheck = false;
+    private boolean userCheck = true;
+
+    public boolean isUserCheck() {
+        return userCheck;
+    }
+
+    public void setUserCheck(boolean userCheck) {
+        this.userCheck = userCheck;
+    }
 
     public Long getId() {
         return id;
