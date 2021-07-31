@@ -3,6 +3,8 @@ package com.devidea.grigoapplication;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
@@ -15,13 +17,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ServiceGenerator {
 
     public RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-    //public static final String BASE_URL = "http://solac.iptime.org:1234/";
     public static final String BASE_URL = "http://34.64.218.179:8080";
-
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder =

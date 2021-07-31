@@ -85,7 +85,11 @@ public class JoinActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     //성공
                     Log.d("성공 : ", String.valueOf(response.body()));
-                    startActivity(new Intent(JoinActivity.this, LoginActivity.class));
+                    Intent joinIntent = new Intent(JoinActivity.this, LoginActivity.class);
+                    joinIntent.putExtra("id", email);
+                    joinIntent.putExtra("password", password);
+                    setResult(RESULT_OK, joinIntent);
+                    finish();
                 }
                 else{
                    //실패 : 이메일 형식 x,중복, 비밀번호 8자리 이하...
@@ -97,6 +101,7 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("실패 : ", t.getMessage());
+
             }
         });
     }
