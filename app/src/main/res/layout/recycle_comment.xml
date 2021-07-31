@@ -46,6 +46,13 @@
                 android:layout_height="wrap_content"
                 android:text="content" />
 
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Button" />
+
 
         </LinearLayout>
 
