@@ -10,9 +10,10 @@ public class PostDTO {
     private String writer;
     private String content;
     private String boardType;
-    private List<String> tag = new ArrayList<>();
+    private ArrayList<String> tag = new ArrayList<>();
     private ArrayList<CommentDTO> comments = new ArrayList<>();
     private String timeStamp;
+    private boolean userCheck = false;
 
     public Long getId() {
         return id;
@@ -54,7 +55,7 @@ public class PostDTO {
         this.boardType = boardType;
     }
 
-    public List<String> getTag() {
+    public ArrayList<String> getTag() {
         return tag;
     }
 

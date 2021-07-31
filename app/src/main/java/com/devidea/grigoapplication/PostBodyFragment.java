@@ -2,17 +2,20 @@ package com.devidea.grigoapplication;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -74,7 +77,10 @@ public class PostBodyFragment extends Fragment {
         TextView teg = rootView.findViewById(R.id.teg);
         TextView writer = rootView.findViewById(R.id.writer);
         TextView time = rootView.findViewById(R.id.time);
+
         Button send = rootView.findViewById(R.id.send);
+        Button option = rootView.findViewById(R.id.post_potion);
+
         EditText et_comm = rootView.findViewById(R.id.input_comment);
 
 
@@ -88,7 +94,7 @@ public class PostBodyFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_comment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        if(!postBody.getComments().isEmpty()) {
+        if (!postBody.getComments().isEmpty()) {
             adapter = new CommentListViewer(postBody.getComments());
             recyclerView.setAdapter(adapter);
         }
@@ -104,6 +110,33 @@ public class PostBodyFragment extends Fragment {
             }
         });
 
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(v.getContext(), v);//v는 클릭된 뷰를 의미
+
+                popup.getMenuInflater().inflate(R.menu.board_inner_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+
+                            case R.id.revise:
+                                Toast.makeText(getContext(), "수정", Toast.LENGTH_LONG).show();
+                                break;
+
+                            case R.id.delete:
+                                Toast.makeText(getContext(), "삭제", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                        return false;
+                    }
+
+                });
+                popup.show();
+            }
+
+        });
         return rootView;
 
     }
@@ -116,7 +149,6 @@ public class PostBodyFragment extends Fragment {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("url", String.valueOf(call.request()));
-
 
 
             }

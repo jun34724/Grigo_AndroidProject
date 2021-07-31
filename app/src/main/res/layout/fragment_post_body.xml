@@ -65,7 +65,7 @@
                     android:text="time" />
 
                 <Button
-                    android:id="@+id/post_delete"
+                    android:id="@+id/post_potion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Button" />
