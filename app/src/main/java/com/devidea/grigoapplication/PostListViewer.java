@@ -1,6 +1,5 @@
 package com.devidea.grigoapplication;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
-class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
-    private final ArrayList<PostDTO> arrayList;
+    private int VIEW_TYPE_ITEM = 0;
+    private int VIEW_TYPE_LOADING = 1;
+    private ArrayList<PostDTO> postDTOArrayList;
     private static OnItemClickListener mListener = null;
 
     public interface OnItemClickListener {
@@ -29,8 +29,8 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.mListener = listener;
     }
 
-    public CustomRecyclerView(ArrayList<PostDTO> arrayList) {
-        this.arrayList = arrayList;
+    public PostListViewer(ArrayList<PostDTO> arrayList) {
+        this.postDTOArrayList = arrayList;
     }
 
     @Override
@@ -70,11 +70,11 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(getItemCount()>position){
             PostListViewHolder listViewHolder = (PostListViewHolder) holder;
 
-            listViewHolder.title.setText(arrayList.get(position).getTitle());
-            listViewHolder.content.setText(arrayList.get(position).getContent());
-            //listViewHolder.teg.setText((CharSequence) arrayList.get(position).getTag());
-            listViewHolder.writer.setText(arrayList.get(position).getWriter());
-            listViewHolder.time.setText(arrayList.get(position).getTimeStamp());
+            listViewHolder.title.setText(postDTOArrayList.get(position).getTitle());
+            listViewHolder.content.setText(postDTOArrayList.get(position).getContent());
+            listViewHolder.teg.setText(String.valueOf(postDTOArrayList.get(position).getTag()));
+            listViewHolder.writer.setText(postDTOArrayList.get(position).getWriter());
+            listViewHolder.time.setText(postDTOArrayList.get(position).getTimeStamp());
         }
 
         else{
@@ -86,7 +86,7 @@ class CustomRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return postDTOArrayList.size();
     }
 
     static class PostListViewHolder extends RecyclerView.ViewHolder {

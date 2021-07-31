@@ -1,10 +1,18 @@
 package com.devidea.grigoapplication;
 
-import java.time.LocalDateTime;
-
 public class CommentDTO {
     private Long id;
     private String content;
+    private String timeStamp;
+    private boolean userCheck = false;
+
+    public boolean isUserCheck() {
+        return userCheck;
+    }
+
+    public void setUserCheck(boolean userCheck) {
+        this.userCheck = userCheck;
+    }
 
     public Long getId() {
         return id;
@@ -22,14 +30,14 @@ public class CommentDTO {
         this.content = content;
     }
 
-    public LocalDateTime getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(LocalDateTime timeStamp) {
+    public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 
-    private LocalDateTime timeStamp;
+
 
 }

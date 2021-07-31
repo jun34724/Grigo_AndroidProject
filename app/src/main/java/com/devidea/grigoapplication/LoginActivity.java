@@ -1,5 +1,6 @@
 package com.devidea.grigoapplication;
 
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -35,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     UserDataHelper userDataHelper;
     ServiceGenerator serviceGenerator;
     static RetrofitService retrofitService;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
