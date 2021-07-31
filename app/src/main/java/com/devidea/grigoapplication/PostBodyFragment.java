@@ -81,6 +81,18 @@ public class PostBodyFragment extends Fragment {
         Button send = rootView.findViewById(R.id.send);
         Button option = rootView.findViewById(R.id.post_potion);
 
+        Log.d("post_isUserCheck : ", String.valueOf(postBody.isUserCheck()));
+
+        /*
+        if(postBody.isUserCheck()){
+            option.setVisibility(View.VISIBLE);
+        }
+        else {
+            option.setVisibility(View.INVISIBLE);
+        }
+
+         */
+
         EditText et_comm = rootView.findViewById(R.id.input_comment);
 
 
@@ -127,6 +139,7 @@ public class PostBodyFragment extends Fragment {
 
                             case R.id.delete:
                                 Toast.makeText(getContext(), "삭제", Toast.LENGTH_LONG).show();
+                                deletePost(postBody.getId());
                                 break;
                         }
                         return false;
@@ -158,8 +171,20 @@ public class PostBodyFragment extends Fragment {
                 Log.d("getCause", String.valueOf(t.getCause()));
             }
         });
+    }
 
+    public void deletePost(Long PostID){
+        retrofitService.deletePost(PostID).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("url", String.valueOf(call.request()));
+            }
 
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 
 }

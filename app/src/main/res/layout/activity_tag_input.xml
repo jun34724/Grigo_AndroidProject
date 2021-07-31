@@ -41,4 +41,17 @@
         android:layout_height="wrap_content"
         android:text="TextView" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/submit"
+        android:enabled="false"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="넘어가기" />
+
 </LinearLayout>

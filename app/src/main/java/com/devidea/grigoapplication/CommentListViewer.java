@@ -45,6 +45,15 @@ public class CommentListViewer extends RecyclerView.Adapter<RecyclerView.ViewHol
         commentHolder.writer.setText(String.valueOf(commentDTO.get(position).getId()));
         commentHolder.time.setText(commentDTO.get(position).getTimeStamp());
 
+        Log.d("isUserCheck : ", String.valueOf(commentDTO.get(position).isUserCheck()));
+
+        if(commentDTO.get(position).isUserCheck()){
+            commentHolder.btn_delete.setVisibility(View.VISIBLE);
+        }
+        else {
+            commentHolder.btn_delete.setVisibility(View.INVISIBLE);
+        }
+
         commentHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +68,7 @@ public class CommentListViewer extends RecyclerView.Adapter<RecyclerView.ViewHol
                             case R.id.revise:
                                 CustomDialog dialog = new CustomDialog(v.getContext(), commentDTO.get(position).getId(), commentDTO.get(position).getContent());
 
-                                /*
+
                                 //화면 사이즈 구하기
                                 DisplayMetrics dm = v.getContext().getApplicationContext().getResources().getDisplayMetrics();
                                 int width = dm.widthPixels; int height = dm.heightPixels;
@@ -67,14 +76,12 @@ public class CommentListViewer extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 //다이얼로그 사이즈 세팅
                                 WindowManager.LayoutParams wm = dialog.getWindow().getAttributes();
                                 wm.copyFrom(dialog.getWindow().getAttributes());
-                                wm.width = (int) (width * 0.7); wm.height = height/2;
-
-                                 */
+                                wm.width = width;
+                                //wm.height = height/2;
 
                                 //다이얼로그 Listener 세팅
                                 //dialog.setDialogListener(this);
 
-                                //다이얼로그 띄우기
                                 dialog.show();
 
                                 break;

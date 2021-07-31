@@ -1,7 +1,9 @@
 package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,6 +28,7 @@ public class TagInputActivity extends AppCompatActivity {
     TextInputLayout inputLayout;
     EditText et_tagInput;
     Button btn_tagSend;
+    Button btn_submit;
     TextView tv_tagViewer;
 
     @Override
@@ -36,6 +39,7 @@ public class TagInputActivity extends AppCompatActivity {
         inputLayout = findViewById(R.id.input_layout);
         et_tagInput = inputLayout.getEditText();
         btn_tagSend = findViewById(R.id.button);
+        btn_submit = findViewById(R.id.submit);
         tv_tagViewer = findViewById(R.id.tagviewer);
 
 
@@ -70,6 +74,14 @@ public class TagInputActivity extends AppCompatActivity {
                 showTag();
             }
 
+        });
+
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TagInputActivity.this, MainActivity.class));
+                ActivityCompat.finishAffinity(TagInputActivity.this);
+            }
         });
 
     }
@@ -110,7 +122,7 @@ public class TagInputActivity extends AppCompatActivity {
 
             }
         });
-
+        btn_submit.setEnabled(true);
     }
 
 }
