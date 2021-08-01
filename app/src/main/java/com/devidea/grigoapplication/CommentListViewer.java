@@ -42,7 +42,7 @@ public class CommentListViewer extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
         CommentListViewHolder commentHolder = (CommentListViewHolder) holder;
         commentHolder.comment.setText(commentDTO.get(position).getContent());
-        commentHolder.writer.setText(String.valueOf(commentDTO.get(position).getId()));
+        commentHolder.writer.setText(String.valueOf(commentDTO.get(position).getWriter()));
         commentHolder.time.setText(commentDTO.get(position).getTimeStamp());
 
         Log.d("isUserCheck : ", String.valueOf(commentDTO.get(position).isUserCheck()));

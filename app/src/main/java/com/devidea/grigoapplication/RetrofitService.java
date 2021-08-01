@@ -73,6 +73,7 @@ public interface RetrofitService {
     Call<JsonObject> updateComment(@Path("commentId") Long postID, @Body JsonObject param);
 
     //댓글 삭제
+    @Headers("Content-Type: application/json")
     @POST("comment/{commentId}")
     Call<JsonObject> deleteComment(@Path("commentId") Long postID);
 
