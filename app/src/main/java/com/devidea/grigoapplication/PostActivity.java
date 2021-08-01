@@ -1,8 +1,15 @@
 package com.devidea.grigoapplication;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,6 +41,8 @@ public class PostActivity extends AppCompatActivity {
     Button btn_save;
     ListView list_item;
 
+    private static PostDTO postBody = new PostDTO();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +53,8 @@ public class PostActivity extends AppCompatActivity {
         btn_save = findViewById(R.id.btn_save);
         sp_board = findViewById(R.id.sp_board);
         list_item = findViewById(R.id.list_item);
+
+        System.out.println("postBody :" + postBody.getId());
 
         //저장된 tag의 내용을 불러와서 sp_tag에 연결
         userDataHelper = new UserDataHelper();
@@ -69,6 +80,16 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        Intent postIntent = getIntent();
+        et_title.setText(postIntent.getExtras().getString("email"));
+        et_content.setText(postIntent.getExtras().getString("content"));
+        if(postIntent.getExtras().getString("boardtype").equals("question")){
+            sp_board.setSelection(1);
+        }
+        else if(postIntent.getExtras().getString("boardtype").equals("free")){
+            sp_board.setSelection(2);
+        }
+
         //게시글 등록버톤
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +100,8 @@ public class PostActivity extends AppCompatActivity {
                 String content = et_content.getText().toString().replace("\n","  ");
                 String writer = PrefsHelper.read("name", "");
                 ArrayList<String> tagList = new ArrayList<>();
+                Long id = postIntent.getExtras().getLong("id");
+                System.out.println("아이디 값 : " + id);
 
                 SparseBooleanArray checkedItems = list_item.getCheckedItemPositions();
                 //0번부터 리스트의 개수만큼
@@ -89,16 +112,26 @@ public class PostActivity extends AppCompatActivity {
                     }
                 }
 
-                if(sp_board.getSelectedItem().equals("질문게시판")){
-                    if(checkedItems.size() == 0){
-                        Toast.makeText(PostActivity.this, "태그를 선택하여 주세요",Toast.LENGTH_SHORT).show();
+                if(id == 0){
+                    if(sp_board.getSelectedItem().equals("질문게시판")){
+                        if(checkedItems.size() == 0){
+                            Toast.makeText(PostActivity.this, "태그를 선택하여 주세요",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            writeQuestion(title, "question", content, writer, tagList);
+                        }
                     }
-                    else{
-                        writeQuestion(title, "question", content, writer, tagList);
+                    else if(sp_board.getSelectedItem().equals("자유게시판")){
+                        writeFree(title, "free", content, writer);
                     }
                 }
-                else if(sp_board.getSelectedItem().equals("자유게시판")){
-                    writeFree(title, "free", content, writer);
+                else {
+                    if(sp_board.getSelectedItem().equals("질문게시판")){
+                        updateQuestionPost(id, title, "question", content, writer, tagList);
+                    }
+                    else{
+                        updateFreePost(id, title, "question", content, writer);
+                    }
                 }
             }
         });
@@ -126,9 +159,10 @@ public class PostActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                Log.d("실패 : ", t.getMessage());
             }
         });
+
 
     }
     //자유게시판 tag[]
@@ -147,6 +181,54 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 finish();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void updateQuestionPost(Long postID, String title, String boardType, String content, String writer, List<String> tagList) {
+
+        JsonObject jsonObject = new JsonObject();
+        JsonArray tagJsonArray = new JsonArray();
+        for (int i = 0; i < tagList.size(); i++){
+            tagJsonArray.add(tagList.get(i));
+        }
+
+        jsonObject.addProperty("title", title);
+        jsonObject.addProperty("boardType", boardType);
+        jsonObject.addProperty("writer", writer);
+        jsonObject.addProperty("content", content);
+        jsonObject.add("tags", tagJsonArray);
+
+        retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }
+
+    public void updateFreePost(Long postID, String title, String boardType, String content, String writer) {
+
+        JsonObject jsonObject = new JsonObject();
+        JsonArray tagJsonArray = new JsonArray();
+
+        jsonObject.addProperty("title", title);
+        jsonObject.addProperty("boardType", boardType);
+        jsonObject.addProperty("writer", writer);
+        jsonObject.addProperty("content", content);
+        jsonObject.add("tags", tagJsonArray);
+
+        retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
             }
 
             @Override

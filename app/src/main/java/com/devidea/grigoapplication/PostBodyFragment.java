@@ -1,5 +1,7 @@
 package com.devidea.grigoapplication;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.PopupMenu;
@@ -20,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,6 +94,7 @@ public class PostBodyFragment extends Fragment {
             recyclerView.setAdapter(adapter);
         }
 
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +119,16 @@ public class PostBodyFragment extends Fragment {
 
                             case R.id.revise:
                                 Toast.makeText(getContext(), "수정", Toast.LENGTH_LONG).show();
+
+                                Intent postIntent = new Intent(getActivity(), PostActivity.class);
+                                postIntent.putExtra("id", postBody.getId());
+                                postIntent.putExtra("email", postBody.getTitle());
+                                postIntent.putExtra("content", postBody.getContent());
+                                postIntent.putExtra("boardtype", postBody.getBoardType());
+                                postIntent.putExtra("tag", postBody.getTag());
+                                System.out.println("태그 :" + postBody.getId());
+                                startActivity(postIntent);
+
                                 break;
 
                             case R.id.delete:
