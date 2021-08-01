@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -188,6 +189,9 @@ public class PostBodyFragment extends Fragment {
                 Log.d("resion", String.valueOf(t.getCause()));
             }
         });
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().remove(PostBodyFragment.this).commit();
+        fragmentManager.popBackStack();
     }
 
     //댓글 update
