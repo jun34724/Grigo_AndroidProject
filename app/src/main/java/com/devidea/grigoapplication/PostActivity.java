@@ -111,36 +111,28 @@ public class PostActivity extends AppCompatActivity {
                         tagList.add(tagItem.get(i));
                     }
                 }
-                if(sp_board.getSelectedItem().equals("질문게시판")){
-                    if(checkedItems.size() == 0){
-                        Toast.makeText(PostActivity.this, "태그를 선택하여 주세요",Toast.LENGTH_SHORT).show();
+
+                if(id == 0){
+                    if(sp_board.getSelectedItem().equals("질문게시판")){
+                        if(checkedItems.size() == 0){
+                            Toast.makeText(PostActivity.this, "태그를 선택하여 주세요",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            writeQuestion(title, "question", content, writer, tagList);
+                        }
+                    }
+                    else if(sp_board.getSelectedItem().equals("자유게시판")){
+                        writeFree(title, "free", content, writer);
+                    }
+                }
+                else {
+                    if(sp_board.getSelectedItem().equals("질문게시판")){
+                        updateQuestionPost(id, title, "question", content, writer, tagList);
                     }
                     else{
-                        updatePost(id, title, "question", content, writer, tagList);
-                        //writeQuestion(title, "question", content, writer, tagList);
+                        updateFreePost(id, title, "question", content, writer);
                     }
                 }
-                else if(sp_board.getSelectedItem().equals("자유게시판")){
-                    writeFree(title, "free", content, writer);
-                    //updatePost(id, title, "question", content, writer, tagList);
-                }
-
-//                if(id == 0){
-//                    if(sp_board.getSelectedItem().equals("질문게시판")){
-//                        if(checkedItems.size() == 0){
-//                            Toast.makeText(PostActivity.this, "태그를 선택하여 주세요",Toast.LENGTH_SHORT).show();
-//                        }
-//                        else{
-//                            writeQuestion(title, "question", content, writer, tagList);
-//                        }
-//                    }
-//                    else if(sp_board.getSelectedItem().equals("자유게시판")){
-//                        writeFree(title, "free", content, writer);
-//                    }
-//                }
-//                else {
-//                    updatePost(id, title, "question", content, writer, tagList);
-//                }
             }
         });
     }
@@ -198,7 +190,7 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
-    public void updatePost(Long postID, String title, String boardType, String content, String writer, List<String> tagList) {
+    public void updateQuestionPost(Long postID, String title, String boardType, String content, String writer, List<String> tagList) {
 
         JsonObject jsonObject = new JsonObject();
         JsonArray tagJsonArray = new JsonArray();
@@ -215,14 +207,33 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("성공 : ", String.valueOf(response.body()));
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.d("실패 : ", String.valueOf(t.getCause()));
-                System.out.println("아이디  : " + postID);
-                System.out.println("제이슨  : " + jsonObject);
+            }
+        });
+    }
+
+    public void updateFreePost(Long postID, String title, String boardType, String content, String writer) {
+
+        JsonObject jsonObject = new JsonObject();
+        JsonArray tagJsonArray = new JsonArray();
+
+        jsonObject.addProperty("title", title);
+        jsonObject.addProperty("boardType", boardType);
+        jsonObject.addProperty("writer", writer);
+        jsonObject.addProperty("content", content);
+        jsonObject.add("tags", tagJsonArray);
+
+        retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
             }
         });
     }
