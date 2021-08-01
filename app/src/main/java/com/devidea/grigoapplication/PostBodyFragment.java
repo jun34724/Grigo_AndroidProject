@@ -29,8 +29,8 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 public class PostBodyFragment extends Fragment {
 
     private static PostDTO postBody = new PostDTO();
-    private RecyclerView recyclerView;
-    private CommentListViewer adapter;
+    private static RecyclerView recyclerView;
+    private static CommentListViewer adapter;
 
     public PostBodyFragment() {
         // Required empty public constructor
@@ -42,22 +42,6 @@ public class PostBodyFragment extends Fragment {
         postBody = postBodyInstance;
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public static void deleteComment(Long postID) {
-        Log.d("delete", String.valueOf(postID));
-
-        retrofitService.deleteComment(postID).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
     }
 
     @Override
@@ -83,7 +67,7 @@ public class PostBodyFragment extends Fragment {
 
         Log.d("post_isUserCheck : ", String.valueOf(postBody.isUserCheck()));
 
-        /*
+
         if(postBody.isUserCheck()){
             option.setVisibility(View.VISIBLE);
         }
@@ -91,10 +75,7 @@ public class PostBodyFragment extends Fragment {
             option.setVisibility(View.INVISIBLE);
         }
 
-         */
-
         EditText et_comm = rootView.findViewById(R.id.input_comment);
-
 
         title.setText(postBody.getTitle());
         content.setText(postBody.getContent());
@@ -154,6 +135,7 @@ public class PostBodyFragment extends Fragment {
 
     }
 
+    //댓글 추가
     public void postComment(JsonObject jsonObject, Long postID) {
         Log.d("url", String.valueOf(jsonObject));
         Log.d("url", String.valueOf(postID));
@@ -171,9 +153,30 @@ public class PostBodyFragment extends Fragment {
                 Log.d("getCause", String.valueOf(t.getCause()));
             }
         });
+        updateCommentList(postBody.getId());
     }
 
-    public void deletePost(Long PostID){
+    //댓글 삭제
+    public static void deleteComment(Long postID) {
+        Log.d("delete", String.valueOf(postID));
+
+        retrofitService.deleteComment(postID).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("resion", String.valueOf(t.getCause()));
+
+            }
+        });
+        updateCommentList(postBody.getId());
+    }
+
+    //글 삭제
+    public void deletePost(Long PostID) {
         retrofitService.deletePost(PostID).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -182,9 +185,32 @@ public class PostBodyFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("resion", String.valueOf(t.getCause()));
+            }
+        });
+    }
+
+    //댓글 update
+    public static void updateCommentList(Long postID) {
+        retrofitService.getPostBody(postID).enqueue(new Callback<PostDTO>() {
+
+            @Override
+            public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
+                Log.d("body", String.valueOf(call.request()));
+                if (response.body() != null) {
+                    Log.d("body", "hi");
+                    adapter = null;
+                    adapter = new CommentListViewer(response.body().getComments());
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostDTO> call, Throwable t) {
 
             }
         });
+
     }
 
 }

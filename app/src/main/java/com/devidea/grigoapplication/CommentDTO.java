@@ -4,6 +4,16 @@ public class CommentDTO {
     private Long id;
     private String content;
     private String timeStamp;
+    private String writer;
+
+    public String getWriter() {
+        return writer;
+    }
+
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
+
     private boolean userCheck = false;
 
     public boolean isUserCheck() {
