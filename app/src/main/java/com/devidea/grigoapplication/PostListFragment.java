@@ -113,7 +113,12 @@ public class PostListFragment extends Fragment {
         btn_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), PostActivity.class));
+                Intent postIntent = new Intent(getActivity(), PostActivity.class);
+                postIntent.putExtra("id", 0L);
+                postIntent.putExtra("email", "");
+                postIntent.putExtra("content","");
+                postIntent.putExtra("boardtype","");
+                startActivity(postIntent);
             }
         });
 
