@@ -3,14 +3,9 @@ package com.devidea.grigoapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -38,9 +33,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             //테스트
-            case R.id.menu_search:
-                Toast.makeText(this, "검색", Toast.LENGTH_SHORT).show();
+            case R.id.menu_alert:
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                NotificationFragment notificationFragment = new NotificationFragment();
+                transaction.replace(R.id.main_frame, notificationFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 return true;
+
             case R.id.menu_mypage:
                 //Toast.makeText(this,"설정",Toast.LENGTH_SHORT).show();
                 Intent mypageIntent = new Intent(MainActivity.this, MyPageActivity.class);

@@ -2,18 +2,15 @@ package com.devidea.grigoapplication;
 
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 //사용될 URL 저장. URL 확정이 안되있음으로 추후 변경
 public interface RetrofitService {
@@ -90,5 +87,9 @@ public interface RetrofitService {
     //게시글 삭제
     @POST("posts/{postId}/delete")
     Call<JsonObject> deletePost(@Path("postId") Long postID);
+
+    //알람 확인
+    @GET("notification")
+    Call<ArrayList<NotificationDTO>> getNotification();
 
 }
