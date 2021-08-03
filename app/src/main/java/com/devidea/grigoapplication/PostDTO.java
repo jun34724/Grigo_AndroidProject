@@ -15,6 +15,13 @@ public class PostDTO {
     private String timeStamp;
     private boolean userCheck = true;
 
+    public PostDTO() {
+    }
+
+    public PostDTO(String title) {
+        this.title = title;
+    }
+
     public boolean isUserCheck() {
         return userCheck;
     }

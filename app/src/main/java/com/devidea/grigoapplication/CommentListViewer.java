@@ -1,13 +1,10 @@
 package com.devidea.grigoapplication;
 
-import android.app.Dialog;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +42,7 @@ public class CommentListViewer extends RecyclerView.Adapter<RecyclerView.ViewHol
         commentHolder.writer.setText(String.valueOf(commentDTO.get(position).getWriter()));
         commentHolder.time.setText(commentDTO.get(position).getTimeStamp());
 
-        Log.d("isUserCheck : ", String.valueOf(commentDTO.get(position).isUserCheck()));
-
+        //본인이 작성한 글이 아닐경우 수정 버튼 노출 안함.
         if(commentDTO.get(position).isUserCheck()){
             commentHolder.btn_delete.setVisibility(View.VISIBLE);
         }
@@ -66,24 +62,8 @@ public class CommentListViewer extends RecyclerView.Adapter<RecyclerView.ViewHol
                         switch (item.getItemId()) {
 
                             case R.id.revise:
-                                CustomDialog dialog = new CustomDialog(v.getContext(), commentDTO.get(position).getId(), commentDTO.get(position).getContent());
-
-
-                                //화면 사이즈 구하기
-                                DisplayMetrics dm = v.getContext().getApplicationContext().getResources().getDisplayMetrics();
-                                int width = dm.widthPixels; int height = dm.heightPixels;
-
-                                //다이얼로그 사이즈 세팅
-                                WindowManager.LayoutParams wm = dialog.getWindow().getAttributes();
-                                wm.copyFrom(dialog.getWindow().getAttributes());
-                                wm.width = width;
-                                //wm.height = height/2;
-
-                                //다이얼로그 Listener 세팅
-                                //dialog.setDialogListener(this);
-
+                                CommentUpdateDialog dialog = new CommentUpdateDialog(v.getContext(), commentDTO.get(position).getId(), commentDTO.get(position).getContent());
                                 dialog.show();
-
                                 break;
 
                             case R.id.delete:

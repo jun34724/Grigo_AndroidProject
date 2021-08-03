@@ -1,5 +1,6 @@
 package com.devidea.grigoapplication;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,9 @@ class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if(getItemCount()>position){
+        Log.d("position()",String.valueOf(position));
+        Log.d("getItemCount()",String.valueOf(getItemCount()));
+        if(getItemCount()-1>position){
             return VIEW_TYPE_ITEM;
         }
         else {
@@ -67,7 +70,7 @@ class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if(getItemCount()>position){
+        if(getItemCount()-1>position){
             PostListViewHolder listViewHolder = (PostListViewHolder) holder;
 
             listViewHolder.title.setText(postDTOArrayList.get(position).getTitle());

@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class BoardFragment extends Fragment {
     private View view;
-    private Button btn_question, btn_free, btn_write;
+    private Button btn_question, btn_free;
 
     public BoardFragment(){
 

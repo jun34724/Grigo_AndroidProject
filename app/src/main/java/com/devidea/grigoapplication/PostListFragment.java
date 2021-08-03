@@ -36,6 +36,7 @@ public class PostListFragment extends Fragment {
 
     private static String boardTitle; // 생성할 게시판 유뮤
     private static String boardType;
+
     private boolean isNext = true; // 다음 페이지 유무
     private Long id = 100L;       // 현재 페이지
     private final int size = 10;    // 한 번에 가져올 아이템 수
@@ -88,12 +89,17 @@ public class PostListFragment extends Fragment {
 
                 if (!recyclerView.canScrollVertically(1)) {
                     if (isNext) {
+                        Log.d("isbottom","isbottom");
                         getPostList();
+
+                        /*
                         recyclerView.post(new Runnable() {
                             public void run() {
                                 adapter.notifyDataSetChanged();
                             }
                         });
+
+                         */
                     }
 
                 }
@@ -134,13 +140,27 @@ public class PostListFragment extends Fragment {
 
                 try {
                     postDTOArrayList.addAll(response.body().getPostDTOS());
-                    Log.d("postlist", String.valueOf(postDTOArrayList.get(0).getContent()));
+                    //postDTOArrayList.add(new PostDTO(""));
                     id = postDTOArrayList.get(postDTOArrayList.size() - 1).getId();
                     isNext = response.body().getHasNext();
 
                     if (adapter == null) {
                         adapter = new PostListViewer(postDTOArrayList);
                         recyclerView.setAdapter(adapter);
+                    }
+
+                    else {
+                        recyclerView.post(new Runnable() {
+                            public void run() {
+                                try {
+                                    Thread.sleep(500);
+                                    adapter.notifyDataSetChanged();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
                     }
 
                 } catch (Exception e) {
