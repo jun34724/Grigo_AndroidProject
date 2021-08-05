@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

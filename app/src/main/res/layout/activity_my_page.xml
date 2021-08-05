@@ -213,7 +213,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="280dp"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="100dp"
@@ -221,20 +221,30 @@
 
                 <Button
                     android:id="@+id/btn_updatePass"
-                    android:layout_width="140dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="비밀번호 수정"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_updateProfile"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="프로필 수정"
                     android:textColor="#ffffff"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/btn_updateProfile"
-                    android:layout_width="140dp"
+                    android:id="@+id/btn_updateTag"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="프로필 수정"
+                    android:text="태그 수정"
                     android:textColor="#ffffff"
                     android:textSize="16sp"
                     android:textStyle="bold" />

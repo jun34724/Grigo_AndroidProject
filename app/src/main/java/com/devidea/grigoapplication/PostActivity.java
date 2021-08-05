@@ -80,14 +80,25 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        //게시글 수정
         Intent postIntent = getIntent();
-        et_title.setText(postIntent.getExtras().getString("email"));
-        et_content.setText(postIntent.getExtras().getString("content"));
-        if(postIntent.getExtras().getString("boardtype").equals("question")){
-            sp_board.setSelection(1);
-        }
-        else if(postIntent.getExtras().getString("boardtype").equals("free")){
-            sp_board.setSelection(2);
+        Long id = postIntent.getExtras().getLong("id");
+        if(id != 0){
+            et_title.setText(postIntent.getExtras().getString("email"));
+            et_content.setText(postIntent.getExtras().getString("content"));
+            if(postIntent.getExtras().getString("boardtype").equals("question")){
+                sp_board.setSelection(1);
+            }
+            else if(postIntent.getExtras().getString("boardtype").equals("free")){
+                sp_board.setSelection(2);
+            }
+            for(int i = 0; i < tagItem.size(); i++){
+                for(int j = 0; j < postIntent.getExtras().getStringArrayList("tags").size(); j++){
+                    if(tagItem.get(i).equals(postIntent.getExtras().getStringArrayList("tags").get(j))){
+                        list_item.setItemChecked(i, true);
+                    }
+                }
+            }
         }
 
         //게시글 등록버톤
@@ -100,7 +111,7 @@ public class PostActivity extends AppCompatActivity {
                 String content = et_content.getText().toString().replace("\n","  ");
                 String writer = PrefsHelper.read("name", "");
                 ArrayList<String> tagList = new ArrayList<>();
-                Long id = postIntent.getExtras().getLong("id");
+
                 System.out.println("아이디 값 : " + id);
 
                 SparseBooleanArray checkedItems = list_item.getCheckedItemPositions();
@@ -149,7 +160,7 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tags", tagJsonArray);
+        jsonObject.add("tag", tagJsonArray);
 
         retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
             @Override
@@ -159,7 +170,7 @@ public class PostActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.d("실패 : ", t.getMessage());
+
             }
         });
 
@@ -175,7 +186,7 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tags", tagJsonArray);
+        jsonObject.add("tag", tagJsonArray);
 
         retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
             @Override
@@ -202,11 +213,12 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tags", tagJsonArray);
+        jsonObject.add("tag", tagJsonArray);
 
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                finish();
             }
 
             @Override
@@ -224,11 +236,12 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tags", tagJsonArray);
+        jsonObject.add("tag", tagJsonArray);
 
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                finish();
             }
 
             @Override

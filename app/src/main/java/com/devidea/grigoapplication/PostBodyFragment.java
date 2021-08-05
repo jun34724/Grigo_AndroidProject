@@ -125,8 +125,8 @@ public class PostBodyFragment extends Fragment {
                                 postIntent.putExtra("email", postBody.getTitle());
                                 postIntent.putExtra("content", postBody.getContent());
                                 postIntent.putExtra("boardtype", postBody.getBoardType());
-                                postIntent.putExtra("tag", postBody.getTag());
-                                System.out.println("태그 :" + postBody.getId());
+                                postIntent.putExtra("tags", postBody.getTag());
+                                System.out.println("태그 :" + postBody.getTag());
                                 startActivity(postIntent);
 
                                 break;

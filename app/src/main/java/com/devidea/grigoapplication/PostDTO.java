@@ -1,8 +1,6 @@
 package com.devidea.grigoapplication;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PostDTO {
     private Long id;
