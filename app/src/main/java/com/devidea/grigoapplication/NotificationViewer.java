@@ -15,7 +15,17 @@ import java.util.ArrayList;
 
 public class NotificationViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-private final ArrayList<NotificationDTO> notificationDTOS;
+    private final ArrayList<NotificationDTO> notificationDTOS;
+
+    private static OnItemClickListener mListener = null;
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int pos);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
 
     public NotificationViewer(ArrayList<NotificationDTO> notificationDTOS) {
         this.notificationDTOS = notificationDTOS;
@@ -46,7 +56,7 @@ private final ArrayList<NotificationDTO> notificationDTOS;
 
 
     static class NotificationViewHolder extends RecyclerView.ViewHolder {
-    TextView tag;
+        TextView tag;
     /*
     TextView writer;
     TextView time;
@@ -54,10 +64,24 @@ private final ArrayList<NotificationDTO> notificationDTOS;
 
      */
 
-    public NotificationViewHolder(@NonNull @NotNull View itemView) {
-        super(itemView);
+        public NotificationViewHolder(@NonNull @NotNull View itemView) {
+            super(itemView);
 
-        tag = itemView.findViewById(R.id.tag);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getBindingAdapterPosition();
+                    //Log.d("position", String.valueOf(pos));
+
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onItemClick(v, pos);
+                        }
+                    }
+                }
+            });
+
+            tag = itemView.findViewById(R.id.tag);
         /*
         writer = itemView.findViewById(R.id.writer);
         time = itemView.findViewById(R.id.time);
@@ -66,7 +90,7 @@ private final ArrayList<NotificationDTO> notificationDTOS;
          */
 
 
+        }
     }
-}
 
 }

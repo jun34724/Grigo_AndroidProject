@@ -70,10 +70,9 @@ public class PostBodyFragment extends Fragment {
         Log.d("post_isUserCheck : ", String.valueOf(postBody.isUserCheck()));
 
 
-        if(postBody.isUserCheck()){
+        if (postBody.isUserCheck()) {
             option.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             option.setVisibility(View.INVISIBLE);
         }
 
@@ -150,19 +149,17 @@ public class PostBodyFragment extends Fragment {
 
     //댓글 추가
     public void postComment(JsonObject jsonObject, Long postID) {
-        Log.d("url", String.valueOf(jsonObject));
-        Log.d("url", String.valueOf(postID));
-        retrofitService.postComment(postID, jsonObject).enqueue(new Callback<JsonObject>() {
+        retrofitService.postComment(postID, jsonObject).enqueue(new Callback<ResponseDTO>() {
 
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 Log.d("url", String.valueOf(call.request()));
 
 
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 Log.d("getCause", String.valueOf(t.getCause()));
             }
         });
@@ -212,9 +209,7 @@ public class PostBodyFragment extends Fragment {
 
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
-                Log.d("body", String.valueOf(call.request()));
                 if (response.body() != null) {
-                    Log.d("body", "hi");
                     adapter = null;
                     adapter = new CommentListViewer(response.body().getComments());
                     recyclerView.setAdapter(adapter);

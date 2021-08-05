@@ -23,7 +23,7 @@ public class CommentUpdateDialog extends Dialog {
 
     EditText editText;
     Button button;
-    private OnDialogListener listener;
+
 
     public CommentUpdateDialog(@NonNull Context context, final Long commentID, String comment) {
         super(context);
@@ -68,8 +68,5 @@ public class CommentUpdateDialog extends Dialog {
 
 
     }
-    //추후 리스너 이용해 수정 함수 bodyFragment 이동, 화면 업데이트
-    public void setDialogListener(OnDialogListener listener){ this.listener = listener; }
-
 
 }

@@ -62,7 +62,7 @@ public interface RetrofitService {
     //댓글 등록
     @Headers("Content-Type: application/json")
     @POST("{commentId}/comment")
-    Call<JsonObject> postComment(@Path("commentId") Long postID, @Body JsonObject param);
+    Call<ResponseDTO> postComment(@Path("commentId") Long postID, @Body JsonObject param);
 
     //댓글 수정
     @Headers("Content-Type: application/json")
@@ -92,4 +92,7 @@ public interface RetrofitService {
     @GET("notification")
     Call<ArrayList<NotificationDTO>> getNotification();
 
+    //알람 읽음 요청
+    @GET("notification/{postId}")
+    Call<JsonObject> NotificationRead(@Path("postId") Long postID);
 }

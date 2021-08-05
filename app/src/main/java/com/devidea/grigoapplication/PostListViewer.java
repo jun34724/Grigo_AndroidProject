@@ -36,8 +36,6 @@ class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        Log.d("position()",String.valueOf(position));
-        Log.d("getItemCount()",String.valueOf(getItemCount()));
         if(getItemCount()-1>position){
             return VIEW_TYPE_ITEM;
         }
