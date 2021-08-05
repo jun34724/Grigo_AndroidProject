@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class BoardFragment extends Fragment {
     private View view;
-    private Button btn_question, btn_free, btn_write;
+    private Button btn_question, btn_free;
 
     public BoardFragment(){
 
@@ -35,7 +35,7 @@ public class BoardFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 PostListFragment postListFragment = PostListFragment.newInstance("질문게시판");
-                transaction.replace(R.id.frame2, postListFragment);
+                ((MainActivity) getActivity()).replaceFragment(postListFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -46,7 +46,7 @@ public class BoardFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 PostListFragment postListFragment = PostListFragment.newInstance("자유게시판");
-                transaction.replace(R.id.frame2, postListFragment);
+                ((MainActivity) getActivity()).replaceFragment(postListFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
