@@ -89,17 +89,9 @@ public class PostListFragment extends Fragment {
 
                 if (!recyclerView.canScrollVertically(1)) {
                     if (isNext) {
-                        Log.d("isbottom","isbottom");
+                        Log.d("isbottom", "isbottom");
                         getPostList();
 
-                        /*
-                        recyclerView.post(new Runnable() {
-                            public void run() {
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-
-                         */
                     }
 
                 }
@@ -122,8 +114,8 @@ public class PostListFragment extends Fragment {
                 Intent postIntent = new Intent(getActivity(), PostActivity.class);
                 postIntent.putExtra("id", 0L);
                 postIntent.putExtra("email", "");
-                postIntent.putExtra("content","");
-                postIntent.putExtra("boardtype","");
+                postIntent.putExtra("content", "");
+                postIntent.putExtra("boardtype", "");
                 startActivity(postIntent);
             }
         });
@@ -140,7 +132,9 @@ public class PostListFragment extends Fragment {
 
                 try {
                     postDTOArrayList.addAll(response.body().getPostDTOS());
-                    //postDTOArrayList.add(new PostDTO(""));
+                    if (!response.body().getHasNext()) {
+                        postDTOArrayList.add(new PostDTO(""));
+                    }
                     id = postDTOArrayList.get(postDTOArrayList.size() - 1).getId();
                     isNext = response.body().getHasNext();
 
@@ -149,24 +143,20 @@ public class PostListFragment extends Fragment {
                         recyclerView.setAdapter(adapter);
                     }
 
-                    else {
-                        recyclerView.post(new Runnable() {
-                            public void run() {
-                                try {
-                                    Thread.sleep(500);
-                                    adapter.notifyDataSetChanged();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                    recyclerView.post(new Runnable() {
+                        public void run() {
+                            try {
+                                Thread.sleep(500);
+                                adapter.notifyDataSetChanged();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
-                        });
-
-                    }
+                        }
+                    });
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
 
             }
 

@@ -49,14 +49,14 @@ public class CommentUpdateDialog extends Dialog {
                 String comment = editText.getText().toString();
                 JsonObject json = new JsonObject();
                 json.addProperty("content", comment);
-                retrofitService.updateComment(commentID, json).enqueue(new Callback<JsonObject>() {
+                retrofitService.updateComment(commentID, json).enqueue(new Callback<ResponseDTO>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
 
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(Call<ResponseDTO> call, Throwable t) {
 
                     }
                 });

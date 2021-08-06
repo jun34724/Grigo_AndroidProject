@@ -1,6 +1,7 @@
 package com.devidea.grigoapplication;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +36,8 @@ public class PostBodyFragment extends Fragment {
     private static PostDTO postBody = new PostDTO();
     private static RecyclerView recyclerView;
     private static CommentListViewer adapter;
+
+    private Context context = this.getContext();
 
     public PostBodyFragment() {
         // Required empty public constructor
@@ -147,42 +152,40 @@ public class PostBodyFragment extends Fragment {
 
     }
 
-    //댓글 추가
+    //댓글 등록
     public void postComment(JsonObject jsonObject, Long postID) {
         retrofitService.postComment(postID, jsonObject).enqueue(new Callback<ResponseDTO>() {
 
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
-                Log.d("url", String.valueOf(call.request()));
-
-
+                Log.d("comment", String.valueOf(response.body()));
+                //updateCommentList(postBody.getId());
             }
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                Log.d("getCause", t.getMessage());
+
             }
         });
-        updateCommentList(postBody.getId());
     }
 
     //댓글 삭제
     public static void deleteComment(Long postID) {
         Log.d("delete", String.valueOf(postID));
 
-        retrofitService.deleteComment(postID).enqueue(new Callback<JsonObject>() {
+        retrofitService.deleteComment(postID).enqueue(new Callback<ResponseDTO>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
+            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                //updateCommentList(postBody.getId());
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 Log.d("resion", String.valueOf(t.getCause()));
 
             }
         });
-        updateCommentList(postBody.getId());
+
     }
 
     //글 삭제
@@ -203,17 +206,15 @@ public class PostBodyFragment extends Fragment {
         fragmentManager.popBackStack();
     }
 
-    //댓글 update
+    //댓글 리스트 새로고침
     public static void updateCommentList(Long postID) {
         retrofitService.getPostBody(postID).enqueue(new Callback<PostDTO>() {
 
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
-                if (response.body() != null) {
-                    adapter = null;
-                    adapter = new CommentListViewer(response.body().getComments());
-                    recyclerView.setAdapter(adapter);
-                }
+                adapter = null;
+                adapter = new CommentListViewer(response.body().getComments());
+                recyclerView.setAdapter(adapter);
             }
 
             @Override

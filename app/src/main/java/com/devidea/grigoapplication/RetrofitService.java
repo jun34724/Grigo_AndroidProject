@@ -60,19 +60,19 @@ public interface RetrofitService {
     );
 
     //댓글 등록
-    @Headers("Content-Type: application/String")
+    @Headers("Content-Type: application/json")
     @POST("{commentId}/comment")
     Call<ResponseDTO> postComment(@Path("commentId") Long postID, @Body JsonObject param);
 
     //댓글 수정
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/String")
     @POST("/comment/change/{commentId}")
-    Call<JsonObject> updateComment(@Path("commentId") Long postID, @Body JsonObject param);
+    Call<ResponseDTO> updateComment(@Path("commentId") Long postID, @Body JsonObject param);
 
     //댓글 삭제
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/String")
     @POST("comment/{commentId}")
-    Call<JsonObject> deleteComment(@Path("commentId") Long postID);
+    Call<ResponseDTO> deleteComment(@Path("commentId") Long postID);
 
     //게시글 등록
     @Headers("Content-Type: application/json")
