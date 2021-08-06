@@ -113,9 +113,6 @@ public class PostListFragment extends Fragment {
             public void onClick(View view) {
                 Intent postIntent = new Intent(getActivity(), PostActivity.class);
                 postIntent.putExtra("id", 0L);
-                postIntent.putExtra("email", "");
-                postIntent.putExtra("content", "");
-                postIntent.putExtra("boardtype", "");
                 startActivity(postIntent);
             }
         });

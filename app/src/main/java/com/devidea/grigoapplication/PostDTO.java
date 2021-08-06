@@ -1,8 +1,6 @@
 package com.devidea.grigoapplication;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PostDTO {
     private Long id;
@@ -10,7 +8,7 @@ public class PostDTO {
     private String writer;
     private String content;
     private String boardType;
-    private ArrayList<String> tag = new ArrayList<>();
+    private ArrayList<String> tags = new ArrayList<>();
     private ArrayList<CommentDTO> comments = new ArrayList<>();
     private String timeStamp;
     private boolean userCheck = true;
@@ -70,12 +68,12 @@ public class PostDTO {
         this.boardType = boardType;
     }
 
-    public ArrayList<String> getTag() {
-        return tag;
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
-    public void setTag(ArrayList<String> tag) {
-        this.tag = tag;
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 
     public ArrayList<CommentDTO> getComments() {

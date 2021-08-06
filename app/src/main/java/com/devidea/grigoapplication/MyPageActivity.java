@@ -12,7 +12,7 @@ public class MyPageActivity extends AppCompatActivity {
 
     TextView tv_email, tv_name, tv_student_id, tv_sex, tv_phone, tv_birth, tv_tag;
 
-    Button btn_updateProfile, btn_updatePass;
+    Button btn_updateProfile, btn_updatePass, btn_updateTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         btn_updatePass = findViewById(R.id.btn_updatePass);
         btn_updateProfile = findViewById(R.id.btn_updateProfile);
+        btn_updateTag = findViewById(R.id.btn_updateTag);
 
         btn_updateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +43,14 @@ public class MyPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyPageActivity.this, UpdatePassActivity.class);
+                MyPageActivity.this.startActivity(intent);
+            }
+        });
+
+        btn_updateTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyPageActivity.this, UpdateTagActivity.class);
                 MyPageActivity.this.startActivity(intent);
             }
         });
