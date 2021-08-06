@@ -1,12 +1,7 @@
 package com.devidea.grigoapplication;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -160,7 +155,7 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tag", tagJsonArray);
+        jsonObject.add("tags", tagJsonArray);
 
         retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
             @Override
@@ -170,7 +165,7 @@ public class PostActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                Log.d("실패 : ", t.getMessage());
             }
         });
 
@@ -186,7 +181,7 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tag", tagJsonArray);
+        jsonObject.add("tags", tagJsonArray);
 
         retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
             @Override
@@ -203,17 +198,51 @@ public class PostActivity extends AppCompatActivity {
 
     public void updateQuestionPost(Long postID, String title, String boardType, String content, String writer, List<String> tagList) {
 
+        ArrayList<String> postTag = getIntent().getExtras().getStringArrayList("tags");
+
         JsonObject jsonObject = new JsonObject();
         JsonArray tagJsonArray = new JsonArray();
         for (int i = 0; i < tagList.size(); i++){
             tagJsonArray.add(tagList.get(i));
         }
 
+        //중복된 태그를 찾는 리스트
+        List<String> tag = new ArrayList<>();
+
+        for (int i = 0; i < postTag.size(); i++) {
+            for (int j = 0; j < tagList.size(); j++) {
+                if (tagList.get(j).equals(postTag.get(i))) {
+                    tag.add(tagList.get(j));
+                }
+            }
+        }
+        tagList.removeAll(tag);
+        postTag.removeAll(tag);
+
+        List<String> addTag = tagList;
+        List<String> delTag = postTag;
+
+        //System.out.println("출력 : " + addTag + delTag);
+
+        JsonArray addtagArray = new JsonArray();
+        for (int i = 0; i < addTag.size(); i++){
+            addtagArray.add(addTag.get(i));
+        }
+
+        JsonArray deltagArray = new JsonArray();
+        for (int i = 0; i < delTag.size(); i++){
+            deltagArray.add(delTag.get(i));
+        }
+
         jsonObject.addProperty("title", title);
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tag", tagJsonArray);
+        jsonObject.add("tags", tagJsonArray);
+        jsonObject.add("addTags", addtagArray);
+        jsonObject.add("delTags", deltagArray);
+
+        System.out.println("제이슨 출력 : " + jsonObject);
 
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
             @Override
@@ -236,7 +265,7 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("boardType", boardType);
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
-        jsonObject.add("tag", tagJsonArray);
+        jsonObject.add("tags", tagJsonArray);
 
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
             @Override
