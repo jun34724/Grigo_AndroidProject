@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_search"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="search"
-
+        android:id="@+id/menu_alert"
+        android:icon="@drawable/outline_notifications_black_24"
+        android:title="alert"
         app:showAsAction="always" />
+
     <group>
         <item
             android:id="@+id/menu_mypage"

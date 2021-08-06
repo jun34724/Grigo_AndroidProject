@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
             android:orientation="vertical">
+            <!--하단 버튼 없어지면 마진 삭제-->
 
             <TextView
                 android:id="@+id/post_title"
@@ -62,7 +63,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="end"
                     android:background="@drawable/baseline_more_vert_black_24"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -82,25 +83,21 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
+            android:layout_weight="5"
             android:text="content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="40dp"
+            android:layout_weight="5" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:layout_marginBottom="50dp">
 
             <EditText
                 android:id="@+id/input_comment"
@@ -113,10 +110,10 @@
 
             <Button
                 android:id="@+id/send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="입력" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/baseline_send_black_48" />
+
 
         </LinearLayout>
 

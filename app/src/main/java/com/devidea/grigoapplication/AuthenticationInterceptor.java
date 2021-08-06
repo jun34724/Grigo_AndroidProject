@@ -8,6 +8,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+//로그인 성공후 JWT토큰 받아온 경우 이후 통신요청에 대해 토큰 자동 삽입.
 public class AuthenticationInterceptor implements Interceptor {
 
     private final String authToken;

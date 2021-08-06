@@ -2,18 +2,15 @@ package com.devidea.grigoapplication;
 
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 //사용될 URL 저장. URL 확정이 안되있음으로 추후 변경
 public interface RetrofitService {
@@ -65,17 +62,17 @@ public interface RetrofitService {
     //댓글 등록
     @Headers("Content-Type: application/json")
     @POST("{commentId}/comment")
-    Call<JsonObject> postComment(@Path("commentId") Long postID, @Body JsonObject param);
+    Call<ResponseDTO> postComment(@Path("commentId") Long postID, @Body JsonObject param);
 
     //댓글 수정
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/String")
     @POST("/comment/change/{commentId}")
-    Call<JsonObject> updateComment(@Path("commentId") Long postID, @Body JsonObject param);
+    Call<ResponseDTO> updateComment(@Path("commentId") Long postID, @Body JsonObject param);
 
     //댓글 삭제
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/String")
     @POST("comment/{commentId}")
-    Call<JsonObject> deleteComment(@Path("commentId") Long postID);
+    Call<ResponseDTO> deleteComment(@Path("commentId") Long postID);
 
     //게시글 등록
     @Headers("Content-Type: application/json")
@@ -91,4 +88,11 @@ public interface RetrofitService {
     @POST("posts/{postId}/delete")
     Call<JsonObject> deletePost(@Path("postId") Long postID);
 
+    //알람 확인
+    @GET("notification")
+    Call<ArrayList<NotificationDTO>> getNotification();
+
+    //알람 읽음 요청
+    @GET("notification/{postId}")
+    Call<JsonObject> NotificationRead(@Path("postId") Long postID);
 }

@@ -3,14 +3,10 @@ package com.devidea.grigoapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,11 +17,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.devidea.grigoapplication.LoginActivity.retrofitService;
+
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
-
     Button btn1, btn_board;
 
+    private boolean isNotification = false;
 
     //Toolbar
     @Override
@@ -35,12 +39,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.d("isnoti", String.valueOf(isNotification));
+        if(isNotification) {
+            menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_active_black_24);
+        }
+        else {
+            menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_black_24);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            //테스트
-            case R.id.menu_search:
-                Toast.makeText(this, "검색", Toast.LENGTH_SHORT).show();
+            //알림 확인 버튼
+            case R.id.menu_alert:
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                NotificationFragment notificationFragment = new NotificationFragment();
+                transaction.replace(R.id.main_frame, notificationFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 return true;
+
             case R.id.menu_mypage:
                 //Toast.makeText(this,"설정",Toast.LENGTH_SHORT).show();
                 Intent mypageIntent = new Intent(MainActivity.this, MyPageActivity.class);
@@ -54,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void replaceFragment(Fragment fragment){
+    //postlist -> postbody 전환을 위한 함수
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
@@ -91,6 +113,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        getNotification();
+    }
+
+    public void getNotification() {
+
+        retrofitService.getNotification().enqueue(new Callback<ArrayList<NotificationDTO>>() {
+            @Override
+            public void onResponse(Call<ArrayList<NotificationDTO>> call, Response<ArrayList<NotificationDTO>> response) {
+                if (!response.body().isEmpty()) {
+                    Log.d("noti", "true");
+                    isNotification = true;
+                    invalidateOptionsMenu();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<NotificationDTO>> call, Throwable t) {
+
+            }
+        });
 
     }
 }
