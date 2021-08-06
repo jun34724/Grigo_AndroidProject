@@ -83,8 +83,8 @@ public class PostBodyFragment extends Fragment {
         content.setText(postBody.getContent());
         writer.setText(postBody.getWriter());
         time.setText(postBody.getTimeStamp());
-        if (postBody.getTag() != null) {
-            teg.setText(String.valueOf(postBody.getTag()));
+        if (postBody.getTags() != null) {
+            teg.setText(String.valueOf(postBody.getTags()));
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_comment);
@@ -125,8 +125,8 @@ public class PostBodyFragment extends Fragment {
                                 postIntent.putExtra("email", postBody.getTitle());
                                 postIntent.putExtra("content", postBody.getContent());
                                 postIntent.putExtra("boardtype", postBody.getBoardType());
-                                postIntent.putExtra("tag", postBody.getTag());
-                                System.out.println("태그 :" + postBody.getId());
+                                postIntent.putExtra("tags", postBody.getTags());
+                                System.out.println("태그 :" + postBody.getTags());
                                 startActivity(postIntent);
 
                                 break;

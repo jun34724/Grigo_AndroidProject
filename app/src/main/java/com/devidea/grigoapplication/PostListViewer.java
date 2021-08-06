@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -72,7 +71,7 @@ class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             listViewHolder.title.setText(postDTOArrayList.get(position).getTitle());
             listViewHolder.content.setText(postDTOArrayList.get(position).getContent());
-            listViewHolder.teg.setText(String.valueOf(postDTOArrayList.get(position).getTag()));
+            listViewHolder.teg.setText(String.valueOf(postDTOArrayList.get(position).getTags()));
             listViewHolder.writer.setText(postDTOArrayList.get(position).getWriter());
             listViewHolder.time.setText(postDTOArrayList.get(position).getTimeStamp());
         }
