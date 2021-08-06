@@ -4,7 +4,6 @@ public class ResponseDTO {
 
     private StatusEnum status;
     private String message;
-    private Object data;
 
     public StatusEnum getStatus() {
         return status;
@@ -22,11 +21,4 @@ public class ResponseDTO {
         this.message = message;
     }
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
 }

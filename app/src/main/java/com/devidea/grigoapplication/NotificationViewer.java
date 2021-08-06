@@ -3,7 +3,6 @@ package com.devidea.grigoapplication;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,7 +44,7 @@ public class NotificationViewer extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
         NotificationViewHolder notificationViewHolder = (NotificationViewHolder) holder;
 
-        notificationViewHolder.tag.setText(notificationDTOS.get(position).getTag());
+        notificationViewHolder.title.setText(notificationDTOS.get(position).getTitle());
 
     }
 
@@ -56,7 +55,7 @@ public class NotificationViewer extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     static class NotificationViewHolder extends RecyclerView.ViewHolder {
-        TextView tag;
+        TextView title;
     /*
     TextView writer;
     TextView time;
@@ -81,7 +80,7 @@ public class NotificationViewer extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
 
-            tag = itemView.findViewById(R.id.tag);
+            title = itemView.findViewById(R.id.noti_title);
         /*
         writer = itemView.findViewById(R.id.writer);
         time = itemView.findViewById(R.id.time);

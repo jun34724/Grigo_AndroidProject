@@ -160,7 +160,7 @@ public class PostBodyFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                Log.d("getCause", String.valueOf(t.getCause()));
+                Log.d("getCause", t.getMessage());
             }
         });
         updateCommentList(postBody.getId());

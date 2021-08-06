@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="35dp"
-        android:text="TextView" />
+        android:text="읽지않은 알람이 없습니다." />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_notification"

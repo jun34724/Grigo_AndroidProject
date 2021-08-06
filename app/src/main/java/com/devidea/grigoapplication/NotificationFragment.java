@@ -1,10 +1,12 @@
 package com.devidea.grigoapplication;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,9 +23,11 @@ import retrofit2.Response;
 import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 
 public class NotificationFragment extends Fragment {
+    private TextView num_noti;
     private RecyclerView recyclerView;
     private NotificationViewer adapter;
     private ArrayList<NotificationDTO> notifications = new ArrayList<NotificationDTO>();
+    private TextView textView;
 
     public NotificationFragment() {
     }
@@ -41,7 +45,6 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_notification_list, container, false);
 
-
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         adapter = new NotificationViewer(notifications);
@@ -58,19 +61,23 @@ public class NotificationFragment extends Fragment {
         });
 
 
-
         return rootView;
     }
 
     public void getNotification() {
 
         retrofitService.getNotification().enqueue(new Callback<ArrayList<NotificationDTO>>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<ArrayList<NotificationDTO>> call, Response<ArrayList<NotificationDTO>> response) {
-                Log.d("hi", String.valueOf(response.body().get(0).getPostId()));
-                notifications.addAll(response.body());
-                adapter = new NotificationViewer(response.body());
-                recyclerView.setAdapter(adapter);
+                if (!response.body().isEmpty()) {
+                    notifications.addAll(response.body());
+
+                    num_noti.setText(notifications.size() + " 개의 알림이 있습니다.");
+
+                    adapter = new NotificationViewer(response.body());
+                    recyclerView.setAdapter(adapter);
+                }
             }
 
             @Override

@@ -3,7 +3,7 @@ package com.devidea.grigoapplication;
 public class NotificationDTO {
     private Long id;
     private Long postId;
-    private String tag;
+    private String title;
 
     public Long getId() {
         return id;
@@ -21,11 +21,11 @@ public class NotificationDTO {
         this.postId = postId;
     }
 
-    public String getTag() {
-        return tag;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

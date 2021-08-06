@@ -3,7 +3,6 @@ package com.devidea.grigoapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn1, btn_board;
 
-    private boolean isNotification = true;
-
+    private boolean isNotification = false;
 
     //Toolbar
     @Override
@@ -42,39 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //서버에서 알림 유/무를 확인해 아이콘을 바꿔줌. 서버에서 받아오는 지연시간이 있음으로 runOnUiThread를 통해 비동기로 진행.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getNotification();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isNotification) {
-                            Log.d("notiinner", "true");
-                            menu.findItem(R.id.menu_alert).setVisible(false);
-                            menu.findItem(R.id.menu_isalert).setVisible(true);
-                        } else {
-                            Log.d("notiinner", "false");
-                            menu.findItem(R.id.menu_alert).setVisible(true);
-                            menu.findItem(R.id.menu_isalert).setVisible(false);
-                        }
-
-                    }
-                });
-            }
-        });
-
-
+        Log.d("isnoti", String.valueOf(isNotification));
+        if(isNotification) {
+            menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_active_black_24);
+        }
+        else {
+            menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_black_24);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        getNotification();
         switch (item.getItemId()) {
             //알림 확인 버튼
-            case R.id.menu_isalert:
+            case R.id.menu_alert:
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 NotificationFragment notificationFragment = new NotificationFragment();
                 transaction.replace(R.id.main_frame, notificationFragment);
@@ -133,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        getNotification();
     }
 
     public void getNotification() {
@@ -144,9 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!response.body().isEmpty()) {
                     Log.d("noti", "true");
                     isNotification = true;
-                } else {
-                    isNotification = false;
-                    Log.d("noti", "false");
+                    invalidateOptionsMenu();
                 }
             }
 
@@ -155,5 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }

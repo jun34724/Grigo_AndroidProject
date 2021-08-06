@@ -5,15 +5,8 @@
         android:id="@+id/menu_alert"
         android:icon="@drawable/outline_notifications_black_24"
         android:title="alert"
-        android:visible="true"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/menu_isalert"
-        android:icon="@drawable/outline_notifications_active_black_24"
-        android:title="alert"
-        android:visible="false"
-        app:showAsAction="always" />
     <group>
         <item
             android:id="@+id/menu_mypage"

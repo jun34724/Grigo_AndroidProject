@@ -60,7 +60,7 @@ public interface RetrofitService {
     );
 
     //댓글 등록
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/String")
     @POST("{commentId}/comment")
     Call<ResponseDTO> postComment(@Path("commentId") Long postID, @Body JsonObject param);
 
