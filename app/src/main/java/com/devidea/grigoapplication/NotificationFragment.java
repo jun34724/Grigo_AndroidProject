@@ -45,6 +45,7 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_notification_list, container, false);
 
+        num_noti = rootView.findViewById(R.id.num_alart);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         adapter = new NotificationViewer(notifications);

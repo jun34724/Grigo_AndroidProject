@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("noti", "true");
                     isNotification = true;
                     invalidateOptionsMenu();
+                }else{
+                    Log.d("noti", "false");
+                    isNotification = false;
+                    invalidateOptionsMenu();
                 }
             }
 
