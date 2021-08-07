@@ -23,8 +23,10 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -154,16 +156,22 @@ public class PostBodyFragment extends Fragment {
 
     //댓글 등록
     public void postComment(JsonObject jsonObject, Long postID) {
-        retrofitService.postComment(postID, jsonObject).enqueue(new Callback<ResponseDTO>() {
+        retrofitService.postComment(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
 
             @Override
-            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
-                Log.d("comment", String.valueOf(response.body()));
-                //updateCommentList(postBody.getId());
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                try {
+                    Log.d("comment_m", (response.body().string()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                updateCommentList(postBody.getId());
             }
 
             @Override
-            public void onFailure(Call<ResponseDTO> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
         });
