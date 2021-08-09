@@ -2,6 +2,7 @@ package com.devidea.grigoapplication;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +14,9 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,14 +53,18 @@ public class CommentUpdateDialog extends Dialog {
                 String comment = editText.getText().toString();
                 JsonObject json = new JsonObject();
                 json.addProperty("content", comment);
-                retrofitService.updateComment(commentID, json).enqueue(new Callback<ResponseDTO>() {
+                retrofitService.updateComment(commentID, json).enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
-
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            Log.d("comment_m", (response.body().string()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
 
                     }
                 });
