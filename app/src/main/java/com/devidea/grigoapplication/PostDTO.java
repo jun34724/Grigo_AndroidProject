@@ -10,8 +10,6 @@ public class PostDTO {
     private String boardType;
     private ArrayList<String> tags = new ArrayList<>();
     private ArrayList<CommentDTO> comments = new ArrayList<>();
-    private ArrayList<String> addTags = new ArrayList<>();
-    private ArrayList<String> deleteTags = new ArrayList<>();
     private String timeStamp;
     private boolean userCheck = true;
 
@@ -91,13 +89,6 @@ public class PostDTO {
         return String.valueOf(timeStamp);
     }
 
-    public ArrayList<String> getAddTags() { return addTags; }
-
-    public void setAddTags(ArrayList<String> addTags) { this.addTags = addTags; }
-
-    public ArrayList<String> getDeleteTags() { return deleteTags; }
-
-    public void setDeleteTags(ArrayList<String> deleteTags) { this.deleteTags = deleteTags;}
 
     /*
     public String getTimeStamp() {

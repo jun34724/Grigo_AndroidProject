@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +21,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -156,14 +158,13 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("content", content);
         jsonObject.add("tags", tagJsonArray);
 
-        retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
+        retrofitService.writePost(jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                finish();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
 
@@ -179,14 +180,13 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
 
-        retrofitService.writePost(jsonObject).enqueue(new Callback<String>() {
+        retrofitService.writePost(jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                finish();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
     }
@@ -232,14 +232,13 @@ public class PostActivity extends AppCompatActivity {
 
         System.out.println("제이슨 출력 : " + jsonObject);
 
-        retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
+        retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                finish();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
     }
@@ -253,13 +252,13 @@ public class PostActivity extends AppCompatActivity {
         jsonObject.addProperty("writer", writer);
         jsonObject.addProperty("content", content);
 
-        retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<String>() {
+        retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
     }
