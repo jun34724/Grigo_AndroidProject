@@ -34,8 +34,8 @@ public class PostListFragment extends Fragment {
     private static ArrayList<PostDTO> postDTOArrayList = new ArrayList<PostDTO>(); //가져온 게시글 리스트를 저장할 DTO array
 
 
-    private static String boardTitle; // 생성할 게시판 유뮤
-    private static String boardType;
+    private static String boardTitle; // 생성할 게시판 제목
+    private static String boardType;    //서버에 요청할 게시물 유형.
 
     private boolean isNext = true; // 다음 페이지 유무
     private Long id = 100L;       // 현재 페이지
@@ -64,6 +64,7 @@ public class PostListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+        getPostList();
     }
 
 
@@ -76,7 +77,6 @@ public class PostListFragment extends Fragment {
         TextView tv_title = rootView.findViewById(R.id.bulletin_board_title);
         tv_title.setText(boardTitle);
 
-        getPostList();
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_post_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));

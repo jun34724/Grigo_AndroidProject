@@ -181,14 +181,18 @@ public class PostBodyFragment extends Fragment {
     public static void deleteComment(Long postID) {
         Log.d("delete", String.valueOf(postID));
 
-        retrofitService.deleteComment(postID).enqueue(new Callback<ResponseDTO>() {
+        retrofitService.deleteComment(postID).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
-                //updateCommentList(postBody.getId());
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    Log.d("comment_m", (response.body().string()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseDTO> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("resion", String.valueOf(t.getCause()));
 
             }
