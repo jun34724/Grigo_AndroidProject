@@ -22,7 +22,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ServiceGenerator {
 
     public RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-    public static final String BASE_URL = "http://34.64.218.179:8080";
+    public static final String BASE_URL = "http://3.34.140.163:8080";
+    //public static final String BASE_URL = "http://34.64.218.179:8080";
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     public static Gson gson  = new GsonBuilder().setLenient().create();
