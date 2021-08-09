@@ -75,12 +75,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //postlist -> postbody 전환을 위한 함수
+    //fragment 전환 함수
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.add(R.id.main_frame, fragment);
         fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.show(fragment);
+        fragmentTransaction.hide(fragmentManager.findFragmentById(R.id.main_frame));
 
         fragmentTransaction.commit();
 
