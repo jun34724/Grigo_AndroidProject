@@ -77,12 +77,12 @@ public interface RetrofitService {
     //게시글 등록
     @Headers("Content-Type: application/json")
     @POST("posts/save")
-    Call<String> writePost(@Body JsonObject param);
+    Call<ResponseBody> writePost(@Body JsonObject param);
 
     //게시글 수정
     @Headers("Content-Type: application/json")
     @POST("posts/{postId}/update")
-    Call<String> updatePost(@Path("postId") Long postID, @Body JsonObject param);
+    Call<ResponseBody> updatePost(@Path("postId") Long postID, @Body JsonObject param);
 
     //게시글 삭제
     @POST("posts/{postId}/delete")
