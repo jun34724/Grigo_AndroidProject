@@ -17,19 +17,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.devidea.grigoapplication.LoginActivity.retrofitService;
-
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn1, btn_board;
 
-    private boolean isNotification = false;
+    NotificationController notificationController = new NotificationController();
 
     //Toolbar
     @Override
@@ -40,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        Log.d("isnoti", String.valueOf(isNotification));
-        if(isNotification) {
+        Log.d("isnoti", String.valueOf(notificationController.isNotificationProperty()));
+        if(notificationController.isNotificationProperty()) {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_active_black_24);
         }
         else {
@@ -87,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTransaction.commit();
 
+        invalidateOptionsMenu();
     }
 
 
@@ -113,31 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.main_frame, boardFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-            }
-        });
-
-        getNotification();
-    }
-
-    public void getNotification() {
-
-        retrofitService.getNotification().enqueue(new Callback<ArrayList<NotificationDTO>>() {
-            @Override
-            public void onResponse(Call<ArrayList<NotificationDTO>> call, Response<ArrayList<NotificationDTO>> response) {
-                if (!response.body().isEmpty()) {
-                    Log.d("noti", "true");
-                    isNotification = true;
-                    invalidateOptionsMenu();
-                }else{
-                    Log.d("noti", "false");
-                    isNotification = false;
-                    invalidateOptionsMenu();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<NotificationDTO>> call, Throwable t) {
-
             }
         });
 
