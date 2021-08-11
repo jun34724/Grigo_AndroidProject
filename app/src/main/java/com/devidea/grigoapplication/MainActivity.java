@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn1, btn_board;
@@ -32,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        Log.d("isnoti", String.valueOf(notificationController.isNotificationProperty()));
-        if(notificationController.isNotificationProperty()) {
+        notificationController.getNotification();
+
+        if (notificationController.isNotificationProperty()) {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_active_black_24);
-        }
-        else {
+        } else {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_black_24);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -47,11 +49,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             //알림 확인 버튼
             case R.id.menu_alert:
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 NotificationFragment notificationFragment = new NotificationFragment();
-                transaction.replace(R.id.main_frame, notificationFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                replaceFragment(notificationFragment);
                 return true;
 
             case R.id.menu_mypage:
@@ -71,13 +71,28 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_frame, fragment);
-        fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.show(fragment);
-        fragmentTransaction.hide(fragmentManager.findFragmentById(R.id.main_frame));
+        try {
+            if(!fragment.getClass().toString().equals((fragmentManager.findFragmentById(R.id.main_frame)).getClass().toString())){
+                fragmentTransaction.add(R.id.main_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.commit();
+                fragmentTransaction.show(fragment);
+                fragmentTransaction.hide(fragmentManager.findFragmentById(R.id.main_frame));
+
+                fragmentTransaction.commit();
+            }
+
+            else{
+                Log.d("fragmentTransaction", "skip");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fragmentTransaction.replace(R.id.main_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
 
         invalidateOptionsMenu();
     }
@@ -104,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 BoardFragment boardFragment = new BoardFragment();
                 transaction.replace(R.id.main_frame, boardFragment);
-                transaction.addToBackStack(null);
+                //transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
