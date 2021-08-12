@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn1, btn_board;
     public static Context mContext;
-
-
-    static NotificationController notificationController = new NotificationController();
+    public static NotificationController notificationController = new NotificationController();
 
     //Toolbar
     @Override
