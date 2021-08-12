@@ -41,7 +41,6 @@ public class NotificationFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-       // Log.d("setNotificationDTOS" , String.valueOf(MainActivity.notificationController.getNotificationDTOS().get(0).getTitle()));
         adapter = new NotificationAdapter(MainActivity.notificationController.getNotificationDTOS());
         recyclerView.setAdapter(adapter);
 
@@ -50,7 +49,9 @@ public class NotificationFragment extends Fragment {
         adapter.setOnItemClickListener(new NotificationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
+                num_noti.setText(MainActivity.notificationController.getNotificationDTOS().size() + " 개의 알림이 있습니다.");
                 notificationController.getPostBody(MainActivity.notificationController.getNotificationDTOS().get(pos).getPostId());
+
             }
         });
 

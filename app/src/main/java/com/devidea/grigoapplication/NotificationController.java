@@ -67,9 +67,7 @@ public class NotificationController {
                 if (response.body() != null) {
                     Read(postId);
                     PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(response.body());
-                    //((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
-
-                    ((MainActivity)MainActivity.mContext).replaceFragment(postBodyFragment);
+                    ((MainActivity) MainActivity.mContext).replaceFragment(postBodyFragment);
 
                 }
             }
