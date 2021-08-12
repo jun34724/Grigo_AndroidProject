@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class NotificationViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ArrayList<NotificationDTO> notificationDTOS;
 
@@ -26,7 +26,7 @@ public class NotificationViewer extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.mListener = listener;
     }
 
-    public NotificationViewer(ArrayList<NotificationDTO> notificationDTOS) {
+    public NotificationAdapter(ArrayList<NotificationDTO> notificationDTOS) {
         this.notificationDTOS = notificationDTOS;
     }
 
@@ -37,7 +37,7 @@ public class NotificationViewer extends RecyclerView.Adapter<RecyclerView.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycle_notification, parent, false);
 
-        return new NotificationViewer.NotificationViewHolder(view);
+        return new NotificationAdapter.NotificationViewHolder(view);
     }
 
     @Override

@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -37,7 +36,7 @@ public class PostBodyFragment extends Fragment {
 
     private static PostDTO postBody = new PostDTO();
     private static RecyclerView recyclerView;
-    private static CommentListViewer adapter;
+    private static CommentListAdapter adapter;
 
     private Context context = this.getContext();
 
@@ -96,7 +95,7 @@ public class PostBodyFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_comment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         if (!postBody.getComments().isEmpty()) {
-            adapter = new CommentListViewer(postBody.getComments());
+            adapter = new CommentListAdapter(postBody.getComments());
             recyclerView.setAdapter(adapter);
         }
 
@@ -225,7 +224,7 @@ public class PostBodyFragment extends Fragment {
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
                 adapter = null;
-                adapter = new CommentListViewer(response.body().getComments());
+                adapter = new CommentListAdapter(response.body().getComments());
                 recyclerView.setAdapter(adapter);
             }
 

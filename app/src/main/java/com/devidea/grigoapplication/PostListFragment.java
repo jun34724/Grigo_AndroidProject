@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -30,7 +27,7 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 public class PostListFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private PostListViewer adapter;
+    private PostListAdapter adapter;
     private static ArrayList<PostDTO> postDTOArrayList = new ArrayList<PostDTO>(); //가져온 게시글 리스트를 저장할 DTO array
 
 
@@ -97,7 +94,7 @@ public class PostListFragment extends Fragment {
                 }
 
                 //터치된 리스트의 포지션을 이용해 게시글의 id 확인, 해당 id의 게시글을 받아 postbody 프래그먼트로 전달
-                adapter.setOnItemClickListener(new PostListViewer.OnItemClickListener() {
+                adapter.setOnItemClickListener(new PostListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int pos) {
                         getPostBody(postDTOArrayList.get(pos).getId());
@@ -136,7 +133,7 @@ public class PostListFragment extends Fragment {
                     isNext = response.body().getHasNext();
 
                     if (adapter == null) {
-                        adapter = new PostListViewer(postDTOArrayList);
+                        adapter = new PostListAdapter(postDTOArrayList);
                         recyclerView.setAdapter(adapter);
                     }
 

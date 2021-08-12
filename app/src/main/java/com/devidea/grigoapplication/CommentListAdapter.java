@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class CommentListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ArrayList<CommentDTO> commentDTO;
 
-    public CommentListViewer(ArrayList<CommentDTO> comments) {
+    public CommentListAdapter(ArrayList<CommentDTO> comments) {
         this.commentDTO = comments;
     }
 

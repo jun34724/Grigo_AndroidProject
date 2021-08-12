@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 else {
                     Toast.makeText(getApplicationContext(), "알수없는 오류", Toast.LENGTH_LONG).show();
+                    Log.d("실패 : ", String.valueOf(response));
                 }
 
             }

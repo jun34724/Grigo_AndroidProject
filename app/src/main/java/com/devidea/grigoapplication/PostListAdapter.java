@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class PostListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private int VIEW_TYPE_ITEM = 0;
     private int VIEW_TYPE_LOADING = 1;
@@ -29,7 +29,7 @@ class PostListViewer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.mListener = listener;
     }
 
-    public PostListViewer(ArrayList<PostDTO> arrayList) {
+    public PostListAdapter(ArrayList<PostDTO> arrayList) {
         this.postDTOArrayList = arrayList;
     }
 
