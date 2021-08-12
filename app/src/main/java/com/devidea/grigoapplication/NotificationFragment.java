@@ -2,6 +2,7 @@ package com.devidea.grigoapplication;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,12 @@ public class NotificationFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_notification_list, container, false);
 
         num_noti = rootView.findViewById(R.id.num_alart);
-        num_noti.setText(notificationController.getNotificationDTOS().size() + " 개의 알림이 있습니다.");
+        num_noti.setText(MainActivity.notificationController.getNotificationDTOS().size() + " 개의 알림이 있습니다.");
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        adapter = new NotificationAdapter(notificationController.getNotificationDTOS());
+       // Log.d("setNotificationDTOS" , String.valueOf(MainActivity.notificationController.getNotificationDTOS().get(0).getTitle()));
+        adapter = new NotificationAdapter(MainActivity.notificationController.getNotificationDTOS());
         recyclerView.setAdapter(adapter);
 
 
@@ -48,7 +50,7 @@ public class NotificationFragment extends Fragment {
         adapter.setOnItemClickListener(new NotificationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
-                notificationController.getPostBody(notificationController.getNotificationDTOS().get(pos).getPostId());
+                notificationController.getPostBody(MainActivity.notificationController.getNotificationDTOS().get(pos).getPostId());
             }
         });
 

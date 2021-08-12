@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -19,7 +22,15 @@ public class NotificationController {
     private boolean notificationProperty = false; //알람 유무 반환을 위한 변수.
     private ArrayList<NotificationDTO> notificationDTOS = new ArrayList<>();
 
-    public boolean isNotificationProperty() {
+    public void setNotificationProperty(boolean notificationProperty) {
+        this.notificationProperty = notificationProperty;
+    }
+
+    public void setNotificationDTOS(ArrayList<NotificationDTO> notificationDTOS) {
+        this.notificationDTOS = notificationDTOS;
+    }
+
+    public boolean getNotificationProperty() {
         return notificationProperty;
     }
 
@@ -27,13 +38,14 @@ public class NotificationController {
         return notificationDTOS;
     }
 
-    public void getNotification() {
+    public boolean getNotification() {
 
         retrofitService.getNotification().enqueue(new Callback<ArrayList<NotificationDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<NotificationDTO>> call, Response<ArrayList<NotificationDTO>> response) {
-                notificationProperty = !response.body().isEmpty();
-                notificationDTOS = response.body();
+
+                setNotificationProperty(!response.body().isEmpty());
+                setNotificationDTOS(response.body());
 
             }
 
@@ -41,7 +53,8 @@ public class NotificationController {
             public void onFailure(Call<ArrayList<NotificationDTO>> call, Throwable t) {
             }
         });
-
+        //수정
+        return notificationProperty;
     }
 
     public void getPostBody(Long postId) {
@@ -54,8 +67,9 @@ public class NotificationController {
                 if (response.body() != null) {
                     Read(postId);
                     PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(response.body());
-                    ((MainActivity) postBodyFragment.requireActivity()).replaceFragment(postBodyFragment);
+                    //((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
 
+                    ((MainActivity)MainActivity.mContext).replaceFragment(postBodyFragment);
 
                 }
             }

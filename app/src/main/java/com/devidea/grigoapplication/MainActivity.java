@@ -3,6 +3,7 @@ package com.devidea.grigoapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,13 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.util.Objects;
-
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn1, btn_board;
+    public static Context mContext;
 
-    NotificationController notificationController = new NotificationController();
+
+    static NotificationController notificationController = new NotificationController();
 
     //Toolbar
     @Override
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         notificationController.getNotification();
-
-        if (notificationController.isNotificationProperty()) {
+        Log.d("noti",  String.valueOf(notificationController.getNotificationProperty()));
+        if (notificationController.getNotificationProperty()) {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_active_black_24);
         } else {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_black_24);
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mContext = this;
 
         //app 제목 -> 추후에 app 이름 정해지면 수정
         getSupportActionBar().setTitle("Title");
