@@ -18,13 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import static com.devidea.grigoapplication.LoginActivity.retrofitService;
+
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btn1, btn_board;
     public static Context mContext;
-
-
-    static NotificationController notificationController = new NotificationController();
+    public static NotificationModel notificationModel = new NotificationModel();
 
     //Toolbar
     @Override
@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        notificationController.getNotification();
-        Log.d("noti",  String.valueOf(notificationController.getNotificationProperty()));
-        if (notificationController.getNotificationProperty()) {
+        notificationModel.getNotification();
+        Log.d("noti",  String.valueOf(notificationModel.getNotificationProperty()));
+        if (notificationModel.getNotificationProperty()) {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_active_black_24);
         } else {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_black_24);
@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_logout:
                 Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
+                retrofitService = null;
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -96,6 +99,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         invalidateOptionsMenu();
+    }
+
+    //fragment 전환 함수
+    public void replaceNotifyFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 

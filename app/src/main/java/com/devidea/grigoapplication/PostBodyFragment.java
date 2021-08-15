@@ -188,6 +188,8 @@ public class PostBodyFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                updateCommentList(postBody.getId());
             }
 
             @Override
