@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -18,9 +16,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
+import org.jetbrains.annotations.NotNull;
+
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
-    Button btn1, btn_board;
+    BottomNavigationView bottomNavigationView;
     public static Context mContext;
 
 
@@ -56,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_mypage:
-                //Toast.makeText(this,"설정",Toast.LENGTH_SHORT).show();
                 Intent mypageIntent = new Intent(MainActivity.this, MyPageActivity.class);
-                //mypageIntent.putExtra("userDataDTO",userDataDTO);
                 startActivity(mypageIntent);
                 return true;
             case R.id.menu_logout:
@@ -98,9 +99,6 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,22 +107,26 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mContext = this;
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         //app 제목 -> 추후에 app 이름 정해지면 수정
         getSupportActionBar().setTitle("Title");
 
-
-        btn1 = findViewById(R.id.btn_1);
-        btn_board = findViewById(R.id.btn_board);
-
-        btn_board.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                BoardFragment boardFragment = new BoardFragment();
-                transaction.replace(R.id.main_frame, boardFragment);
-                //transaction.addToBackStack(null);
-                transaction.commit();
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.calender:
+                        break;
+                    case R.id.board:
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        BoardFragment boardFragment = new BoardFragment();
+                        transaction.replace(R.id.main_frame, boardFragment);
+                        //transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                }
+                return true;
             }
         });
 
