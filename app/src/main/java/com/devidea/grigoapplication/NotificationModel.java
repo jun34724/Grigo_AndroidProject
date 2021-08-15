@@ -1,11 +1,6 @@
 package com.devidea.grigoapplication;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.JsonObject;
 
@@ -17,7 +12,7 @@ import retrofit2.Response;
 
 import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 
-public class NotificationController {
+public class NotificationModel {
 
     private boolean notificationProperty = false; //알람 유무 반환을 위한 변수.
     private ArrayList<NotificationDTO> notificationDTOS = new ArrayList<>();
@@ -67,7 +62,7 @@ public class NotificationController {
                 if (response.body() != null) {
                     Read(postId);
                     PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(response.body());
-                    ((MainActivity) MainActivity.mContext).replaceFragment(postBodyFragment);
+                    ((MainActivity) MainActivity.mContext).replaceNotifyFragment(postBodyFragment);
 
                 }
             }
