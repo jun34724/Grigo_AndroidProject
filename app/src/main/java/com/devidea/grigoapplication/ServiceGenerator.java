@@ -27,8 +27,6 @@ public class ServiceGenerator {
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-    //public static Gson gson  = new GsonBuilder().setLenient().create();
-
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(BASE_URL)
