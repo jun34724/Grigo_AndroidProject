@@ -1,6 +1,7 @@
 package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -161,6 +162,7 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.writePost(jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                finish();
             }
 
             @Override
@@ -183,6 +185,7 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.writePost(jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                finish();
             }
 
             @Override
@@ -235,6 +238,7 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                finish();
             }
 
             @Override
@@ -255,6 +259,7 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                finish();
             }
 
             @Override

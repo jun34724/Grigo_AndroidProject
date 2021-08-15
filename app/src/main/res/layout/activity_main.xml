@@ -22,31 +22,14 @@
 
     </FrameLayout>
 
-    <LinearLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_menu"
         android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/btn_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="기능1">
-        </Button>
-
-        <Button
-            android:id="@+id/btn_board"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:backgroundTint="@color/design_default_color_on_secondary"
-            app:icon="@android:drawable/stat_notify_chat"
-            app:iconGravity="textStart">
-
-        </Button>
-
-
-    </LinearLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>
+

@@ -17,6 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.Arrays;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,6 +72,8 @@ public class TagInputActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String[] tag = et_tagInput.getText().toString().split("#");
+                //PrefsHelper.write("tags", Arrays.toString(tag));
+                //Log.d("tags ", Arrays.toString(tag));
                 tagSend(tag);
                 showTag();
             }
@@ -93,7 +97,7 @@ public class TagInputActivity extends AppCompatActivity {
             jsonArray.add(tags[i]);
         }
         jsonObject.add("tags", jsonArray);
-        Log.d("tags", String.valueOf(jsonObject));
+        //Log.d("tags", String.valueOf(jsonObject));
 
         retrofitService.tagPost(jsonObject).enqueue(new Callback<JsonObject>() {
             @Override
