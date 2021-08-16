@@ -22,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.devidea.grigoapplication.LoginActivity.retrofitService;
+import static com.devidea.grigoapplication.PostBodyFragment.getCommentList;
 
 public class CommentUpdateDialog extends Dialog {
 
@@ -61,6 +62,7 @@ public class CommentUpdateDialog extends Dialog {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        getCommentList();
                     }
 
                     @Override
