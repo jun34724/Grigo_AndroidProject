@@ -94,6 +94,7 @@ public class PostBodyFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_comment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setNestedScrollingEnabled(false);
         if (!postBody.getComments().isEmpty()) {
             adapter = new CommentListAdapter(postBody.getComments());
             recyclerView.setAdapter(adapter);
