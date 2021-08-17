@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:backgroundTint="@null"
     app:color="@null"
-    android:shape="rectangle">
+    android:shape="line">
     <solid
         android:color="#00ff0000"/>
     <stroke
         android:width="2dp"
-        android:color="@color/black" />
+        android:color="@color/Primary" />
     <size
         android:width="35dp"
         android:height="20dp" />
-    <corners android:radius="25dp" />
+
 </shape>

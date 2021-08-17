@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TagInputActivity"
     android:orientation="vertical"
-    >
+    tools:context=".TagInputActivity">
 
     <TextView
         android:id="@+id/textView2"
-        android:gravity="center"
-        android:textSize="45sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tag input Please ;)" />
+        android:gravity="center"
+        android:text="사용할 테그를 입력해주세요" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout"
@@ -33,7 +31,10 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="입력" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_layout"
+        android:text="테그 입력"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tagviewer"
@@ -48,10 +49,12 @@
 
     <Button
         android:id="@+id/submit"
-        android:enabled="false"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="넘어가기" />
+        android:layout_gravity="bottom"
+        android:background="@drawable/button_layout"
+        android:enabled="false"
+        android:text="다음으로"
+        android:textColor="@color/black" />
 
 </LinearLayout>
