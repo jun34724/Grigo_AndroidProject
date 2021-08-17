@@ -127,18 +127,22 @@ public class MainActivity extends AppCompatActivity {
         //app 제목 -> 추후에 app 이름 정해지면 수정
         getSupportActionBar().setTitle("Title");
 
+        CalendarFragment calendarFragment = new CalendarFragment();
+        BoardFragment boardFragment = new BoardFragment();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, calendarFragment).commit();
+
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.calender:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, calendarFragment).commit();
                         break;
+
                     case R.id.board:
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        BoardFragment boardFragment = new BoardFragment();
-                        transaction.replace(R.id.main_frame, boardFragment);
-                        //transaction.addToBackStack(null);
-                        transaction.commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, boardFragment).commit();
+
                         break;
                 }
                 return true;
