@@ -29,6 +29,7 @@ public interface RetrofitService {
     @POST("tag/setting")
     Call<JsonObject> tagPost(@Body JsonObject param);
 
+    //TODO : 테그 요청말고 개인 profile 요청
     @GET("tag/setting")
     Call<JsonObject> tagGet();
 
