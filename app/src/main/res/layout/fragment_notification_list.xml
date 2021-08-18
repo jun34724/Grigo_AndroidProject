@@ -8,8 +8,14 @@
         android:id="@+id/num_alart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="35dp"
+        android:textSize="30sp"
         android:text="읽지않은 알람이 없습니다." />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:background="@drawable/line_layout"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_notification"

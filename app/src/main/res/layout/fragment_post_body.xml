@@ -4,119 +4,133 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="60dp"
     android:orientation="vertical"
     tools:context=".PostBodyFragment">
+    <!--하단 버튼 없어지면 마진 삭제-->
 
-    <androidx.cardview.widget.CardView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        app:cardUseCompatPadding="true">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
             android:orientation="vertical">
-            <!--하단 버튼 없어지면 마진 삭제-->
-
-            <TextView
-                android:id="@+id/post_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="title"
-                android:textSize="30sp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:background="@drawable/line"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/teg"
+                    android:id="@+id/post_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="teg" />
+                    android:text="title"
+                    android:textSize="30sp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/writer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="writer" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="time" />
+                    <TextView
+                        android:id="@+id/teg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="teg" />
 
-                <Button
-                    android:id="@+id/post_potion"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="end"
-                    android:background="@drawable/baseline_more_vert_black_24"
-                    android:visibility="invisible" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/writer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="writer" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="time" />
+
+                    <Button
+                        android:id="@+id/post_potion"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/baseline_more_vert_black_24"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="10">
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="5"
+                    android:background="@drawable/line"
+                    android:text="content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:background="@drawable/line" />
+
+            </LinearLayout>
+
         </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:weightSum="10">
 
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/input_comment"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="content" />
+            android:layout_weight="9.9"
+            android:ems="10"
+            android:inputType="textMultiLine" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_comment"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/send"
+            android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_weight="5" />
+            android:background="@drawable/baseline_send_black_48"
+            android:gravity="end" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_marginBottom="50dp">
-
-            <EditText
-                android:id="@+id/input_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine" />
-
-            <Button
-                android:id="@+id/send"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/baseline_send_black_48" />
-
-
-        </LinearLayout>
 
     </LinearLayout>
+
 
 </LinearLayout>

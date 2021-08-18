@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ArrayList<CommentDTO> commentDTO;
+    private final PostBodyModel postBodyModel = new PostBodyModel();
 
     public CommentListAdapter(ArrayList<CommentDTO> comments) {
         this.commentDTO = comments;
@@ -68,7 +68,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                             case R.id.delete:
                                 Toast.makeText(v.getContext(), "삭제", Toast.LENGTH_SHORT).show();
-                                PostBodyFragment.deleteComment(commentDTO.get(position).getId());
+                                postBodyModel.deleteComment(commentDTO.get(position).getId());
                                 break;
                         }
                         return false;

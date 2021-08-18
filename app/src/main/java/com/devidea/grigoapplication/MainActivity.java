@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         notificationModel.getNotification();
-        Log.d("noti",  String.valueOf(notificationModel.getNotificationProperty()));
         if (notificationModel.getNotificationProperty()) {
             menu.findItem(R.id.menu_alert).setIcon(R.drawable.outline_notifications_active_black_24);
         } else {
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //fragment 전환 함수
+    //알림 관련 fragment 전환 함수
     public void replaceNotifyFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -124,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        //app 제목 -> 추후에 app 이름 정해지면 수정
-        getSupportActionBar().setTitle("Title");
+        //app 제목
+        getSupportActionBar().setTitle("GRIGO");
 
         CalendarFragment calendarFragment = new CalendarFragment();
         BoardFragment boardFragment = new BoardFragment();
@@ -142,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.board:
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, boardFragment).commit();
-
                         break;
+                    
                 }
                 return true;
             }

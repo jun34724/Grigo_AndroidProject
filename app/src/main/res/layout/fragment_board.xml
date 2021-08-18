@@ -12,18 +12,39 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/bulletin_board_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="게시판 목록"
+                android:textSize="30sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="3dp"
+                android:background="@drawable/line_layout" />
+
 
             <Button
                 android:id="@+id/btn_Free"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="자유게시판" />
+                android:layout_marginTop="10dp"
+                android:background="#00ff0000"
+                android:gravity="left|center"
+                android:text="그리고 자유게시판"
+                android:textColor="@color/black" />
+
 
             <Button
                 android:id="@+id/btn_Question"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="질문게시판" />
+                android:layout_marginTop="5dp"
+                android:background="#00ff0000"
+                android:gravity="left|center"
+                android:text="그리고 질문게시판"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 

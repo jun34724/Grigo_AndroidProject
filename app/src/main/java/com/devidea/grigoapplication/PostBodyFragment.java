@@ -23,9 +23,8 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,9 +33,11 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 
 public class PostBodyFragment extends Fragment {
 
-    private static PostDTO postBody = new PostDTO();
+    private static PostDTO postDTO = new PostDTO();
     private static RecyclerView recyclerView;
     private static CommentListAdapter adapter;
+
+    private static PostBodyModel postBodyModel = new PostBodyModel();
 
     private Context context = this.getContext();
 
@@ -47,7 +48,7 @@ public class PostBodyFragment extends Fragment {
     public static PostBodyFragment newInstance(PostDTO postBodyInstance) {
         PostBodyFragment fragment = new PostBodyFragment();
         Bundle args = new Bundle();
-        postBody = postBodyInstance;
+        postDTO = postBodyInstance;
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,10 +74,10 @@ public class PostBodyFragment extends Fragment {
         Button send = rootView.findViewById(R.id.send);
         Button option = rootView.findViewById(R.id.post_potion);
 
-        Log.d("post_isUserCheck : ", String.valueOf(postBody.isUserCheck()));
+        Log.d("post_isUserCheck : ", String.valueOf(postDTO.isUserCheck()));
 
 
-        if (postBody.isUserCheck()) {
+        if (postDTO.isUserCheck()) {
             option.setVisibility(View.VISIBLE);
         } else {
             option.setVisibility(View.INVISIBLE);
@@ -84,18 +85,19 @@ public class PostBodyFragment extends Fragment {
 
         EditText et_comm = rootView.findViewById(R.id.input_comment);
 
-        title.setText(postBody.getTitle());
-        content.setText(postBody.getContent());
-        writer.setText(postBody.getWriter());
-        time.setText(postBody.getTimeStamp());
-        if (postBody.getTags() != null) {
-            teg.setText(String.valueOf(postBody.getTags()));
+        title.setText(postDTO.getTitle());
+        content.setText(postDTO.getContent());
+        writer.setText(postDTO.getWriter());
+        time.setText(postDTO.getTimeStamp());
+        if (postDTO.getTags() != null) {
+            teg.setText(String.valueOf(postDTO.getTags()));
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_comment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        if (!postBody.getComments().isEmpty()) {
-            adapter = new CommentListAdapter(postBody.getComments());
+        recyclerView.setNestedScrollingEnabled(false);
+        if (!postDTO.getComments().isEmpty()) {
+            adapter = new CommentListAdapter(postDTO.getComments());
             recyclerView.setAdapter(adapter);
         }
 
@@ -106,7 +108,7 @@ public class PostBodyFragment extends Fragment {
                 String Comment = et_comm.getText().toString();
                 JsonObject json = new JsonObject();
                 json.addProperty("content", Comment);
-                postComment(json, postBody.getId());
+                postBodyModel.postComment(json, postDTO.getId());
 
             }
         });
@@ -126,19 +128,23 @@ public class PostBodyFragment extends Fragment {
                                 Toast.makeText(getContext(), "수정", Toast.LENGTH_LONG).show();
 
                                 Intent postIntent = new Intent(getActivity(), PostActivity.class);
-                                postIntent.putExtra("id", postBody.getId());
-                                postIntent.putExtra("email", postBody.getTitle());
-                                postIntent.putExtra("content", postBody.getContent());
-                                postIntent.putExtra("boardtype", postBody.getBoardType());
-                                postIntent.putExtra("tags", postBody.getTags());
-                                System.out.println("태그 :" + postBody.getTags());
+                                postIntent.putExtra("id", postDTO.getId());
+                                postIntent.putExtra("email", postDTO.getTitle());
+                                postIntent.putExtra("content", postDTO.getContent());
+                                postIntent.putExtra("boardtype", postDTO.getBoardType());
+                                postIntent.putExtra("tags", postDTO.getTags());
+                                System.out.println("태그 :" + postDTO.getTags());
                                 startActivity(postIntent);
 
                                 break;
 
                             case R.id.delete:
                                 Toast.makeText(getContext(), "삭제", Toast.LENGTH_LONG).show();
-                                deletePost(postBody.getId());
+                                postBodyModel.deletePost(postDTO.getId());
+
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                fragmentManager.beginTransaction().remove(PostBodyFragment.this).commit();
+                                fragmentManager.popBackStack();
                                 break;
                         }
                         return false;
@@ -153,79 +159,13 @@ public class PostBodyFragment extends Fragment {
 
     }
 
-    //댓글 등록
-    public void postComment(JsonObject jsonObject, Long postID) {
-        retrofitService.postComment(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
-
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                try {
-                    Log.d("comment_m", (response.body().string()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                updateCommentList(postBody.getId());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-    }
-
-    //댓글 삭제
-    public static void deleteComment(Long postID) {
-        Log.d("delete", String.valueOf(postID));
-
-        retrofitService.deleteComment(postID).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    Log.d("comment_m", (response.body().string()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                updateCommentList(postBody.getId());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("resion", String.valueOf(t.getCause()));
-
-            }
-        });
-
-    }
-
-    //글 삭제
-    public void deletePost(Long PostID) {
-        retrofitService.deletePost(PostID).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.d("url", String.valueOf(call.request()));
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("resion", String.valueOf(t.getCause()));
-            }
-        });
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().remove(PostBodyFragment.this).commit();
-        fragmentManager.popBackStack();
-    }
-
     //댓글 리스트 새로고침
-    public static void updateCommentList(Long postID) {
-        retrofitService.getPostBody(postID).enqueue(new Callback<PostDTO>() {
+    public static void getCommentList() {
+        retrofitService.getPostBody(postDTO.getId()).enqueue(new Callback<PostDTO>() {
 
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
-                adapter = null;
+
                 adapter = new CommentListAdapter(response.body().getComments());
                 recyclerView.setAdapter(adapter);
             }
@@ -235,7 +175,6 @@ public class PostBodyFragment extends Fragment {
 
             }
         });
-
     }
 
 }
