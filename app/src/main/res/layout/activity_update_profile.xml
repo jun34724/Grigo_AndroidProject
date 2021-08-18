@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpdateProfileActivity"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:context=".UpdateProfileActivity">
 
     <LinearLayout
         android:layout_width="280dp"
@@ -56,9 +56,11 @@
         android:id="@+id/btn_upProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="수정"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="100dp"
+        android:background="@drawable/button_layout"
+        android:text="수정"
+        android:textColor="@color/black" />
 
 
 </LinearLayout>

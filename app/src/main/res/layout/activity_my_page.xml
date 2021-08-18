@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPageActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MyPageActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple_500"
+            android:background="@color/Primary"
             android:orientation="vertical">
 
             <TextView
@@ -213,40 +213,39 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_marginTop="100dp"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_updatePass"
-                    android:layout_width="120dp"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:background="@drawable/button_layout"
                     android:text="비밀번호 수정"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginRight="10dp" />
 
                 <Button
                     android:id="@+id/btn_updateProfile"
-                    android:layout_width="120dp"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:background="@drawable/button_layout"
                     android:text="프로필 수정"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginRight="10dp"/>
 
                 <Button
                     android:id="@+id/btn_updateTag"
-                    android:layout_width="120dp"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:background="@drawable/button_layout"
                     android:text="태그 수정"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
             </LinearLayout>
 
