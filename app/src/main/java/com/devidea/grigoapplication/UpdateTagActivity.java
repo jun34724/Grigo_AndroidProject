@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -34,6 +36,8 @@ public class UpdateTagActivity extends AppCompatActivity {
     Context context;
 
     LinearLayout linear_ownTag, linear_delTag;
+
+    UserDataDTO userDataDTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +171,12 @@ public class UpdateTagActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.isSuccessful()){
-                    Log.d("성공 : ", String.valueOf(response.body()));
+                    //Log.d("성공 : ", String.valueOf(response.body()));
+                    userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
+                    PrefsHelper.write("tags",  userDataDTO.getTags());
+                    Intent intent = new Intent(UpdateTagActivity.this, MyPageActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 else{
                     Log.d("실패 : ", String.valueOf(response.body()));

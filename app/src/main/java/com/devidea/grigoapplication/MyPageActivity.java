@@ -36,6 +36,7 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MyPageActivity.this, UpdateProfileActivity.class);
                 MyPageActivity.this.startActivity(intent);
+                finish();
             }
         });
 
@@ -44,6 +45,7 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MyPageActivity.this, UpdatePassActivity.class);
                 MyPageActivity.this.startActivity(intent);
+                finish();
             }
         });
 
@@ -52,6 +54,7 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MyPageActivity.this, UpdateTagActivity.class);
                 MyPageActivity.this.startActivity(intent);
+                finish();
             }
         });
 
