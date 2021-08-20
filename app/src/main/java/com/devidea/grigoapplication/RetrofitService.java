@@ -1,8 +1,10 @@
 package com.devidea.grigoapplication;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -96,4 +98,8 @@ public interface RetrofitService {
     //알람 읽음 요청
     @GET("notification/{postId}")
     Call<JsonObject> NotificationRead(@Path("postId") Long postID);
+
+    //학사일정
+   @GET("schedule")
+   Call<ArrayList<ScheduleDTO>> getSchedule();
 }
