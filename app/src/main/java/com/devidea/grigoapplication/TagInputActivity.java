@@ -14,10 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +31,7 @@ public class TagInputActivity extends AppCompatActivity {
     Button btn_tagSend;
     Button btn_submit;
     TextView tv_tagViewer;
+    UserDataDTO userDataDTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,6 @@ public class TagInputActivity extends AppCompatActivity {
         btn_tagSend = findViewById(R.id.button);
         btn_submit = findViewById(R.id.submit);
         tv_tagViewer = findViewById(R.id.tagviewer);
-
 
         assert et_tagInput != null;
         et_tagInput.addTextChangedListener(new TextWatcher() {
@@ -72,10 +71,9 @@ public class TagInputActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String[] tag = et_tagInput.getText().toString().split("#");
-                //PrefsHelper.write("tags", Arrays.toString(tag));
-                //Log.d("tags ", Arrays.toString(tag));
                 tagSend(tag);
-                showTag();
+                //showTag()를 여기서 하면 태그의 결과가 뒤늦게 들어옴 (이유를 모르겠음)
+                btn_submit.setEnabled(true);
             }
 
         });
@@ -83,6 +81,7 @@ public class TagInputActivity extends AppCompatActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showTag();
                 startActivity(new Intent(TagInputActivity.this, MainActivity.class));
                 ActivityCompat.finishAffinity(TagInputActivity.this);
             }
@@ -97,12 +96,11 @@ public class TagInputActivity extends AppCompatActivity {
             jsonArray.add(tags[i]);
         }
         jsonObject.add("tags", jsonArray);
-        //Log.d("tags", String.valueOf(jsonObject));
 
         retrofitService.tagPost(jsonObject).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                showTag();
+
             }
 
             @Override
@@ -114,19 +112,20 @@ public class TagInputActivity extends AppCompatActivity {
     }
 
     public void showTag() {
-        retrofitService.tagGet().enqueue(new Callback<JsonObject>() {
+
+        retrofitService.profileGet().enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                tv_tagViewer.setText(String.valueOf(response.body()));
-                PrefsHelper.write("tags", String.valueOf(response.body()));
+                Log.d("데이터 : ", String.valueOf(response.body()));
+                userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
+                PrefsHelper.write("tags",  userDataDTO.getTags());
+                tv_tagViewer.setText(PrefsHelper.read("tags",  ""));
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
             }
         });
-        btn_submit.setEnabled(true);
     }
 
 }

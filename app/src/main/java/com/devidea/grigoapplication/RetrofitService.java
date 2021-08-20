@@ -1,17 +1,14 @@
 package com.devidea.grigoapplication;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -32,8 +29,8 @@ public interface RetrofitService {
     Call<JsonObject> tagPost(@Body JsonObject param);
 
     //TODO : 테그 요청말고 개인 profile 요청
-    @GET("tag/setting")
-    Call<JsonObject> tagGet();
+    @GET("profile")
+    Call<JsonObject> profileGet();
 
     //생일, 전화번호 수정
     @Headers("Content-Type: application/json")
