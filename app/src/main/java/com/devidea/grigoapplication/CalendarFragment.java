@@ -50,8 +50,6 @@ public class CalendarFragment extends Fragment {
         materialCalendarView = (MaterialCalendarView) view.findViewById(R.id.materialCalendarView);
         tv_content = view.findViewById(R.id.tv_content);
 
-        Response<ListScheduleDTO> response;
-
         //달력 형태 지정
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.MONDAY)
