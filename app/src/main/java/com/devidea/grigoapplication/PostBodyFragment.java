@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,11 +39,10 @@ public class PostBodyFragment extends Fragment {
     private static CommentListAdapter adapter;
 
     private static PostBodyModel postBodyModel = new PostBodyModel();
+    private final PostListFragment postListFragment = new PostListFragment();
 
-    private Context context = this.getContext();
 
     public PostBodyFragment() {
-        // Required empty public constructor
     }
 
     public static PostBodyFragment newInstance(PostDTO postBodyInstance) {
@@ -141,7 +141,7 @@ public class PostBodyFragment extends Fragment {
                             case R.id.delete:
                                 Toast.makeText(getContext(), "삭제", Toast.LENGTH_LONG).show();
                                 postBodyModel.deletePost(postDTO.getId());
-
+                                postListFragment.updatePostList();
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 fragmentManager.beginTransaction().remove(PostBodyFragment.this).commit();
                                 fragmentManager.popBackStack();
@@ -168,6 +168,7 @@ public class PostBodyFragment extends Fragment {
 
                 adapter = new CommentListAdapter(response.body().getComments());
                 recyclerView.setAdapter(adapter);
+
             }
 
             @Override
@@ -175,6 +176,7 @@ public class PostBodyFragment extends Fragment {
 
             }
         });
+
     }
 
 }

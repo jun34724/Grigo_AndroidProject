@@ -23,12 +23,16 @@ import com.google.android.material.navigation.NavigationBarView;
 import org.jetbrains.annotations.NotNull;
 
 import static com.devidea.grigoapplication.LoginActivity.retrofitService;
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
     public static Context mContext;
     public static NotificationModel notificationModel = new NotificationModel();
+
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     //Toolbar
     @Override
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         try {
-            if(!fragment.getClass().toString().equals((fragmentManager.findFragmentById(R.id.main_frame)).getClass().toString())){
+            if (!fragment.getClass().toString().equals((fragmentManager.findFragmentById(R.id.main_frame)).getClass().toString())) {
                 fragmentTransaction.add(R.id.main_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
 
@@ -86,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.hide(fragmentManager.findFragmentById(R.id.main_frame));
 
                 fragmentTransaction.commit();
-            }
-
-            else{
+            } else {
                 Log.d("fragmentTransaction", "skip");
             }
 
@@ -112,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("GRIGO");
 
         CalendarFragment calendarFragment = new CalendarFragment();
-        BoardFragment boardFragment = new BoardFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, calendarFragment).commit();
 
@@ -137,16 +137,38 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.calender:
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, calendarFragment).commit();
+
                         break;
 
                     case R.id.board:
+                        BoardFragment boardFragment = new BoardFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, boardFragment).commit();
+
                         break;
-                    
+
                 }
                 return true;
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        String FragmentName = String.valueOf(getSupportFragmentManager().findFragmentById(R.id.main_frame));
+
+        if (FragmentName.contains("BoardFragment") || FragmentName.contains("CalendarFragment")) {
+            if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+                finish();
+            } else {
+                backPressedTime = tempTime;
+                Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 }

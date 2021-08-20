@@ -37,6 +37,8 @@ public class PostActivity extends AppCompatActivity {
     Spinner sp_board;
     Button btn_save;
     ListView list_item;
+    
+    private final PostListFragment postListFragment = new PostListFragment();
 
     private static PostDTO postBody = new PostDTO();
 
@@ -162,6 +164,7 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.writePost(jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                postListFragment.updatePostList();
                 finish();
             }
 
@@ -185,6 +188,7 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.writePost(jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                postListFragment.updatePostList();
                 finish();
             }
 
@@ -192,6 +196,7 @@ public class PostActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
+
     }
 
     public void updateQuestionPost(Long postID, String title, String boardType, String content, String writer, List<String> tagList) {
@@ -245,6 +250,7 @@ public class PostActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
+
     }
 
     public void updateFreePost(Long postID, String title, String boardType, String content, String writer) {

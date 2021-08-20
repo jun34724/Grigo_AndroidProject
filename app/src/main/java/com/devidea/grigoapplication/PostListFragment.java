@@ -26,10 +26,9 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 //글 List를 가져와 보여주는 프래그먼트
 public class PostListFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    private static RecyclerView recyclerView;
     private PostListAdapter adapter;
     private static ArrayList<PostDTO> postDTOArrayList = new ArrayList<PostDTO>(); //가져온 게시글 리스트를 저장할 DTO array
-
 
     private static String boardTitle; // 생성할 게시판 제목
     private static String boardType;    //서버에 요청할 게시물 유형.
@@ -171,7 +170,6 @@ public class PostListFragment extends Fragment {
                 Log.d("body", String.valueOf(call.request()));
                 if (response.body() != null) {
                     PostBodyFragment postBodyFragment = PostBodyFragment.newInstance(response.body());
-                    id = 100L;
                     ((MainActivity) requireActivity()).replaceFragment(postBodyFragment);
 
                 }
@@ -180,6 +178,45 @@ public class PostListFragment extends Fragment {
             @Override
             public void onFailure(Call<PostDTO> call, Throwable t) {
 
+            }
+        });
+
+    }
+
+
+//글의 수정, 삭제가 있을 경우 받아온 postlist 초기화.
+
+    public void updatePostList() {
+        id = 100L;
+        postDTOArrayList.clear();
+
+        retrofitService.getList(id, size, boardType).enqueue(new Callback<CursorPageDTO>() {
+
+            @Override
+            public void onResponse(Call<CursorPageDTO> call, Response<CursorPageDTO> response) {
+
+                Log.d("urls", String.valueOf(call.request()));
+
+                try {
+                    postDTOArrayList.addAll(response.body().getPostDTOS());
+                    if (!response.body().getHasNext()) {
+                        postDTOArrayList.add(new PostDTO(""));
+                    }
+                    id = postDTOArrayList.get(postDTOArrayList.size() - 1).getId();
+                    isNext = response.body().getHasNext();
+
+                    adapter = new PostListAdapter(postDTOArrayList);
+                    recyclerView.setAdapter(adapter);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<CursorPageDTO> call, Throwable t) {
+                Log.d("fail", String.valueOf(t.getCause()));
             }
         });
 

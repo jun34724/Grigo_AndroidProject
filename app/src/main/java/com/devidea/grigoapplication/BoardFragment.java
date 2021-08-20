@@ -16,7 +16,12 @@ public class BoardFragment extends Fragment {
     private View view;
     private Button btn_question, btn_free;
 
-    public BoardFragment(){
+    public Fragment BoardFragment(){
+        BoardFragment fragment = new BoardFragment();
+        Bundle args = new Bundle();
+
+        fragment.setArguments(args);
+        return fragment;
 
     }
 
