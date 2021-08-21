@@ -43,4 +43,12 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
+    public static <S> S deleteService(Class<S> serviceClass) {
+
+        builder.client(httpClient.build());
+        retrofit = builder.build();
+
+        return retrofit.create(serviceClass);
+    }
+
 }

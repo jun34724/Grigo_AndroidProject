@@ -32,10 +32,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login, btn_join;
     private EditText et_id, et_pw;
 
-    TokenManager tokenManager;
+    static TokenManager tokenManager;
     UserDataHelper userDataHelper;
     ServiceGenerator serviceGenerator;
     static RetrofitService retrofitService;
+    private static final RetrofitService loginService =  ServiceGenerator.deleteService(RetrofitService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         jsonObjectLogin.addProperty("email", user_id);
         jsonObjectLogin.addProperty("password", pw);
 
-        retrofitService.login(jsonObjectLogin).enqueue(new Callback<UserDataDTO>() {
+        loginService.login(jsonObjectLogin).enqueue(new Callback<UserDataDTO>() {
             @Override
             public void onResponse(@NotNull Call<UserDataDTO> call, @NotNull Response <UserDataDTO> response) {
 

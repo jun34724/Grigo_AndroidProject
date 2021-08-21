@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import org.jetbrains.annotations.NotNull;
 
 import static com.devidea.grigoapplication.LoginActivity.retrofitService;
+import static com.devidea.grigoapplication.LoginActivity.tokenManager;
 import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_logout:
                 Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
                 retrofitService = null;
+                tokenManager.clear();
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
                 return true;
