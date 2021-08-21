@@ -1,11 +1,6 @@
 package com.devidea.grigoapplication;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 import java.util.Arrays;
-import java.util.List;
 
 public class UserDataDTO{
 
@@ -16,7 +11,6 @@ public class UserDataDTO{
     private String birth;
     private String sex;
     private String[] tags;
-
 
     public String getEmail() {
         return email;
@@ -74,4 +68,5 @@ public class UserDataDTO{
     public void setTags(String[] tags) {
         this.tags = tags;
     }
+
 }
