@@ -2,6 +2,7 @@ package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class PostActivity extends AppCompatActivity {
     ListView list_item;
     
     private final PostListFragment postListFragment = new PostListFragment();
+    private final PostBodyFragment postBodyFragment = new PostBodyFragment();
 
     private static PostDTO postBody = new PostDTO();
 
@@ -253,6 +255,7 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
+    //자유게시판 수정
     public void updateFreePost(Long postID, String title, String boardType, String content, String writer) {
 
         JsonObject jsonObject = new JsonObject();
@@ -265,6 +268,7 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                //postBodyFragment.refreshFragment(getSupportFragmentManager());
                 finish();
             }
 

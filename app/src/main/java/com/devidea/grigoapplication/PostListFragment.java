@@ -27,7 +27,7 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 public class PostListFragment extends Fragment {
 
     private static RecyclerView recyclerView;
-    private PostListAdapter adapter;
+    private static PostListAdapter adapter;
     private static ArrayList<PostDTO> postDTOArrayList = new ArrayList<PostDTO>(); //가져온 게시글 리스트를 저장할 DTO array
 
     private static String boardTitle; // 생성할 게시판 제목
@@ -60,7 +60,7 @@ public class PostListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-        getPostList();
+        //getPostList();
     }
 
 
@@ -72,10 +72,12 @@ public class PostListFragment extends Fragment {
         Button btn_write = rootView.findViewById(R.id.btn_write);
         TextView tv_title = rootView.findViewById(R.id.bulletin_board_title);
         tv_title.setText(boardTitle);
+        getPostList();
 
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_post_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        adapter = null;
 
         //recyclerview의 스크롤 리스너. 스크롤 최하단 감지시 게시글 리스트 요청
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -205,12 +207,13 @@ public class PostListFragment extends Fragment {
                     id = postDTOArrayList.get(postDTOArrayList.size() - 1).getId();
                     isNext = response.body().getHasNext();
 
-                    adapter = new PostListAdapter(postDTOArrayList);
-                    recyclerView.setAdapter(adapter);
-
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    adapter = new PostListAdapter(postDTOArrayList);
+                    recyclerView.setAdapter(adapter);
                 }
+
 
             }
 

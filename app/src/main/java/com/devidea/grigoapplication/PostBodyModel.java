@@ -15,6 +15,7 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 import static com.devidea.grigoapplication.PostBodyFragment.getCommentList;
 
 public class PostBodyModel {
+    private static final PostListFragment postListFragment = new PostListFragment();
 
 
     //댓글 등록
@@ -70,14 +71,15 @@ public class PostBodyModel {
 
     //글 삭제
     public void deletePost(Long PostID) {
-        retrofitService.deletePost(PostID).enqueue(new Callback<JsonObject>() {
+        retrofitService.deletePost(PostID).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("url", String.valueOf(call.request()));
+                postListFragment.updatePostList();
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("resion", String.valueOf(t.getCause()));
             }
         });

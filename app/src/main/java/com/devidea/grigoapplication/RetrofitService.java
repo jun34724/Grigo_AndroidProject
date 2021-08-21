@@ -87,7 +87,7 @@ public interface RetrofitService {
 
     //게시글 삭제
     @POST("posts/{postId}/delete")
-    Call<JsonObject> deletePost(@Path("postId") Long postID);
+    Call<ResponseBody> deletePost(@Path("postId") Long postID);
 
     //알람 확인
     @GET("notification")

@@ -37,10 +37,7 @@ public class PostBodyFragment extends Fragment {
     private static PostDTO postDTO = new PostDTO();
     private static RecyclerView recyclerView;
     private static CommentListAdapter adapter;
-
-    private static PostBodyModel postBodyModel = new PostBodyModel();
-    private final PostListFragment postListFragment = new PostListFragment();
-
+    private static final PostBodyModel postBodyModel = new PostBodyModel();
 
     public PostBodyFragment() {
     }
@@ -141,7 +138,6 @@ public class PostBodyFragment extends Fragment {
                             case R.id.delete:
                                 Toast.makeText(getContext(), "삭제", Toast.LENGTH_LONG).show();
                                 postBodyModel.deletePost(postDTO.getId());
-                                postListFragment.updatePostList();
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 fragmentManager.beginTransaction().remove(PostBodyFragment.this).commit();
                                 fragmentManager.popBackStack();
@@ -159,6 +155,21 @@ public class PostBodyFragment extends Fragment {
 
     }
 
+    /*
+    public void refreshFragment(FragmentManager fragmentManager){
+
+        FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();
+        Log.d("refresh", postDTO.getContent());
+        fragmentTransaction.setReorderingAllowed(false);
+        fragmentTransaction.detach(this).attach(this).commitAllowingStateLoss();
+
+    }
+
+     */
+
+
+
+
     //댓글 리스트 새로고침
     public static void getCommentList() {
         retrofitService.getPostBody(postDTO.getId()).enqueue(new Callback<PostDTO>() {
@@ -168,6 +179,24 @@ public class PostBodyFragment extends Fragment {
 
                 adapter = new CommentListAdapter(response.body().getComments());
                 recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<PostDTO> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    //댓글 리스트 새로고침
+    public void getList() {
+        retrofitService.getPostBody(postDTO.getId()).enqueue(new Callback<PostDTO>() {
+
+            @Override
+            public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
+
 
             }
 
