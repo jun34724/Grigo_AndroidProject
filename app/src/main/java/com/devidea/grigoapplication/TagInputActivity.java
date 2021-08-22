@@ -30,7 +30,6 @@ public class TagInputActivity extends AppCompatActivity {
     EditText et_tagInput;
     Button btn_tagSend;
     Button btn_submit;
-    TextView tv_tagViewer;
     UserDataDTO userDataDTO;
 
     @Override
@@ -42,7 +41,6 @@ public class TagInputActivity extends AppCompatActivity {
         et_tagInput = inputLayout.getEditText();
         btn_tagSend = findViewById(R.id.button);
         btn_submit = findViewById(R.id.submit);
-        tv_tagViewer = findViewById(R.id.tagviewer);
 
         assert et_tagInput != null;
         et_tagInput.addTextChangedListener(new TextWatcher() {
@@ -72,7 +70,6 @@ public class TagInputActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String[] tag = et_tagInput.getText().toString().split("#");
                 tagSend(tag);
-                //showTag()를 여기서 하면 태그의 결과가 뒤늦게 들어옴 (이유를 모르겠음)
                 btn_submit.setEnabled(true);
             }
 
@@ -119,7 +116,6 @@ public class TagInputActivity extends AppCompatActivity {
                 Log.d("데이터 : ", String.valueOf(response.body()));
                 userDataDTO = new Gson().fromJson(response.body(), UserDataDTO.class);
                 PrefsHelper.write("tags",  userDataDTO.getTags());
-                tv_tagViewer.setText(PrefsHelper.read("tags",  ""));
             }
 
             @Override

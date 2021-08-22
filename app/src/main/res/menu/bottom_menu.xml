@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/calender"
-        android:icon="@android:drawable/arrow_down_float"
+        android:icon="@drawable/ic_baseline_date_range_24"
         android:title="calender" />
     <item
         android:id="@+id/board"
-        android:icon="@android:drawable/arrow_down_float"
+        android:icon="@drawable/ic_baseline_article_24"
         android:title="board" />
 </menu>
