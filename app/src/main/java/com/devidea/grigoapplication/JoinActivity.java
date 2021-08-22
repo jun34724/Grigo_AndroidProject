@@ -16,16 +16,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.devidea.grigoapplication.LoginActivity.nonTokenService;
+
 public class JoinActivity extends AppCompatActivity {
 
     private EditText et_email, et_password, et_name, et_student_id, et_phone, et_birth;
     private Spinner sp_sex;
     private Button btn_register;
-
-    ServiceGenerator serviceGenerator;
-
-    //서버 통신을 위함
-    private RetrofitService joinService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +38,6 @@ public class JoinActivity extends AppCompatActivity {
         et_birth = findViewById(R.id.et_birth);
 
         sp_sex = findViewById(R.id.sp_sex);
-
-        serviceGenerator = new ServiceGenerator();
-        joinService = serviceGenerator.createService(RetrofitService.class);
 
         //회원등록 버튼
         btn_register = findViewById(R.id.btn_register);
@@ -78,8 +72,8 @@ public class JoinActivity extends AppCompatActivity {
         jsonObject.addProperty("sex", sex);
         jsonObject.addProperty("phone", phone);
 
-        //api 호출
-        joinService.signup(jsonObject).enqueue(new Callback<JsonObject>() {
+        //회원가입 요청
+        nonTokenService.signup(jsonObject).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.isSuccessful()){

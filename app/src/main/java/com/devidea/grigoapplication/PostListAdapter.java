@@ -1,5 +1,6 @@
 package com.devidea.grigoapplication;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +64,6 @@ class PostListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
@@ -72,13 +72,14 @@ class PostListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             listViewHolder.title.setText(postDTOArrayList.get(position).getTitle());
             listViewHolder.content.setText(postDTOArrayList.get(position).getContent());
-            listViewHolder.teg.setText(String.valueOf(postDTOArrayList.get(position).getTags()));
+            if (!(String.valueOf(postDTOArrayList.get(position).getTags()).equals("[]"))) {
+                listViewHolder.teg.setText(String.valueOf(postDTOArrayList.get(position).getTags()));
+            }
             listViewHolder.writer.setText(postDTOArrayList.get(position).getWriter());
             listViewHolder.time.setText(postDTOArrayList.get(position).getTimeStamp());
         } else if (!postDTOArrayList.get(getItemCount() - 1).getTitle().equals("")) {
             ProgressHolder progressHolder = (ProgressHolder) holder;
         }
-
 
     }
 

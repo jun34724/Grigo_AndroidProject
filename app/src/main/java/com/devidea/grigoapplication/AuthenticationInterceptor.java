@@ -15,7 +15,6 @@ public class AuthenticationInterceptor implements Interceptor {
 
     public AuthenticationInterceptor(String token) {
         this.authToken = token;
-        Log.d("intercepter", authToken);
     }
 
     @Override
@@ -24,7 +23,8 @@ public class AuthenticationInterceptor implements Interceptor {
 
         Request.Builder builder = original.newBuilder()
                 .header("Authorization", authToken);
-        Log.d("intercepter-inner", authToken);
+
+        Log.d("Token", authToken);
 
         Request request = builder.build();
         return chain.proceed(request);

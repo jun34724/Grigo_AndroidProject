@@ -119,6 +119,7 @@ public class PostListFragment extends Fragment {
     }
 
     public void getPostList() {
+
         retrofitService.getList(id, size, boardType).enqueue(new Callback<CursorPageDTO>() {
             @Override
             public void onResponse(Call<CursorPageDTO> call, Response<CursorPageDTO> response) {
@@ -160,6 +161,7 @@ public class PostListFragment extends Fragment {
                 Log.d("fail", String.valueOf(t.getCause()));
             }
         });
+
     }
 
 

@@ -9,13 +9,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-    public static final String BASE_URL = "http://3.38.104.21:8080/";
-    //public static final String BASE_URL = "http://solac.iptime.org:8765/";
+    private static final String BASE_URL = "http://3.38.104.21:8080/";
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+    private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-    private static Retrofit.Builder builder =
+    private static final Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create());
@@ -39,14 +37,6 @@ public class ServiceGenerator {
                 retrofit = builder.build();
             }
         }
-
-        return retrofit.create(serviceClass);
-    }
-
-    public static <S> S deleteService(Class<S> serviceClass) {
-
-        builder.client(httpClient.build());
-        retrofit = builder.build();
 
         return retrofit.create(serviceClass);
     }
