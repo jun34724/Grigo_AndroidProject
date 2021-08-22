@@ -14,4 +14,9 @@ public class TokenManager {
         prefsHelper.write("token", token);
 
     }
+
+    public void clear() {
+        prefsHelper.destroyPref();
+
+    }
 }

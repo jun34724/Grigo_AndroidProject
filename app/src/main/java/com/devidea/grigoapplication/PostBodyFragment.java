@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,7 +26,10 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,8 +58,8 @@ public class PostBodyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+        Log.e("TAG ", "onCreate(), MainActivity");
+
     }
 
     @Override
@@ -86,7 +91,7 @@ public class PostBodyFragment extends Fragment {
         content.setText(postDTO.getContent());
         writer.setText(postDTO.getWriter());
         time.setText(postDTO.getTimeStamp());
-        if (postDTO.getTags() != null) {
+        if (!String.valueOf(postDTO.getTags()).equals("[]")) {
             teg.setText(String.valueOf(postDTO.getTags()));
         }
 
@@ -99,6 +104,7 @@ public class PostBodyFragment extends Fragment {
         }
 
 
+        //댓글 작성버튼
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +116,7 @@ public class PostBodyFragment extends Fragment {
             }
         });
 
+        //게시물 관련 옵션
         option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,19 +162,28 @@ public class PostBodyFragment extends Fragment {
 
     }
 
-    /*
-    public void refreshFragment(FragmentManager fragmentManager){
-
-        FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();
-        Log.d("refresh", postDTO.getContent());
-        fragmentTransaction.setReorderingAllowed(false);
-        fragmentTransaction.detach(this).attach(this).commitAllowingStateLoss();
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getList();
+        Log.e("TAG ", "onResume(), MainActivity");
     }
 
-     */
+    public void refreshFragment() {
+        TextView content = getView().findViewById(R.id.content);
+        TextView title = getView().findViewById(R.id.post_title);
+        TextView teg = getView().findViewById(R.id.teg);
+        TextView writer = getView().findViewById(R.id.writer);
+        TextView time = getView().findViewById(R.id.time);
 
-
+        title.setText(postDTO.getTitle());
+        content.setText(postDTO.getContent());
+        writer.setText(postDTO.getWriter());
+        time.setText(postDTO.getTimeStamp());
+        if (!String.valueOf(postDTO.getTags()).equals("[]")) {
+            teg.setText(String.valueOf(postDTO.getTags()));
+        }
+    }
 
 
     //댓글 리스트 새로고침
@@ -196,8 +212,8 @@ public class PostBodyFragment extends Fragment {
 
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
-
-
+                postDTO = response.body();
+                refreshFragment();
             }
 
             @Override

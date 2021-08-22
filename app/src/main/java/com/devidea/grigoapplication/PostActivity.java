@@ -3,6 +3,7 @@ package com.devidea.grigoapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -268,8 +269,8 @@ public class PostActivity extends AppCompatActivity {
         retrofitService.updatePost(postID, jsonObject).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                //postBodyFragment.refreshFragment(getSupportFragmentManager());
                 finish();
+
             }
 
             @Override

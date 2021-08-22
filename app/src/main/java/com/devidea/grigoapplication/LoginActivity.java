@@ -21,8 +21,6 @@ import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,10 +30,10 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login, btn_join;
     private EditText et_id, et_pw;
 
-    TokenManager tokenManager;
+    static TokenManager tokenManager;
     UserDataHelper userDataHelper;
-    ServiceGenerator serviceGenerator;
-    static RetrofitService retrofitService;
+    public static RetrofitService retrofitService;
+    public static final RetrofitService nonTokenService = ServiceGenerator.createService(RetrofitService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +43,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         tokenManager = new TokenManager();
-        serviceGenerator = new ServiceGenerator();
-        retrofitService = ServiceGenerator.createService(RetrofitService.class);
         userDataHelper = new UserDataHelper();
 
         et_id = findViewById(R.id.et_id);
         et_pw = findViewById(R.id.et_pw);
 
-        ActivityResultLauncher<Intent> joinResult =registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+        ActivityResultLauncher<Intent> joinResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
@@ -92,15 +88,14 @@ public class LoginActivity extends AppCompatActivity {
         jsonObjectLogin.addProperty("email", user_id);
         jsonObjectLogin.addProperty("password", pw);
 
-        retrofitService.login(jsonObjectLogin).enqueue(new Callback<UserDataDTO>() {
+        nonTokenService.login(jsonObjectLogin).enqueue(new Callback<UserDataDTO>() {
             @Override
-            public void onResponse(@NotNull Call<UserDataDTO> call, @NotNull Response <UserDataDTO> response) {
+            public void onResponse(@NotNull Call<UserDataDTO> call, @NotNull Response<UserDataDTO> response) {
 
                 if (response.code() == 213 || response.code() == 214) {
 
                     String token = response.headers().get("Authorization");
                     tokenManager.set(token);
-                    Log.d("token", tokenManager.get());
 
                     //로그인 성공하면 JWT TOKEN 있는 서비스 생성
                     retrofitService = ServiceGenerator.createService(RetrofitService.class, token);
@@ -116,15 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                         ActivityCompat.finishAffinity(LoginActivity.this);
                     }
 
-                }
-                //todo 개발종료후 삭제해야 합니다.
-                else if (user_id.equals("admin")|| pw.equals("admin")){
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    ActivityCompat.finishAffinity(LoginActivity.this);
-                }
-
-                else {
-                    Toast.makeText(getApplicationContext(), "알수없는 오류", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "계정을 확인해주세요", Toast.LENGTH_LONG).show();
                     Log.d("실패 : ", String.valueOf(response));
                 }
 
@@ -132,12 +120,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserDataDTO> call, Throwable t) {
-
-                //todo 개발종료후 삭제해야 합니다.
-                if (user_id.equals("admin")|| pw.equals("admin")){
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    ActivityCompat.finishAffinity(LoginActivity.this);
-                }
 
                 Toast.makeText(getApplicationContext(), "통신 오류", Toast.LENGTH_LONG).show();
 
