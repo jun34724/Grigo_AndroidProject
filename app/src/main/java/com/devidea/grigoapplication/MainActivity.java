@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
+    Menu menu;
 
     //Toolbar
     @Override
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mContext = this;
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        menu = bottomNavigationView.getMenu();
 
         //app 제목
         getSupportActionBar().setTitle("GRIGO");
@@ -136,11 +138,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.calender:
+                        item.setIcon(R.drawable.ic_baseline_date_range_24); //선택하면 이미지를 변경해줌
+                        menu.findItem(R.id.board).setIcon(R.drawable.ic_baseline_article_24); // 캘린더 선택 -> 게시판 아이템의 이미지 변경
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, calendarFragment).commit();
 
                         break;
 
                     case R.id.board:
+                        item.setIcon(R.drawable.ic_baseline_post_add_24);
+                        menu.findItem(R.id.calender).setIcon(R.drawable.ic_baseline_calendar_today_24);
                         BoardFragment boardFragment = new BoardFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, boardFragment).commit();
 

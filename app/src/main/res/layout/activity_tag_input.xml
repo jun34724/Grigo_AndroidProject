@@ -36,12 +36,6 @@
         android:text="테그 입력"
         android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/tagviewer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
