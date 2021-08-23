@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button btn_login, btn_join;
     private EditText et_id, et_pw;
+    private CheckBox AutoLogin;
 
     static TokenManager tokenManager;
     UserDataHelper userDataHelper;
@@ -47,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         et_id = findViewById(R.id.et_id);
         et_pw = findViewById(R.id.et_pw);
+        AutoLogin = findViewById(R.id.check_AutoLogin);
 
         ActivityResultLauncher<Intent> joinResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -66,6 +69,17 @@ public class LoginActivity extends AppCompatActivity {
             joinResult.launch(new Intent(LoginActivity.this, JoinActivity.class));
         });
 
+        //token을 보유하고 있고 자동로그인 check가 되어있으면 get token후 통신 서비스 생성
+        if(tokenManager.get() != null && PrefsHelper.read("AutoLogin", AutoLogin.isChecked())){
+            String token = tokenManager.get();
+            retrofitService = ServiceGenerator.createService(RetrofitService.class, token);
+            System.out.println("token : " + tokenManager.get());
+            System.out.println("token : " + PrefsHelper.read("AutoLogin", AutoLogin.isChecked()));
+
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            ActivityCompat.finishAffinity(LoginActivity.this);
+        }
+
         //로그인 시도
         btn_login = findViewById(R.id.btn_login);
 
@@ -73,7 +87,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                LoginActivity.this.login(et_id.getText().toString(), et_pw.getText().toString());
+                if(AutoLogin.isChecked()){
+                    LoginActivity.this.login(et_id.getText().toString(), et_pw.getText().toString());
+                    PrefsHelper.write("AutoLogin", AutoLogin.isChecked());
+                }
+                else{
+                    LoginActivity.this.login(et_id.getText().toString(), et_pw.getText().toString());
+                    PrefsHelper.write("AutoLogin", AutoLogin.isChecked());
+                }
 
             }
 
@@ -125,5 +146,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }
