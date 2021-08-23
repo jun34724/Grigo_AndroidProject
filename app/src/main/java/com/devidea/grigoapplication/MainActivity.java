@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
                 retrofitService = null;
                 tokenManager.clear();
+                PrefsHelper.write("AutoLogin", false);
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
                 return true;
