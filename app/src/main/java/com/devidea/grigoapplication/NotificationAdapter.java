@@ -50,7 +50,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return notificationDTOS.size();
+        try {
+            return notificationDTOS.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 

@@ -113,6 +113,8 @@ public class PostBodyFragment extends Fragment {
                 json.addProperty("content", Comment);
                 postBodyModel.postComment(json, postDTO.getId());
 
+                et_comm.setText("");
+
             }
         });
 
@@ -129,7 +131,6 @@ public class PostBodyFragment extends Fragment {
                         switch (item.getItemId()) {
 
                             case R.id.revise:
-                                Toast.makeText(getContext(), "수정", Toast.LENGTH_LONG).show();
 
                                 Intent postIntent = new Intent(getActivity(), PostActivity.class);
                                 postIntent.putExtra("id", postDTO.getId());
@@ -143,7 +144,6 @@ public class PostBodyFragment extends Fragment {
                                 break;
 
                             case R.id.delete:
-                                Toast.makeText(getContext(), "삭제", Toast.LENGTH_LONG).show();
                                 postBodyModel.deletePost(postDTO.getId());
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 fragmentManager.beginTransaction().remove(PostBodyFragment.this).commit();
@@ -206,7 +206,7 @@ public class PostBodyFragment extends Fragment {
 
     }
 
-    //댓글 리스트 새로고침
+    //본문내용 새로고침
     public void getList() {
         retrofitService.getPostBody(postDTO.getId()).enqueue(new Callback<PostDTO>() {
 

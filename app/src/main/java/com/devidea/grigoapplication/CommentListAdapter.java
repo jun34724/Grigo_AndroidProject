@@ -67,7 +67,6 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 break;
 
                             case R.id.delete:
-                                Toast.makeText(v.getContext(), "삭제", Toast.LENGTH_SHORT).show();
                                 postBodyModel.deleteComment(commentDTO.get(position).getId());
                                 break;
                         }

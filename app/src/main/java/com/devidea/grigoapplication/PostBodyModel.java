@@ -1,6 +1,7 @@
 package com.devidea.grigoapplication;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -26,6 +27,7 @@ public class PostBodyModel {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 try {
+                    Toast.makeText(MainActivity.mContext, response.body().string(), Toast.LENGTH_LONG).show();
                     Log.d("comment_m", (response.body().string()));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -51,6 +53,7 @@ public class PostBodyModel {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
+                    Toast.makeText(MainActivity.mContext, response.body().string(), Toast.LENGTH_LONG).show();
                     Log.d("comment_m", (response.body().string()));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -74,8 +77,13 @@ public class PostBodyModel {
         retrofitService.deletePost(PostID).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("url", String.valueOf(call.request()));
-                postListFragment.updatePostList();
+                try {
+                    Toast.makeText(MainActivity.mContext, response.body().string(), Toast.LENGTH_LONG).show();
+                    Log.d("url", String.valueOf(call.request()));
+                    postListFragment.updatePostList();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
