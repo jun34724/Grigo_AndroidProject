@@ -41,7 +41,15 @@ public class NotificationFragment extends Fragment {
         notificationDTOS = MainActivity.notificationModel.getNotificationDTOS();
 
         num_noti = rootView.findViewById(R.id.num_alart);
-        num_noti.setText(MainActivity.notificationModel.getNotificationDTOS().size() + " 개의 알림이 있습니다.");
+
+        try {
+            num_noti.setText(MainActivity.notificationModel.getNotificationDTOS().size() + " 개의 알림이 있습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            num_noti.setText("알림이 없습니다.");
+        }
+
+
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));

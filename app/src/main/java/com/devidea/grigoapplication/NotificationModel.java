@@ -15,7 +15,7 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 public class NotificationModel {
 
     private boolean notificationProperty = false; //알람 유무 반환을 위한 변수.
-    private ArrayList<NotificationDTO> notificationDTOS = new ArrayList<>();
+    private ArrayList<NotificationDTO> notificationDTOS = new ArrayList<NotificationDTO>();
 
     public void setNotificationProperty(boolean notificationProperty) {
         this.notificationProperty = notificationProperty;
@@ -39,7 +39,17 @@ public class NotificationModel {
             @Override
             public void onResponse(Call<ArrayList<NotificationDTO>> call, Response<ArrayList<NotificationDTO>> response) {
 
-                setNotificationProperty(!response.body().isEmpty());
+                boolean notification;
+                if (response.body() == null||response.body().isEmpty()){
+                    notification = false;
+                }
+                else {
+                    notification= true;
+                }
+
+                Log.d("noti", String.valueOf(notification));
+
+                setNotificationProperty(notification);
                 setNotificationDTOS(response.body());
 
             }
