@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,6 +75,10 @@ public class UpdateTagActivity extends AppCompatActivity {
                 if(ownTag.contains(et_plusTag.getText().toString())){
                     Toast.makeText(getApplicationContext(), "이미 존재하는 태그입니다.",Toast.LENGTH_SHORT).show();
                 }
+                //추가하려는 태그 공백이 있으면x
+                else if(et_plusTag.getText().toString().contains(" ") || et_plusTag.getText().toString().contains("\n")){
+                    Toast.makeText(getApplicationContext(), "공백없이 입력해주세요",Toast.LENGTH_SHORT).show();
+                }
                 else{
                     plusTag.add(et_plusTag.getText().toString());
                     System.out.println(plusTag);
@@ -114,6 +119,11 @@ public class UpdateTagActivity extends AppCompatActivity {
         Button button = new Button(context);
         button.setAllCaps(false);
         button.setText(plusTag);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.height = 125;
+        layoutParams.width = 250;
+        button.setLayoutParams(layoutParams);
         linear_ownTag.addView(button);
     }
 
@@ -126,6 +136,15 @@ public class UpdateTagActivity extends AppCompatActivity {
             //버튼 대소문자 구별
             button.setAllCaps(false);
             button.setText(ownTag.get(i));
+
+            //button textsize 12sp로 고정
+            button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+
+            //버튼 크기 고정
+            GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+            layoutParams.height = 125;
+            layoutParams.width = 250;
+            button.setLayoutParams(layoutParams);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
