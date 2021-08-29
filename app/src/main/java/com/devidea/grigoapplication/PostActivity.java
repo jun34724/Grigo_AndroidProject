@@ -110,7 +110,7 @@ public class PostActivity extends AppCompatActivity {
                 String boardType = sp_board.getSelectedItem().toString();
                 String title = et_title.getText().toString();
                 //Edittext에 줄바꿈으로 데이터 입력시 변환
-                String content = et_content.getText().toString().replace("\n","  ");
+                String content = et_content.getText().toString().replace("\n"," ");
                 String writer = PrefsHelper.read("name", "");
                 ArrayList<String> tagList = new ArrayList<>();
 

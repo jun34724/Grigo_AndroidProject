@@ -63,11 +63,11 @@
             android:textSize="12sp"
             android:textStyle="bold"/>
 
-        <LinearLayout
+        <GridLayout
             android:id="@+id/layout_ownTag"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal" />
+            android:layout_height="220dp"
+            android:columnCount="4"/>
 
     </LinearLayout>
 

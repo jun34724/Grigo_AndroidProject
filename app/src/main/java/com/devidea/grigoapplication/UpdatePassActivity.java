@@ -2,6 +2,7 @@ package com.devidea.grigoapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,7 +58,9 @@ public class UpdatePassActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.isSuccessful()){
-                    Log.d("성공 : ", String.valueOf(response.body()));
+                    Intent intent = new Intent(UpdatePassActivity.this, MyPageActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 else{
                     Log.d("실패 : ", String.valueOf(response.body()));

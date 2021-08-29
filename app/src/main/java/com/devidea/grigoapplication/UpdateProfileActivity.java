@@ -71,6 +71,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(UpdateProfileActivity.this, MyPageActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override
