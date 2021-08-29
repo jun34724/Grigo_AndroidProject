@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -35,7 +36,8 @@ public class UpdateTagActivity extends AppCompatActivity {
     EditText et_plusTag;
     Context context;
 
-    LinearLayout linear_ownTag, linear_delTag;
+    LinearLayout linear_delTag;
+    GridLayout linear_ownTag;
 
     UserDataDTO userDataDTO;
 
