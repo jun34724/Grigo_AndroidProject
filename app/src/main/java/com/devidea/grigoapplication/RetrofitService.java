@@ -8,6 +8,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -97,6 +98,7 @@ public interface RetrofitService {
     Call<JsonObject> NotificationRead(@Path("postId") Long postID);
 
     //학사일정
-   @GET("schedule")
-   Call<ArrayList<ScheduleDTO>> getSchedule();
+    @Headers("key: $2b$12$VAreYQaKsA8PP0A7PvVOTu30E1fCpn6cNHBHjZJqIlBEk0k5iACrm")
+    @GET("schedule")
+    Call<ArrayList<ScheduleDTO>> getSchedule();
 }
