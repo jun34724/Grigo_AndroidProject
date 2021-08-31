@@ -33,14 +33,16 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 public class CalendarFragment extends Fragment {
 
     private View view;
-    MaterialCalendarView materialCalendarView;
-    EventDecorator eventDecorator;
+    private MaterialCalendarView materialCalendarView;
+    private EventDecorator eventDecorator;
 
-    TextView tv_content;
-    String s1, content;
-    CalendarDay startDay, finishDay;
+    private TextView tv_content;
+    private String s1, content;
+    private CalendarDay startDay, finishDay;
 
-    ArrayList<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+    private ArrayList<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+    private CalendarService calendarService = new CalendarService();
+    private RetrofitService retrofitCalenderService = calendarService.CreateService();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,8 +55,8 @@ public class CalendarFragment extends Fragment {
         //달력 형태 지정
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.MONDAY)
-                .setMinimumDate(CalendarDay.from(2021,0,1))
-                .setMaximumDate(CalendarDay.from(2025,11,31))
+                .setMinimumDate(CalendarDay.from(2021, 0, 1))
+                .setMaximumDate(CalendarDay.from(2025, 11, 31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
 
@@ -70,31 +72,32 @@ public class CalendarFragment extends Fragment {
                 // 학사일정 date - ex: 날짜 08. 06 으로 받아오는데 getDay하면 6만 가져옴 따라서 10보다 작을 때 앞에 0추가에서 06으로 맞추어줌
                 String dday;
 
-                if(day < 10){
+                if (day < 10) {
                     String day1 = "0" + day;
                     dday = "0" + month + " ." + day1;
-                }else{
+                } else {
                     dday = "0" + month + " ." + day;
                 }
-                for(int i = 0; i < scheduleDTOS.size(); i++){
+                for (int i = 0; i < scheduleDTOS.size(); i++) {
                     s1 = scheduleDTOS.get(i).getDate();
                     content = scheduleDTOS.get(i).getContent();
-                    if(s1.contains(dday)){
+                    if (s1.contains(dday)) {
                         tv_content.setText(content);
                         break;
-                    }else{
+                    } else {
                         tv_content.setText("일정이 없습니다.");
                     }
                 }
             }
         });
 
-        return  view;
+        return view;
     }
 
     //일요일 빨간색으로 표시
     public class SundayDecorator implements DayViewDecorator {
         Calendar calendar = Calendar.getInstance();
+
         public SundayDecorator() {
         }
 
@@ -116,6 +119,7 @@ public class CalendarFragment extends Fragment {
     //토요일 파란색으로 표시
     public class SaturdayDecorator implements DayViewDecorator {
         Calendar calendar = Calendar.getInstance();
+
         public SaturdayDecorator() {
         }
 
@@ -136,13 +140,14 @@ public class CalendarFragment extends Fragment {
     public class EventDecorator implements DayViewDecorator {
         private int color;
         private ArrayList<CalendarDay> dates;
+
         public EventDecorator(int color, ArrayList<CalendarDay> dates) {
             this.color = color;
             this.dates = new ArrayList<>(dates);
         }
 
         @Override
-        public boolean shouldDecorate(CalendarDay day){
+        public boolean shouldDecorate(CalendarDay day) {
             return dates.contains(day);
         }
 
@@ -154,7 +159,8 @@ public class CalendarFragment extends Fragment {
     }
 
     //일정을 캘린더에 표시
-    public void getCalendar(){
+    public void getCalendar() {
+        /*
         scheduleDTOS.add(new ScheduleDTO(1, ".08 .18 ~ .08 .18", "[학 부] 2020학년도 후기 학위수여식", 8, 2021));
         scheduleDTOS.add(new ScheduleDTO(2, ".08 .16 ~ .08 .16", "광복절 대체공휴일", 8 , 2021));
         scheduleDTOS.add(new ScheduleDTO(3, ".08 .17 ~ .08 .27", "[학부·대학원] 2학기 등록기간 대체공휴일", 8 , 2021));
@@ -164,28 +170,33 @@ public class CalendarFragment extends Fragment {
         scheduleDTOS.add(new ScheduleDTO(7, ".08 .09 ~ .08 .20", "[학부·대학원] 2학기 수강신청기간", 8 , 2021));
         scheduleDTOS.add(new ScheduleDTO(8, ".08 .02 ~ .08 .06", "하계 집중 휴무기간", 8 , 2021));
 
-//        retrofitService.getSchedule().enqueue(new Callback<ArrayList<ScheduleDTO>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<ScheduleDTO>> call, Response<ArrayList<ScheduleDTO>> response) {
-//                scheduleDTOS = response.body();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<ScheduleDTO>> call, Throwable t) {
-//
-//            }
-//        });
+         */
+
+        retrofitCalenderService.getSchedule().enqueue(new Callback<ArrayList<ScheduleDTO>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ScheduleDTO>> call, Response<ArrayList<ScheduleDTO>> response) {
+                scheduleDTOS = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ScheduleDTO>> call, Throwable t) {
+
+            }
+        });
 
         ArrayList<CalendarDay> calendarDayList = new ArrayList<>();
-        for(int i = 0; i < scheduleDTOS.size(); i++){
+        for (int i = 0; i < scheduleDTOS.size(); i++) {
             s1 = scheduleDTOS.get(i).getDate();
             content = scheduleDTOS.get(i).getContent();
-//            System.out.println("출력 : " + s1.substring(1,3));
-//            System.out.println("출력 : " + s1.substring(5,7));
-//            System.out.println("출력 : " + s1.substring(11,13));
-//            System.out.println("출력 : " + s1.substring(15,17));
-            startDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(1,3)) - 1, Integer.parseInt(s1.substring(5, 7)));
-            finishDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(11,13)) - 1, Integer.parseInt(s1.substring(15, 17)));
+            /*
+           System.out.println("출력 : " + s1.substring(1,3));
+           System.out.println("출력 : " + s1.substring(5,7));
+           System.out.println("출력 : " + s1.substring(11,13));
+           System.out.println("출력 : " + s1.substring(15,17));
+
+             */
+            startDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(1, 3)) - 1, Integer.parseInt(s1.substring(5, 7)));
+            finishDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(11, 13)) - 1, Integer.parseInt(s1.substring(15, 17)));
             calendarDayList.add(startDay);
             calendarDayList.add(finishDay);
         }

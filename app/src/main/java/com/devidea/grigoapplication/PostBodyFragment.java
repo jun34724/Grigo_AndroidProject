@@ -1,16 +1,12 @@
 package com.devidea.grigoapplication;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,14 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +29,7 @@ import static com.devidea.grigoapplication.LoginActivity.retrofitService;
 
 public class PostBodyFragment extends Fragment {
 
+    private boolean refresh = false;
     private static PostDTO postDTO = new PostDTO();
     private static RecyclerView recyclerView;
     private static CommentListAdapter adapter;
@@ -140,6 +131,7 @@ public class PostBodyFragment extends Fragment {
                                 postIntent.putExtra("tags", postDTO.getTags());
                                 System.out.println("태그 :" + postDTO.getTags());
                                 startActivity(postIntent);
+                                refresh = true;
 
                                 break;
 
@@ -165,8 +157,11 @@ public class PostBodyFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getList();
-        Log.e("TAG ", "onResume(), MainActivity");
+        if(refresh){
+            getList();
+            Log.e("TAG ", "onResume(), MainActivity");
+        }
+
     }
 
     public void refreshFragment() {
@@ -213,7 +208,10 @@ public class PostBodyFragment extends Fragment {
             @Override
             public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
                 postDTO = response.body();
-                refreshFragment();
+                if(response.body()!=null){
+                    refreshFragment();
+                }
+
             }
 
             @Override
