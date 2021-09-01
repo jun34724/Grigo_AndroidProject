@@ -1,5 +1,6 @@
 package com.devidea.grigoapplication;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
@@ -21,8 +22,10 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,6 +48,15 @@ public class CalendarFragment extends Fragment {
     private CalendarService calendarService = new CalendarService();
     private RetrofitService retrofitCalenderService = calendarService.CreateService();
 
+    Calendar startTimeCalendar = Calendar.getInstance();
+    Calendar endTimeCalendar = Calendar.getInstance();
+
+    int currentYear = startTimeCalendar.get(Calendar.YEAR);
+    int currentMonth = startTimeCalendar.get(Calendar.MONTH);
+    int currentDate = startTimeCalendar.get(Calendar.DATE);
+
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -56,8 +68,8 @@ public class CalendarFragment extends Fragment {
         //달력 형태 지정
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.MONDAY)
-                .setMinimumDate(CalendarDay.from(2021, 0, 1))
-                .setMaximumDate(CalendarDay.from(2025, 11, 31))
+                .setMinimumDate(CalendarDay.from(currentYear, currentMonth, 1))
+                .setMaximumDate(CalendarDay.from(currentYear, currentMonth, endTimeCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
 
@@ -166,6 +178,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<ScheduleDTO>> call, Response<ArrayList<ScheduleDTO>> response) {
                 scheduleDTOS = response.body();
+                if(response.body()!=null){
+                    calUpdate();
+                }
+
                 Log.d("res", scheduleDTOS.get(0).getContent());
                 Log.d("res", scheduleDTOS.get(0).getDate());
 
@@ -177,6 +193,11 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+
+
+    }
+
+    private void calUpdate(){
         ArrayList<CalendarDay> calendarDayList = new ArrayList<>();
         for (int i = 0; i < scheduleDTOS.size(); i++) {
             s1 = scheduleDTOS.get(i).getDate();
@@ -190,6 +211,7 @@ public class CalendarFragment extends Fragment {
         //calendarDayList에 있는 날짜에 점 표시하는 이벤트
         eventDecorator = new EventDecorator(Color.RED, calendarDayList);
         materialCalendarView.addDecorators(eventDecorator);
-
     }
+
+
 }
