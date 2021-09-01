@@ -99,6 +99,6 @@ public interface RetrofitService {
 
     //학사일정
     @Headers("key: $2b$12$VAreYQaKsA8PP0A7PvVOTu30E1fCpn6cNHBHjZJqIlBEk0k5iACrm")
-    @GET("schedule")
+    @GET("api/schedule")
     Call<ArrayList<ScheduleDTO>> getSchedule();
 }

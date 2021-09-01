@@ -3,6 +3,7 @@ package com.devidea.grigoapplication;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,22 +161,14 @@ public class CalendarFragment extends Fragment {
 
     //일정을 캘린더에 표시
     public void getCalendar() {
-        /*
-        scheduleDTOS.add(new ScheduleDTO(1, ".08 .18 ~ .08 .18", "[학 부] 2020학년도 후기 학위수여식", 8, 2021));
-        scheduleDTOS.add(new ScheduleDTO(2, ".08 .16 ~ .08 .16", "광복절 대체공휴일", 8 , 2021));
-        scheduleDTOS.add(new ScheduleDTO(3, ".08 .17 ~ .08 .27", "[학부·대학원] 2학기 등록기간 대체공휴일", 8 , 2021));
-        scheduleDTOS.add(new ScheduleDTO(4, ".08 .15 ~ .08 .15", "광복절", 8 , 2021));
-        scheduleDTOS.add(new ScheduleDTO(5, ".06 .14 ~ .08 .31", "하계방학", 8 , 2021));
-        scheduleDTOS.add(new ScheduleDTO(6, ".08 .17 ~ .08 .17", "[대학원] 2020학년도 후기 학위수여식", 8 , 2021));
-        scheduleDTOS.add(new ScheduleDTO(7, ".08 .09 ~ .08 .20", "[학부·대학원] 2학기 수강신청기간", 8 , 2021));
-        scheduleDTOS.add(new ScheduleDTO(8, ".08 .02 ~ .08 .06", "하계 집중 휴무기간", 8 , 2021));
-
-         */
 
         retrofitCalenderService.getSchedule().enqueue(new Callback<ArrayList<ScheduleDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<ScheduleDTO>> call, Response<ArrayList<ScheduleDTO>> response) {
                 scheduleDTOS = response.body();
+                Log.d("res", scheduleDTOS.get(0).getContent());
+                Log.d("res", scheduleDTOS.get(0).getDate());
+
             }
 
             @Override
@@ -188,15 +181,9 @@ public class CalendarFragment extends Fragment {
         for (int i = 0; i < scheduleDTOS.size(); i++) {
             s1 = scheduleDTOS.get(i).getDate();
             content = scheduleDTOS.get(i).getContent();
-            /*
-           System.out.println("출력 : " + s1.substring(1,3));
-           System.out.println("출력 : " + s1.substring(5,7));
-           System.out.println("출력 : " + s1.substring(11,13));
-           System.out.println("출력 : " + s1.substring(15,17));
 
-             */
-            startDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(1, 3)) - 1, Integer.parseInt(s1.substring(5, 7)));
-            finishDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(11, 13)) - 1, Integer.parseInt(s1.substring(15, 17)));
+            startDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(0, 2)) - 1, Integer.parseInt(s1.substring(4, 6)));
+            finishDay = CalendarDay.from(scheduleDTOS.get(i).getYear(), Integer.parseInt(s1.substring(10, 12)) - 1, Integer.parseInt(s1.substring(14, 16)));
             calendarDayList.add(startDay);
             calendarDayList.add(finishDay);
         }
